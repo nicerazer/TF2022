@@ -1,0 +1,169 @@
+<div class="shadow-md w-[56rem] relative rounded-lg overflow-hidden mt-24" x-data="tableContent">
+    <div class="bg-base-100 flex justify-between items-center px-5 py-4">
+        <span>Senarai Order</span>
+        <div class="relative">
+            <span class="inset-y-0 left-3 absolute h-full flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 translate-x-[.125rem]" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+            </svg>
+            </span>
+            <input type="text" class="bg-white input input-md h-42 sm:w-[36rem] pl-[2.75rem]" placeholder="Isi carian order">
+        </div>
+    </div>
+    <div class="bg-white overflow-x-scroll" id="your_div">
+        <table class="table-fixed w-[100rem] text-left">
+            <thead class="text-gray-400 font-regular">
+            <tr>
+                <th class="px-5 py-4 w-28">Id</th>
+                <!-- <td class="px-5 py-4 w-48">Date</td> -->
+                <td class="px-5 py-4 w-52">Date</td>
+                <td class="px-5 py-4 w-64" @click="sortBy('link')">Username / Link</td>
+                <td class="px-5 py-4 w-36">Status</td>
+                <td class="px-5 py-4 w-[22rem]">Service</td>
+                <td class="px-5 py-4 w-36 bg-base-100 text-right">Start Count</td>
+                <td class="px-5 py-4 w-36 bg-base-100 text-right">Quantity</td>
+                <td class="px-5 py-4 w-36 bg-base-100 text-right">Charge</td>
+                <td class="px-5 py-4 w-36 text-right">Remains</td>
+                <td class="px-5 py-4 w-44 bg-base-100 text-center">Kemaskini</td>
+            </tr>
+            </thead>
+            <tbody>
+                <template x-for="(rowData, index) in data.slice( (page-1) * 5, page*5 )" :key="rowData.id">
+                    <tr class="align-top font-bold">
+                        <td class="px-5 pb-3 font-light" x-text="rowData.id" @click="sortBy('id')"></td>
+                        <td class="px-5 pb-3">
+                            <span class="text-base" x-text="rowData.createdAt.date.formatted"></span><br>
+                            <span class="font-light text-xs" x-text="rowData.createdAt.time"></span>
+                        </td>
+                        <td class="group break-words whitespace-normal">
+                            <div
+                                class="h-[5.25rem] pb-3 hover:pb-0 overflow-hidden group-hover:overflow-visible cursor-pointer relative"
+                                @click="navigator.clipboard.writeText(rowData.link)"
+                            >
+                                <div
+                                    :class="'z-2' + (index+1)"
+                                    class="
+                                        absolute w-full
+                                        px-5 transition-all duration-[0ms]
+                                        group-hover:duration-75 
+                                        group-hover:bg-slate-100 
+                                        group-hover:h-[auto] 
+                                        group-hover:w-[24rem] 
+                                        group-hover:z-[26] 
+                                        group-hover:py-3 
+                                        group-hover:shadow-lg
+                                        h-full
+                                    "
+                                >
+                                    <span x-text="rowData.link"></span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="invisible group-hover:visible h-5 w-5 absolute top-2 right-2 text-neutral-content" viewBox="0 0 20 20" fill="currentColor">
+                                        <path d="M8 2a1 1 0 000 2h2a1 1 0 100-2H8z" />
+                                        <path d="M3 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v6h-4.586l1.293-1.293a1 1 0 00-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L10.414 13H15v3a2 2 0 01-2 2H5a2 2 0 01-2-2V5zM15 11h2a1 1 0 110 2h-2v-2z" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-5 pb-3">
+                            <div class="badge badge-success font-light align-middle h-1.375">Completed</div>
+                        </td>
+                        <td class="px-5 pb-3 break-words whitespace-normal" x-text="rowData.service">
+                            <div class="h-[4.5rem]">8 JAM MASUK Tiktok Followers [30K] [R30] [6H - 5K/Day]</div>
+                        </td>
+                        <td class="px-5 pb-3 text-right bg-base-100" x-text="rowData.startCount"></td>
+                        <td class="px-5 pb-3 text-right bg-base-100" x-text="rowData.quantity"></td>
+                        <td class="px-5 pb-3 text-right bg-base-100" x-text="rowData.charge"></td>
+                        <td class="px-5 pb-3 text-right" x-text="rowData.remains"></td>
+                        <td class="px-5 pb-3 text-right bg-base-100">
+                            <a href="#" class="w-full btn btn-secondary btn-sm" x-show="true">Refill</a>
+                            <a href="#" class="w-full btn btn-error btn-sm" x-show="false">Cancel</a>
+                            <a href="#" class="w-full btn btn-secondary btn-sm" x-show="false">Refill</a>
+                        </td>
+                    </tr>
+                </template>
+            </tbody>
+        </table>
+    </div>
+    <div class="bg-base-100 flex items-center justify-between px-5 py-4">
+        <div class="flex items-center space-x-3">
+            <button class="btn btn-sm btn-secondary w-[2.375rem] px-0" @click="prevPage">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 -translate-x-[0.0625rem]" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+            </svg>
+            </button>
+            <span>laman</span>
+            <input type="text" class="input input-sm h-8 w-16 p-0 text-center bg-white" placeholder="1" x-model.number="page" x-on:focusout="cleanPage">
+            <span>dari 24</span>
+            <button class="btn btn-sm btn-secondary w-[2.375rem] px-0" @click="nextPage">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 translate-x-[0.0625rem]" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+            </svg>
+            </button>
+        </div>
+        <div>
+            <button class="flex items-center space-x-4 btn btn-secondary btn-sm" @click="openFilter = true">
+            <span>Tapisan</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M5 4a1 1 0 00-2 0v7.268a2 2 0 000 3.464V16a1 1 0 102 0v-1.268a2 2 0 000-3.464V4zM11 4a1 1 0 10-2 0v1.268a2 2 0 000 3.464V16a1 1 0 102 0V8.732a2 2 0 000-3.464V4zM16 3a1 1 0 011 1v7.268a2 2 0 010 3.464V16a1 1 0 11-2 0v-1.268a2 2 0 010-3.464V4a1 1 0 011-1z" />
+            </svg>        
+            </button>
+        </div>
+    </div>
+    <div class="absolute rounded-md bg-base-100 shadow-md bottom-5 right-4" x-show="openFilter" @click.outside="openFilter = false" x-cloak x-transition.opacity x-transition:enter.duration.0ms>
+        <div class="flex items-center justify-between px-5 py-4 bg-base-300">
+            <h4 class="text-base-content">Filters</h4>
+            <span class="text-gray-400 cursor-pointer hover:text-gray-500" @click="openFilter = false">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
+            </span>
+        </div>
+        <div class="w-[28rem] px-5">
+            <div class="flex justify-between w-full my-4">
+                <label for="filter-date">Date</label>
+                <div class="w-72 flex items-center">
+                    <input class="input input-bordered input-sm w-full" type="text" value="12/7/2014" id="filter-date">
+                    <span class="mx-3">to</span>
+                    <input class="input input-bordered input-sm w-full" type="text" value="12/7/2014">
+                </div>
+            </div>
+
+            <div class="flex justify-between w-full my-4">
+                <label for="filter-date">Service</label>
+                <select class="select select-bordered select-sm w-72">
+                    <option disabled selected>Who shot first?</option>
+                    <option>Han Solo</option>
+                    <option>Greedo</option>
+                </select>
+            </div>
+
+            <div class="flex justify-between w-full my-4">
+                <label for="filter-date">Status</label>
+                <select class="select select-bordered select-sm w-72">
+                    <option disabled selected>Who shot first?</option>
+                    <option>Han Solo</option>
+                    <option>Greedo</option>
+                </select>
+            </div>
+
+            <div class="flex justify-between w-full my-4">
+                <label for="filter-date">Service</label>
+                <select class="select select-bordered select-sm w-72">
+                    <option disabled selected>Who shot first?</option>
+                    <option>Han Solo</option>
+                    <option>Greedo</option>
+                </select>
+            </div>
+        </div>
+    
+        <div class="flex justify-end px-5 pb-4">
+            <button class="link link-primary">Reset</button>
+        </div>
+    </div>
+</div>
+
+<script type="module">
+    // import Alpine from 'alpinejs'
+
+    
+    // Alpine.start()
+</script>

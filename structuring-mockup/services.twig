@@ -1,0 +1,16 @@
+let things = [
+    {% for category in serviceCategoryList %}
+        {% for service in category['services'] %}
+            {
+                id: `{{ service['id'] }}`,
+                name: `{{ service['name'] }}`,
+                rate: `{{ service['rate'] }}`,
+                original_rate: `{{ service['original_rate'] }}`,
+                min: `{{ service['min'] }}`,
+                max: `{{ service['name'] }}`,
+                average_time: `{{ service['name'] }}`,
+                description: `{{ service['name'] }}`,
+            },
+        {% endfor %}
+    {% endfor%}
+]

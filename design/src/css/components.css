@@ -1,0 +1,9 @@
+@layer components {
+    .btn {
+        /* @apply capitalize; */
+    }
+}
+
+.btn-error:hover {
+    @apply bg-error-focus text-error-content-focus !important;
+}
