@@ -28,8 +28,10 @@ let localColors = {
 
 module.exports = {
   content: [
-    './index.html',
-    './src/**/*.{html,vue,js,ts,jsx,tsx}',
+    'index.html',
+    'pages/**/*.{twig,html}',
+    'templates/**/*.twig',
+    'src/**/*.{html,twig,js,ts}',
   ],  
   theme: {
     extend: {
@@ -59,7 +61,7 @@ module.exports = {
           primary: localColors.primary,
           'primary-content': '#F7FAFD',
           secondary: '#BCDEF5',
-          'secondary-content': '#007CB9',
+          'secondary-content': localColors.secondary.normal,
           accent: '#F6C667',
           'accent-content': '#002F4B',
           success: '#80EB7E',

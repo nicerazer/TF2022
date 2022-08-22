@@ -1,9 +1,34 @@
 @layer components {
     .btn {
-        /* @apply capitalize; */
+        @apply font-semibold;
     }
+    
+    .btn-bright {
+        @apply bg-white hover:bg-primary border-0 text-primary hover:text-white;
+    }
+    
+    .btn-bright-active {
+        @apply bg-primary hover:bg-primary-focus border-0 text-primary-content;
+    }
+
+    .btn-error:hover {
+        @apply bg-error-focus text-error-content-focus !important;
+    }
+
+    .animate-bounce-side {
+        @apply will-change-transform;
+        animation: bounce 1s infinite;
+    }
+    
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateX(-25%);
+        animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+      }
+      50% {
+        transform: translateX(0);
+        animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+      }
+    }    
 }
 
-.btn-error:hover {
-    @apply bg-error-focus text-error-content-focus !important;
-}
