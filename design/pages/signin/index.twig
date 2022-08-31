@@ -69,21 +69,28 @@
         </div>
     </div>
     <nav x-data class="flex items-center w-[84rem] my-4 z-10">
-        <img class="mr-8 w-40" src="https://cdn.mypanel.link/af5a5a/5poolxxjg4ox7pog.png" alt="Logo">
+        <a class="mr-8 w-40" href="/pages/signin/"><img src="https://cdn.mypanel.link/af5a5a/5poolxxjg4ox7pog.png" alt="Logo"></a>
         <ul class="flex items-center gap-2 mr-auto">
-            <li><a class="btn btn-ghost" href="">Terma</a></li>
-            <li><a class="btn btn-ghost" href="">Harga</a></li>
-            <li><a class="btn btn-ghost" href="">Soalan Lazim</a></li>
+            <li><a class="btn btn-ghost" href="/pages/terms/">Terma</a></li>
+            <li><a class="btn btn-ghost" href="/pages/services/">Harga</a></li>
+            <li><a class="btn btn-ghost" href="/pages/faq/">Soalan Lazim</a></li>
+            <li><a class="btn btn-ghost" href="/pages/signup/">Daftar</a></li>
         </ul>
-        <button
-            @click="alert('logging in')"
-            class="btn btn-secondary flex items-center justify-center w-56"
+
+
+        {# <!-- The button to open modal -->
+        <label for="login-modal" class="btn modal-button">open modal</label> #}
+
+        <label
+            for="login-modal"
+            {# @click="alert('logging in')" #}
+            class="modal-button btn btn-secondary flex items-center justify-center w-56"
         >
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
             </svg>
             <span class="ml-4">Log Masuk</span>
-        </button>
+        </label>
     </nav>
     <div class="flex justify-between w-[68rem] mt-24 z-10 relative">
         <div class="absolute">
@@ -116,12 +123,12 @@
         </div>
         <h1 class="text-4xl font-bold text-neutral-dark-700 mb-6 leading-snug">Selamat datang ke TokeyFollower.com</h1>
         <p class="leading-relaxed font-light mb-10">TokeyFollower adalah server pembekal marketing media sosial yang terbaik di Malaysia, dengan harga paling murah dan tiada cas-cas dikenakan kepada pengguna. Terdapat pelbagai servis untuk pelbagai media sosial yang tersedia di sistem kami.</p>
-        <button class="btn btn-accent w-64">
+        <a href="/pages/services/" class="btn btn-accent w-64">
             <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M7 3.5C6.73478 3.5 6.48043 3.60536 6.29289 3.79289C6.10536 3.98043 6 4.23478 6 4.5C6 4.76522 6.10536 5.01957 6.29289 5.20711C6.48043 5.39464 6.73478 5.5 7 5.5H13C13.2652 5.5 13.5196 5.39464 13.7071 5.20711C13.8946 5.01957 14 4.76522 14 4.5C14 4.23478 13.8946 3.98043 13.7071 3.79289C13.5196 3.60536 13.2652 3.5 13 3.5H7ZM4 7.5C4 7.23478 4.10536 6.98043 4.29289 6.79289C4.48043 6.60536 4.73478 6.5 5 6.5H15C15.2652 6.5 15.5196 6.60536 15.7071 6.79289C15.8946 6.98043 16 7.23478 16 7.5C16 7.76522 15.8946 8.01957 15.7071 8.20711C15.5196 8.39464 15.2652 8.5 15 8.5H5C4.73478 8.5 4.48043 8.39464 4.29289 8.20711C4.10536 8.01957 4 7.76522 4 7.5ZM2 11.5C2 10.9696 2.21071 10.4609 2.58579 10.0858C2.96086 9.71071 3.46957 9.5 4 9.5H16C16.5304 9.5 17.0391 9.71071 17.4142 10.0858C17.7893 10.4609 18 10.9696 18 11.5V15.5C18 16.0304 17.7893 16.5391 17.4142 16.9142C17.0391 17.2893 16.5304 17.5 16 17.5H4C3.46957 17.5 2.96086 17.2893 2.58579 16.9142C2.21071 16.5391 2 16.0304 2 15.5V11.5Z" fill="#002F4B"/>
             </svg>
             <span class="ml-3">Lihat Semua Servis</span>
-        </button>
+        </a>
     </div>
     <img src="https://cdn.mypanel.link/af5a5a/k84jfg7uw01hgmzz.png" alt="" class="w-auto h-72 ml-24">
 </section>

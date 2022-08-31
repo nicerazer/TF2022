@@ -1,0 +1,59 @@
+@layer components {
+    .control-label,label[for="field-orderform-fields-expiry"] {
+        @apply label text-neutral-dark-300;
+    }
+    
+    .help-block {
+        @apply label label-text-alt text-neutral-dark-300;
+    }
+    
+    .form-group {
+        @apply flex flex-col mb-2;
+    }
+    
+    .form-group__checkbox {
+        @apply label justify-start gap-2;
+    }
+
+    .form-group input.form-control {
+        @apply input input-bordered w-full;
+    }
+
+    .form-group select.form-control {
+        @apply select select-bordered w-full;
+    }
+
+    .form-group textarea.form-control {
+        @apply textarea textarea-bordered w-full;
+    }
+
+    .form-group .col-md-6 > .input-group > .input-group-btn {
+        @apply p-0;
+    }
+
+    .form-group .col-md-6 > .input-group > .input-group-btn > button {
+        @apply btn-secondary;
+    }
+
+    .form-group .col-md-6 > .input-group > .input-group-btn > button::before {
+        content: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGNsYXNzPSJoLTYgdy02IiBmaWxsPSJub25lIiB2aWV3Qm94PSIwIDAgMjQgMjQiIHN0cm9rZT0iIzAwNTY4OSIgc3Ryb2tlLXdpZHRoPSIyIj4gPHBhdGggc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBkPSJNMTkgN2wtLjg2NyAxMi4xNDJBMiAyIDAgMDExNi4xMzggMjFINy44NjJhMiAyIDAgMDEtMS45OTUtMS44NThMNSA3bTUgNHY2bTQtNnY2bTEtMTBWNGExIDEgMCAwMC0xLTFoLTRhMSAxIDAgMDAtMSAxdjNNNCA3aDE2IiAvPiA8L3N2Zz4=');
+        @apply w-6 h-6;
+    }
+
+    .form-group .col-md-6 > .input-group > .input-group-btn > button > span {
+        @apply hidden;
+    }
+
+    .form-group > .row {
+        @apply flex gap-6;
+    }
+
+    .form-group > .row > .col-md-6 {
+        @apply flex-1;
+    }
+
+    #field-orderform-fields-delay {
+        @apply pt-2;
+    }
+
+}

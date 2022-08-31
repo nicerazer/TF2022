@@ -1,0 +1,80 @@
+<div class="my-12 px-4 max-w-7xl mx-auto">
+    <h1 class="text-4xl mb-12">Cipta Order</h1>
+    <p class="text-neutral-dark-300 mb-12">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna al</p>
+
+    <div class="flex gap-4 items-start">
+        <div class="w-full">
+            <div class="bg-white shadow-lg rounded-box w-full card card-compact mb-4">
+                <div class="card-body">
+                    <h2 class="text-base font-light mb-2">Cipta Order</h2>
+                    <div class="form-control">
+                        <label class="label">
+                            <span class="label-text text-neutral-dark-300">Kategori</span>
+                        </label>
+                        <select class="select select-bordered">
+                            <option disabled selected>Pilih Kategori</option>
+                            <option>Star Wars</option>
+                            <option>Harry Potter</option>
+                            <option>Lord of the Rings</option>
+                            <option>Planet of the Apes</option>
+                            <option>Star Trek</option>
+                        </select>
+                    </div>
+                    <div class="form-control">
+                        <label class="label">
+                            <span class="label-text text-neutral-dark-300">Servis</span>
+                        </label>
+                        <select class="select select-bordered">
+                            <option disabled selected>Pilih Servis</option>
+                            <option>Star Wars</option>
+                            <option>Harry Potter</option>
+                            <option>Lord of the Rings</option>
+                            <option>Planet of the Apes</option>
+                            <option>Star Trek</option>
+                        </select>
+                    </div>
+                    <div class="divider"></div>
+                    <h2 class="text-base font-light mb-2">Butiran Order</h2>
+                    <div id="fields"></div>
+                </div>
+            </div>
+            <div class="bg-white shadow-lg rounded-box w-full card-compact mb-4">
+                <div class="card-body">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-base font-light">Jumlah Pembayaran</h2>
+                        <input type="text" value="RM 123123.00" class="input text-center font-bold" disabled>
+                    </div>
+                    <button class="btn btn-primary">Cipta Order</button>
+                </div>
+            </div>
+        </div>
+        
+       <div class="w-[44rem]">
+            <div class="bg-white shadow-lg rounded-box card-compact mb-4">
+                <div class="card-body">
+                    <h2 class="text-base font-light px-1">Rujukan Emoji</h2>
+                    <div class="bg-neutral-light-100 rounded px-4 py-4 min-h-[16rem]">
+                        <ul class="flex flex-col gap-4">
+                            <li>⭐ Best Seller</li>
+                            <li>⚡️ Instant</li>
+                            <li>⚡️⚡️⚡️ Super Instant</li>
+                            <li>🔥 Exclusive Service</li>
+                            <li>♻ Refill Button On</li>
+                            <li>💧 Drip Feed On</li>
+                            <li>⛔ Cancel Button On</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white shadow-lg rounded-box card-compact mb-4">
+                <div class="card-body" id="service_description">
+                    <label for="service_description" class="text-base font-light px-1">Butiran</label>
+                    <div class="bg-neutral-light-100 rounded px-4 py-4 min-h-[16rem]">
+                        {{service['description']}}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

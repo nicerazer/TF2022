@@ -1,3 +1,5 @@
+@import 'page-neworder.css';
+
 @layer components {
     .btn {
         @apply font-semibold;
@@ -13,6 +15,14 @@
 
     .btn-error:hover {
         @apply bg-error-focus text-error-content-focus !important;
+    }
+
+    .card:not(.card-compact) > .card-body > .card-title {
+      @apply mb-1;
+    }
+
+    .card > .card-body > p, .card > .card-body > ul > li {
+      @apply font-light mb-1;
     }
 
     .animate-bounce-side {
@@ -31,4 +41,3 @@
       }
     }    
 }
-

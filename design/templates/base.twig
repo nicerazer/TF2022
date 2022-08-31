@@ -21,23 +21,24 @@
           </div>
           <div class="px-2 mx-2"><img src="https://cdn.mypanel.link/af5a5a/5poolxxjg4ox7pog.png" alt="Logo" class="w-24"></div>
           <!-- Middle menu -->
-          <div class="hidden md:block">
+          <nav class="hidden md:block" x-data="navbarData">
             <ul class="menu menu-horizontal gap-8">
               <li tabindex="0">
-                <span class="rounded-lg text-base-content">
+                <span class="rounded-lg" :class="['neworder','orders','subscriptions','refill'].includes(currentPageName) && 'text-base-content'">
                   Order
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                   </svg>
                 </span>
-                <ul class="bg-base-100 rounded-lg w-48 shadow-lg">
-                  <li><a>Semak Order</a></li>
-                  <li><a>Subscriptions</a></li>
-                  <li><a>Refill</a></li>
+                <ul class="bg-base-100 rounded-lg w-48 shadow-lg z-50">
+                  <li><a href="/pages/neworder/" :class="currentPageName == 'neworder' && 'text-base-content'">Cipta Order</a></li>
+                  <li><a href="/pages/orders/" :class="currentPageName == 'orders' && 'text-base-content'">Semak Order</a></li>
+                  <li><a href="/" :class="currentPageName == 'subscriptions' && 'text-base-content'">Subscriptions</a></li>
+                  <li><a href="/" :class="currentPageName == 'refill' && 'text-base-content'">Refill</a></li>
                 </ul>
               </li>
-              <li><a href="" class="rounded-lg">Senarai Servis</a></li>
-              <li><a href="" class="rounded-lg">Tambah Nilai</a></li>
+              <li class="hidden lg:block"><a href="/pages/services/" class="rounded-lg" :class="currentPageName == 'services' && 'text-base-content'">Senarai Servis</a></li>
+              <li class="hidden xl:block"><a href="/pages/addfunds/" class="rounded-lg" :class="currentPageName == 'addfunds' && 'text-base-content'">Tambah Nilai</a></li>
               <li tabindex="0">
                 <span class="rounded-lg">
                   Lain-lain
@@ -45,13 +46,17 @@
                     <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                   </svg>
                 </span>
-                <ul class="bg-base-100 rounded-lg w-48 shadow-lg">
+                <ul class="bg-base-100 rounded-lg w-48 shadow-lg z-50">
+                  <li class="block xl:hidden"><a>Tambah Nilai</a></li>
+                  <li class="block lg:hidden"><a>Senarai Servis</a></li>
+                  <hr>
+                  <li><a href="/pages/tickets/">Mesej Admin</a></li>
                   <li><a>Soalan Lazim</a></li>
-                  <li><a>Terma & Syarat</a></li>
+                  <li><a href="/pages/terms/">Terma & Syarat</a></li>
                 </ul>
               </li>
             </ul>
-          </div>
+          </nav>
           <!-- Right menu -->
           <div class="hidden md:flex">
             <ul class="menu menu-horizontal gap-8">
@@ -63,8 +68,7 @@
                   </svg>
                 </label>
                 <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-                  <li><a>Item 1</a></li>
-                  <li><a>Item 2</a></li>
+                  <li><a>Dalam Pembinaan...</a></li>
                 </ul>
               </li>
             </ul>
@@ -79,8 +83,7 @@
                   </svg>
                 </label>
                 <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-                  <li><a>Item 1</a></li>
-                  <li><a>Item 2</a></li>
+                  <li><a>Dalam Pembinaan...</a></li>
                 </ul>
               </li>
             </ul>
@@ -93,16 +96,23 @@
                   </svg>
                 </label>
                 <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-                  <li><a>Item 1</a></li>
-                  <li><a>Item 2</a></li>
+                  <li><a href="/pages/account/">Akaun</a></li>
+                  <li class="text-red-500"><a href="/pages/home/">Log Keluar</a></li>
                 </ul>
               </li>
             </ul>
           </div>
         </div>
 
-        <div class="w-full min-h-[240rem]">
-          {% block content %}{% endblock %}
+        <div
+          class="w-full min-h-screen"
+          style="
+            background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQ0MCIgaGVpZ2h0PSIxMzkwIiB2aWV3Qm94PSIwIDAgMTQ0MCAxMzkwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8ZyBvcGFjaXR5PSIwLjUiPgo8cGF0aCBkPSJNMCAxMjYuMTNMMTQ0IDEzOS44NThMMjg4IDg0LjA4NjRMNDMyIDEyNi4xM0w1NzYgOTcuODE0OEw3MjAgNzAuMzU4TDg2NCAxMzkuODU4TDEwMDggODQuMDg2NEwxMTUyIDEyNi4xM0wxMjk2IDExMi40MDFMMTQ0MCA4NC4wODY0VjBIMTI5NkgxMTUySDEwMDhIODY0SDcyMEg1NzZINDMySDI4OEgxNDRIMFYxMjYuMTNaIiBmaWxsPSIjRUZGN0ZCIi8+CjxwYXRoIGQ9Ik0wIDE2Ny4zMTVMMTQ0IDE4MS45MDFMMjg4IDEzOS44NThMNDMyIDE2Ny4zMTVMNTc2IDEzOS44NThINzIwTDg2NCAxODEuOTAxTDEwMDggMTM5Ljg1OEwxMTUyIDE5NS42M0wxMjk2IDE1My41ODZMMTQ0MCAxMzkuODU4VjgyLjM3MDRMMTI5NiAxMTAuNjg1TDExNTIgMTI0LjQxNEwxMDA4IDgyLjM3MDRMODY0IDEzOC4xNDJMNzIwIDY4LjY0Mkw1NzYgOTYuMDk4OEw0MzIgMTI0LjQxNEwyODggODIuMzcwNEwxNDQgMTM4LjE0MkwwIDEyNC40MTRWMTY3LjMxNVoiIGZpbGw9IiNFMkYxRjkiLz4KPHBhdGggZD0iTTAgMjY1LjEzTDE0NCAyNzguODU4TDI4OCAyMjMuMDg2TDQzMiAyNTEuNDAxTDU3NiAyMjMuMDg2SDcyMEw4NjQgMjM2LjgxNUwxMDA4IDIyMy4wODZMMTE1MiAyNTEuNDAxTDEyOTYgMjA5LjM1OEwxNDQwIDIyMy4wODZWMTM4LjE0MkwxMjk2IDE1MS44N0wxMTUyIDE5My45MTRMMTAwOCAxMzguMTQyTDg2NCAxODAuMTg1TDcyMCAxMzguMTQySDU3Nkw0MzIgMTY1LjU5OUwyODggMTM4LjE0MkwxNDQgMTgwLjE4NUwwIDE2NS41OTlWMjY1LjEzWiIgZmlsbD0iI0Q1RUJGOCIvPgo8cGF0aCBkPSJNMCAzMDYuMzE1TDE0NCAzNDguMzU4TDI4OCAyOTIuNTg2TDQzMiAzMDYuMzE1TDU3NiAyOTIuNTg2TDcyMCAyNjUuMTNMODY0IDI5Mi41ODZMMTAwOCAyNzguODU4TDExNTIgMzIwLjkwMUwxMjk2IDI2NS4xM0gxNDQwVjIyMS4zN0wxMjk2IDIwNy42NDJMMTE1MiAyNDkuNjg1TDEwMDggMjIxLjM3TDg2NCAyMzUuMDk5TDcyMCAyMjEuMzdINTc2TDQzMiAyNDkuNjg1TDI4OCAyMjEuMzdMMTQ0IDI3Ny4xNDJMMCAyNjMuNDE0VjMwNi4zMTVaIiBmaWxsPSIjQzhFNUY2Ii8+CjxwYXRoIGQ9Ik0wIDM3NS44MTVMMTQ0IDQxNy44NThMMjg4IDMzNC42M0w0MzIgMzc1LjgxNUg1NzZMNzIwIDM0OC4zNThMODY0IDM2Mi4wODZMMTAwOCAzMzQuNjNMMTE1MiAzOTAuNDAxTDEyOTYgMzM0LjYzTDE0NDAgMzIwLjkwMVYyNjMuNDE0SDEyOTZMMTE1MiAzMTkuMTg1TDEwMDggMjc3LjE0Mkw4NjQgMjkwLjg3TDcyMCAyNjMuNDE0TDU3NiAyOTAuODdMNDMyIDMwNC41OTlMMjg4IDI5MC44N0wxNDQgMzQ2LjY0MkwwIDMwNC41OTlWMzc1LjgxNVoiIGZpbGw9IiNCQ0RFRjUiLz4KPHBhdGggZD0iTTAgNzA5LjU4NkwxNDQgNzUxLjYzTDI4OCA2MjYuMzU4TDQzMiA2ODIuMTNMNTc2IDcyMy4zMTVMNzIwIDcwOS41ODZMODY0IDU4NC4zMTVMMTAwOCA1NTYuODU4TDExNTIgNzA5LjU4NkgxMjk2TDE0NDAgNjEyLjYzVjMxOS4xODVMMTI5NiAzMzIuOTE0TDExNTIgMzg4LjY4NUwxMDA4IDMzMi45MTRMODY0IDM2MC4zN0w3MjAgMzQ2LjY0Mkw1NzYgMzc0LjA5OUg0MzJMMjg4IDMzMi45MTRMMTQ0IDQxNi4xNDJMMCAzNzQuMDk5VjcwOS41ODZaIiBmaWxsPSIjQkNERUY1Ii8+CjxwYXRoIGQ9Ik0wIDg2Mi4zMTVMMTQ0IDg0OC41ODdMMjg4IDc5Mi44MTVMNDMyIDg0OC41ODdMNTc2IDg5MC42M0w3MjAgODQ4LjU4N0w4NjQgNzUxLjYzTDEwMDggNzIzLjMxNUwxMTUyIDgwNy40MDFMMTI5NiA4MjEuMTNMMTQ0MCA3NTEuNjNWNjEwLjkxNEwxMjk2IDcwNy44N0gxMTUyTDEwMDggNTU1LjE0Mkw4NjQgNTgyLjU5OUw3MjAgNzA3Ljg3TDU3NiA3MjEuNTk5TDQzMiA2ODAuNDE0TDI4OCA2MjQuNjQyTDE0NCA3NDkuOTE0TDAgNzA3Ljg3Vjg2Mi4zMTVaIiBmaWxsPSIjQkNERUY1Ii8+CjxwYXRoIGQ9Ik0wIDk0Ni40MDFMMTQ0IDkxOC4wODdMMjg4IDg5MC42M0w0MzIgOTA0LjM1OEw1NzYgOTczLjg1OEw3MjAgOTQ2LjQwMUw4NjQgODM0Ljg1OEwxMDA4IDc3OS4wODdMMTE1MiA4NzYuOTAxTDEyOTYgODkwLjYzTDE0NDAgODIxLjEzVjc0OS45MTRMMTI5NiA4MTkuNDE0TDExNTIgODA1LjY4NUwxMDA4IDcyMS41OTlMODY0IDc0OS45MTRMNzIwIDg0Ni44N0w1NzYgODg4LjkxNEw0MzIgODQ2Ljg3TDI4OCA3OTEuMDk5TDE0NCA4NDYuODdMMCA4NjAuNTk5Vjk0Ni40MDFaIiBmaWxsPSIjQzhFNUY2Ii8+CjxwYXRoIGQ9Ik0wIDEwMjkuNjNMMTQ0IDk4Ny41ODZMMjg4IDEwMDEuMzFMNDMyIDk4Ny41ODZMNTc2IDEwNTcuMDlINzIwTDg2NCA5MTguMDg2TDEwMDggODQ4LjU4NkwxMTUyIDk3My44NThIMTI5NkwxNDQwIDg5MC42M1Y4MTkuNDE0TDEyOTYgODg4LjkxNEwxMTUyIDg3NS4xODVMMTAwOCA3NzcuMzdMODY0IDgzMy4xNDJMNzIwIDk0NC42ODVMNTc2IDk3Mi4xNDJMNDMyIDkwMi42NDJMMjg4IDg4OC45MTRMMTQ0IDkxNi4zN0wwIDk0NC42ODVWMTAyOS42M1oiIGZpbGw9IiNENUVCRjgiLz4KPHBhdGggZD0iTTAgMTI2NS41OUwxNDQgMTI1MS44NkwyODggMTI2NS41OUw0MzIgMTIzOC4xM0w1NzYgMTI3OS4zMUg3MjBMODY0IDExODIuMzZMMTAwOCAxMTY4LjYzTDExNTIgMTE5Ni4wOUwxMjk2IDEyMzguMTNMMTQ0MCAxMjY1LjU5Vjg4OC45MTRMMTI5NiA5NzIuMTQySDExNTJMMTAwOCA4NDYuODdMODY0IDkxNi4zN0w3MjAgMTA1NS4zN0g1NzZMNDMyIDk4NS44N0wyODggOTk5LjU5OUwxNDQgOTg1Ljg3TDAgMTAyNy45MVYxMjY1LjU5WiIgZmlsbD0iI0UyRjFGOSIvPgo8L2c+Cjwvc3ZnPgo=);
+            background-repeat: no-repeat;
+            background-size: cover;
+          "
+        >
+          {{ content }}
         </div>
       </div>
       <div class="drawer-side">
@@ -119,11 +129,64 @@
       </div>
     </div>
     {% else %}
-    <div class="w-full flex flex-col items-center">
-      {% block content %}{% endblock %}
+    <div class="w-full flex flex-col items-center text-neutral-dark-700">
+      {{ content }}
     </div>
     {% endif %}
 
     <script type="module" src="/src/ts/main.ts"></script>
+
+    <!-- Put this part before </body> tag -->
+    <input type="checkbox" id="modal-description" class="modal-toggle" />
+    <label for="modal-description" class="modal cursor-pointer">
+      <label class="modal-box relative" for="" id="modal-description-content">
+      </label>
+    </label>
+
+    {% if not auth and page['title'] == 'signin'  %}
+    <!-- Put this part before </body> tag -->
+    <input type="checkbox" id="login-modal" class="modal-toggle" />
+    <label for="login-modal" class="modal cursor-pointer">
+      <label class="modal-box w-9/12 max-w-[32rem] relative px-10 py-10" for="">
+        <label for="login-modal" class="btn btn-sm btn-circle absolute right-10 top-10">✕</label>        
+        <div class="mb-10 w-36"><img src="https://cdn.mypanel.link/af5a5a/5poolxxjg4ox7pog.png" alt="Logo"></div>
+        <h3 class="mb-6 text-3xl font-bold">Log Masuk</h3>
+        <form method="POST" action="/">
+          {# CSRF #}
+          <div class="mb-6">
+            <div class="form-control w-full mb-3">
+              <label class="label">
+                <span class="label-text">Username</span>
+              </label>
+              <input name="LoginForm[username]" type="text" placeholder="Isi username" class="input input-bordered w-full" />
+            </div>
+            <div class="form-control w-full mb-3">
+              <label class="label">
+                <span class="label-text">Kata Laluan</span>
+              </label>
+              <input name="LoginForm[password]" type="password" placeholder="Isi kata laluan" class="input input-bordered w-full" />
+              <label class="label">
+                <span class="label-text-alt"></span>
+                <span class="label-text-alt"><a href="/pages/forgotpassword/" class="link link-hover link-primary">Lupa kata laluan?</a></span>
+              </label>
+            </div>
+          </div>
+          
+          <div class="flex justify-center">
+            {# Captcha Box Here #}
+          </div>
+
+          <div class="form-control mb-3">
+            <label class="cursor-pointer gap-3 justify-start label">
+              <input type="checkbox" checked="checked" class="checkbox checkbox-primary" />
+              <span class="label-text">Remember me</span>
+            </label>
+          </div>
+          <button class="btn btn-primary block w-full">Log Masuk</button>
+        </form>
+      </label>
+    </label>
+    {% endif %}
+
   </body>
 </html>

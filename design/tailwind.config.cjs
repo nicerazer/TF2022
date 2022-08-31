@@ -28,10 +28,10 @@ let localColors = {
 
 module.exports = {
   content: [
-    'index.html',
-    'pages/**/*.{twig,html}',
-    'templates/**/*.twig',
-    'src/**/*.{html,twig,js,ts}',
+    './index.html',
+    './pages/**/*.{twig,html}',
+    './templates/**/*.twig',
+    './src/**/*.{html,twig,js,ts}',
   ],  
   theme: {
     extend: {
@@ -74,8 +74,8 @@ module.exports = {
           'base-300': '#E6F1FA',
           'base-content': '#002F4B',
           
-          '--rounded-box': '1rem', // border radius rounded-box utility class, used in card and other large boxes
-          '--rounded-btn': '0.5rem', // border radius rounded-btn utility class, used in buttons and similar element
+          '--rounded-box': '.75rem', // border radius rounded-box utility class, used in card and other large boxes
+          '--rounded-btn': '0.35rem', // border radius rounded-btn utility class, used in buttons and similar element
           '--rounded-badge': '1.9rem', // border radius rounded-badge utility class, used in badges and similar
           '--animation-btn': '0.15s', // duration of animation when you click on button
           '--animation-input': '0.1s', // duration of animation for inputs like checkbox, toggle, radio, etc

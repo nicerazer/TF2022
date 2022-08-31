@@ -3,6 +3,7 @@ import Alpine from 'alpinejs'
 export default function (): void {
   document.addEventListener('alpine:init', () => {
       Alpine.data('tableContent', () => ({
+        helloworldText: 'heelowrold',
         openFilter: true,
         page: 1,
         data: tableData,

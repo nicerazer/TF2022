@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "forcebuild": "vite build",
+    "preview": "vite preview",
+    "copybase": "cpy 'templates/base.twig' 'dist/assets'"
   },
   "main": "src/ts/main",
   "typings": "src/ts/main",
@@ -25,5 +27,8 @@
     "vite-plugin-full-reload": "^1.0.4",
     "vite-plugin-twig": "^2.1.1"
   },
-  "dependencies": {}
+  "dependencies": {
+    "cpy-cli": "^4.2.0",
+    "replace-in-files-cli": "^2.0.0"
+  }
 }
