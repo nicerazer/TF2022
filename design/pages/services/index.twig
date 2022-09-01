@@ -1,29 +1,4 @@
-<div class="py-4 px-8" x-data="{
-    search: '', modalContentServiceId: -1,
-    serviceCategories: [
-        {% for category in serviceCategoryList %}
-        {
-            isVisible: true,
-            id: '{{ category.id }}',
-            name: '{{ category['name'] }}',
-            services: [
-                {% for service in category['services'] %}
-                {
-                    isVisible: true,
-                    id: '{{ service['id'] }}',
-                    name: '{{ service['name'] }}',
-                    rate: '{{ service['rate'] }}',
-                    min: '{{ service['min'] }}',
-                    max: '{{ service['max'] }}',
-                    average_time: '{{ service['average_time'] == 'not enough data' ? 'data tidak cukup' : service['average_time'] }}',
-                    description: '{{ service['description'] }}',
-                },
-                {% endfor %}
-            ],
-        },
-        {% endfor %}
-    ]
-}">
+<div class="py-4 px-8">
 
     <h2 class="text-xl">Senarai Servis</h2>
 
@@ -129,3 +104,39 @@
         </div>
     </template>
 </div>
+
+<script>
+
+document.addEventListener('alpine:init', () => {
+    Alpine.data('tabledata', () => ({
+        sourceData
+    }))
+})
+
+const sourceData = {
+    search: '', modalContentServiceId: -1,
+    serviceCategories: [
+        {% for category in serviceCategoryList %}
+        {
+            isVisible: true,
+            id: '{{ category.id }}',
+            name: '{{ category['name'] }}',
+            services: [
+                {% for service in category['services'] %}
+                {
+                    isVisible: true,
+                    id: '{{ service['id'] }}',
+                    name: '{{ service['name'] }}',
+                    rate: '{{ service['rate'] }}',
+                    min: '{{ service['min'] }}',
+                    max: '{{ service['max'] }}',
+                    average_time: '{{ service['average_time'] == 'not enough data' ? 'data tidak cukup' : service['average_time'] }}',
+                    description: '{{ service['description'] }}',
+                },
+                {% endfor %}
+            ],
+        },
+        {% endfor %}
+    ]
+}
+</script>

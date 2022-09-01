@@ -6,9 +6,10 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "forcebuild": "vite build",
+    "myownbuild": "vite build && yarn copybase && yarn replacetext",
     "preview": "vite preview",
-    "copybase": "cpy 'templates/base.twig' 'dist/assets'"
+    "copybase": "cpy ./templates/base.twig ./dist/assets",
+    "replacetext": "replace-in-files --string='{% block content %}{% endblock %}' --replacement='{{ content }}' ./dist/assets/templates/base.twig"
   },
   "main": "src/ts/main",
   "typings": "src/ts/main",
