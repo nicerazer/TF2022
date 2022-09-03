@@ -68,7 +68,7 @@
             </div>
         </div>
     </div>
-    <nav x-data class="flex items-center w-[84rem] my-4 z-10">
+    <nav x-data class="flex items-center mg:w-[64rem] xl:w-[80rem] my-4 z-10">
         <a class="mr-8 w-40" href="/"><img src="https://cdn.mypanel.link/af5a5a/5poolxxjg4ox7pog.png" alt="Logo"></a>
         <ul class="flex items-center gap-2 mr-auto">
             <li><a class="btn btn-ghost" href="/terms">Terma</a></li>
@@ -92,15 +92,14 @@
             <span class="ml-4">Log Masuk</span>
         </label>
     </nav>
-    <div class="flex justify-between w-[68rem] mt-24 z-10 relative">
-        <div class="absolute">
+    <div class="flex flex-col md:flex-row justify-between lg:w-[68rem] mt-24 z-10 relative">
+        <div class="absolute inset-y-0 left-0">
             <div id="bmcontainer-heromap" class="z-10 absolute w-[30rem]"></div>
-            <div class="-translate-y-8 -translate-x-40  w-[50rem]">
+            <div class="-translate-y-8 -translate-x-40 w-[50rem]">
                 <img src="https://cdn.mypanel.link/af5a5a/l06o54qd2icq340g.png" alt="grid" class="w-full">
-
             </div>
         </div>
-        <div class="w-[36rem] mt-16 ml-auto z-10">
+        <div class="md:w-[32rem] lg:w-[36rem] mt-16 ml-auto z-10">
             <h1 class="text-5xl font-bold mb-8 leading-tight tracking-tighter text-neutral-dark-700">TokeyFollower, server #1 terpantas di <span class="text-secondary-content">Malaysia</span>.</h1>
             <p class="mb-8 text-neutral-dark-300">Jalankan bisnes jualan follower anda hari ini dengan server terpantas dari kami hari ini!</p>
             <a href="" class="btn btn-primary w-56">
@@ -194,20 +193,29 @@
     </div>
 </section>
 
-<section id="section-home--mainbenefits" class="relative flex flex-col items-center w-full" x-data>
+<section id="section-home--mainbenefits" class="relative flex flex-col items-center overflow-x-hidden w-screen" x-data={ selectedNumber: 1 }>
     <div class="sticky top-0 pt-12 px-24 flex gap-4 z-10 w-full mb-[50rem]">
         <button
-            @click="document.getElementById('section-home--mainbenefits-1').scrollIntoView({ behavior: 'smooth' })" class="btn btn-bright-active w-28 shadow-lg"
+            @click="
+                selectedNumber = 1;
+                document.getElementById('section-home--mainbenefits-1').scrollIntoView({ behavior: 'smooth' })" class="btn w-28 shadow-lg"
+            :class="selectedNumber == 1 ? 'btn-bright-active' : 'btn-bright'"
         >
             Pantas
         </button>
         <button
-            @click="document.getElementById('section-home--mainbenefits-2').scrollIntoView({ behavior: 'smooth' })" class="btn btn-bright w-28 shadow-lg"
+            @click="
+                selectedNumber = 2;
+                document.getElementById('section-home--mainbenefits-2').scrollIntoView({ behavior: 'smooth' })" class="btn w-28 shadow-lg"
+            :class="selectedNumber == 2 ? 'btn-bright-active' : 'btn-bright'"
         >
             Mudah
         </button>
         <button
-            @click="document.getElementById('section-home--mainbenefits-3').scrollIntoView({ behavior: 'smooth' })" class="btn btn-bright w-28 shadow-lg"
+            @click="
+                selectedNumber = 3;
+                document.getElementById('section-home--mainbenefits-3').scrollIntoView({ behavior: 'smooth' })" class="btn btn-bright w-28 shadow-lg"
+            :class="selectedNumber == 3 ? 'btn-bright-active' : 'btn-bright'"
         >
             Murah
         </button>

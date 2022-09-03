@@ -1,27 +1,19 @@
-<div class="py-4 px-8">
+<div class="py-4 px-8" x-data="{ modalContentServiceId: -1 }">
 
     <h2 class="text-xl">Senarai Servis</h2>
 
     <div class="py-3 md:py-0 px-3 md:px-4 mt-4 md:h-20 bg-neutral-light-200 flex flex-col md:flex-row items-center justify-between rounded-box shadow-md">
-        <label class="relative block lg:w-[44rem] w-full md:mr-4 mb-4 md:mb-0">
-            <span class="sr-only">Search</span>
-            <span class="absolute inset-y-0 left-0 flex items-center pl-4 ">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 fill-slate-300" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
-                </svg>
-            </span>
-            <input x-model="search" type="text" placeholder="Isi carian" class="input w-full bg-white pl-12 placeholder:text-slate-400" />
-        </label>
-        <div x-data="{ showFilter: false, search }" class="relative w-full md:w-auto">
-            <button @click="showFilter = !showFilter" class="btn btn-primary px-8 w-full md:w-64">
-                <span class="mr-3">Tapis Kategori</span>
+        <div x-data="{ search: '' }" class="relative w-full md:w-auto dropdown">
+            <label @click="search = ''" tabindex="0" class="btn btn-primary w-full">
+                <span class="mr-2" data-filter-active-category="true"></span>
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
                 </svg>
-            </button>
-            <div x-show="showFilter" class="
+            </label>
+
+            <div tabindex="0" class="
+                dropdown-content
                 bg-base-100 w-[56rem] p-2 rounded-box shadow-lg
-                top-3 right-3 absolute
             ">
                 <div class="mb-2 flex gap-2">
                     <label class="relative block w-full">
@@ -31,112 +23,102 @@
                                 <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
                             </svg>
                         </span>
-                        <input x-model="search" type="text" placeholder="Isi carian" class="input input-bordered input-sm w-full bg-white pl-8 placeholder:text-slate-400" />
+                        <input x-model="search" type="text" placeholder="Isi carian" class="input input-bordered w-full bg-white pl-8 placeholder:text-slate-400" />
                     </label>
-                    <button @click="showFilter = false; search = ''">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
-                        </svg>
-                    </button>
                 </div>
 
-                <ul class="max-h-[44rem] overflow-y-auto">
-                    <template x-for="(category) in serviceCategories">
-                        <li x-show="category.name.toLowerCase().indexOf(search.toLowerCase()) > -1">
-                            <div class="form-control">
-                                <label class="cursor-pointer label justify-start gap-2 p-0">
-                                    <input type="checkbox" class="checkbox checkbox-xs checkbox-secondary" x-model="category.isVisible" />
-                                    <span class="label-text" x-text="category.name">Unknown category</span>
-                                </label>
-                            </div>
+                <ul class="menu menu-compact bg-base-100 max-h-[44rem] overflow-y-auto">
+                    <li>
+                        <a href="#" data-filter-category-id="All" data-filter-category-name="All">All</a>
+                    </li>
+                    {% for category in serviceCategoryList %}
+                    {% if category.name %}
+                        {# <li x-show="'{{category.name}}'.toLowerCase().indexOf(search.toLowerCase()) > -1"> #}
+                        <li>
+                            <a href="#" data-filter-category-id="{{ category.id }}" data-filter-category-name="{{ category.name }}">{{ category.name }}</a>
                         </li>
-                    </template>
+                    {% endif %}
+                    {% endfor %}
                 </ul>
             </div>
         </div>
+        <label class="relative block lg:w-[32rem] w-full md:mr-4 mb-4 md:mb-0">
+            <span class="sr-only">Search</span>
+            <span class="absolute inset-y-0 left-0 flex items-center pl-4 ">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 fill-slate-300" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                </svg>
+            </span>
+            <div class="form-control">
+                <div class="input-group">
+                    <input data-search-service="#service-table" type="text" placeholder="Isi carian" class="input w-full bg-white pl-12 placeholder:text-slate-400" {% if serviceCategoryList is empty %}disabled{% endif %} />
+                    <button data-filter-serch-btn="true" type="button" class="btn btn-secondary btn-square {% if serviceCategoryList is empty %}btn-disabled{% endif %}">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                    </button>                        
+                </div>
+            </div>
+        </label>
     </div>
 
-    <template x-for="category in serviceCategories">
-        <div class="shadow-md mt-4 rounded-box overflow-hidden bg-white" x-show="
-            category.isVisible &&
-            category['services'].some((service) => service.isVisible)
-        ">
-            <div class="bg-neutral-light-200 px-4 py-4 text-2xl text-neutral-dark-700 font-light"
-                x-text="category.name"
-            >Category name is missing</div>
-            <table class="w-full">
-                <thead>
-                    <tr>
-                        <th class="text-start px-4 py-2">Id</th>
-                        <td class="text-start px-4 py-2">Name</td>
-                        <td class="text-end px-4 py-2">Rate</td>
-                        <td class="text-end px-4 py-2">Min</td>
-                        <td class="text-end px-4 py-2">Max</td>
-                        <td class="text-end px-4 py-2">Average Time</td>
-                        <td class="text-start px-4 py-2"></td>
-                    </tr>
-                </thead>
-                <tbody x-data="{ modalOpen: false }">
-                    <template x-for="(service, index) in category['services']">
-                        <tr
-                            x-effect="service.isVisible = service.name.toLowerCase().indexOf(search.toLowerCase()) > -1"
-                            x-show="service.isVisible"
-                        >
-                            <th class="align-baseline text-start px-4 pb-2 font-medium text-neutral-dark-300" x-text="service.id"></th>
-                            <td class="align-baseline text-start px-4 pb-2" x-text="service.name"></td>
-                            <td class="align-baseline text-end px-4 pb-2" x-text="service.rate"></td>
-                            <td class="align-baseline text-end px-4 pb-2" x-text="service.min"></td>
-                            <td class="align-baseline text-end px-4 pb-2" x-text="service.max"></td>
-                            <td class="align-baseline text-end px-4 pb-2" x-text="service.average_time"></td>
-                            <td class="align-baseline text-end px-4 pb-2">
-                                <label class="btn btn-secondary btn-sm w-32" for="modal-description" @click="modalContentServiceId = service.id">Lihat</label>
-                                <template x-teleport="#modal-description-content">
-                                    <div x-show="modalContentServiceId == service.id">
-                                        <h3 x-text="service.name" class="text-lg font-bold"></h3>
-                                        <p x-text="service.description ?? 'Tiada keterangan'" class="py-4"></p>
-                                    </div>
-                                </template>
-                            </td>
-                        </tr>
-                    </template>
-                </tbody>
-            </table>
+    {% for category in serviceCategoryList %}    
+        {% if category['name'] %}
+        <div data-filter-table-category-id="{{ category.id }}" class="shadow-md mt-4 rounded-box overflow-hidden bg-white" >
+        <div class="bg-neutral-light-200 px-4 py-4 text-2xl text-neutral-dark-700 font-light">
+            {% if category['icon'] %}
+                {% set categoryIcon = category['icon'] %}
+                {% if categoryIcon['icon_type'] == 'icon' %} <span class="{{ categoryIcon['icon'] }}"></span>
+                {% elseif categoryIcon['icon_type'] == 'emoji' %} <span>{{ categoryIcon['icon'] }}</span>
+                {% elseif categoryIcon['icon_type'] == 'image' %} <img src="{{ categoryIcon['url'] }}" alt="{{ category['name'] }}" class="img-responsive btn-group-vertical" style="max-width: calc(1em + 6px); max-height: calc(1em + 6px);">
+                {% endif %}
+            {% endif %}
+            <strong>{{ category['name'] }}</strong>        
         </div>
-    </template>
+        <table class="w-full" id="service-table">
+            <thead>
+                <tr>
+                    <th class="text-start px-4 py-2">Id</th>
+                    <td class="text-start px-4 py-2">Name</td>
+                    <td class="text-end px-4 py-2">Rate</td>
+                    <td class="text-end px-4 py-2">Min</td>
+                    <td class="text-end px-4 py-2">Max</td>
+                    <td class="text-end px-4 py-2">Average Time</td>
+                    <td class="text-start px-4 py-2"></td>
+                </tr>
+            </thead>
+            <tbody x-data="{ modalOpen: false }">
+            {% for service in category['services'] %}
+                <tr data-filter-table-category-id="{{ category.id }}">
+                    <th class="align-baseline text-start px-4 pb-2 font-medium text-neutral-dark-300" data-filter-table-service-id="{{ service.id }}">{{ service['id'] }}</th>
+                    <td class="align-baseline text-start px-4 pb-2" data-filter-table-service-name="true">{{ service['name'] }}</td>
+                    <td class="align-baseline text-end px-4 pb-2">{{ service.rate }}</td>
+                    <td class="align-baseline text-end px-4 pb-2">{{ service['min'] }}</td>
+                    <td class="align-baseline text-end px-4 pb-2">{{ service['max'] }}</td>
+                    <td class="align-baseline text-end px-4 pb-2">{{ service['average_time'] }}</td>
+                    <td class="align-baseline text-end px-4 pb-2">
+                        {% if not service['description'] is empty %}
+                        <label class="btn btn-secondary btn-sm w-32" for="modal-description" @click="modalContentServiceId = '{{ service.id }}'">Buka</label>
+                        <template x-teleport="#modal-description-content">
+                            <div x-show="modalContentServiceId == '{{ service.id }}'">
+                                <h3 class="text-lg font-bold">{{service['name']}}</h3>
+                                <p class="py-4">{{service['description']}}</p>
+                            </div>
+                        </template>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        </div>
+        {% endif %}
+    {% endfor %}
 </div>
 
 <script>
 
-document.addEventListener('alpine:init', () => {
-    Alpine.data('tabledata', () => ({
-        sourceData
-    }))
-})
-
-const sourceData = {
-    search: '', modalContentServiceId: -1,
-    serviceCategories: [
-        {% for category in serviceCategoryList %}
-        {
-            isVisible: true,
-            id: '{{ category.id }}',
-            name: '{{ category['name'] }}',
-            services: [
-                {% for service in category['services'] %}
-                {
-                    isVisible: true,
-                    id: '{{ service['id'] }}',
-                    name: '{{ service['name'] }}',
-                    rate: '{{ service['rate'] }}',
-                    min: '{{ service['min'] }}',
-                    max: '{{ service['max'] }}',
-                    average_time: '{{ service['average_time'] == 'not enough data' ? 'data tidak cukup' : service['average_time'] }}',
-                    description: '{{ service['description'] }}',
-                },
-                {% endfor %}
-            ],
-        },
-        {% endfor %}
-    ]
-}
+// document.addEventListener('alpine:init', () => {
+//     Alpine.data('tabledata', () => ({
+//         search: '', modalContentServiceId: -1,
+//     }))
+// })
 </script>

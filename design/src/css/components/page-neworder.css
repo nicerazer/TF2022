@@ -1,4 +1,14 @@
 @layer components {
+    .select2-hidden-accessible,#orderform-category {
+        @apply select select-bordered w-full flex-row;
+    }
+
+    /* .select2.select2-container.select2-container--default.select2-container--below,
+    .select2.select2-container.select2-container--default.select2-container--below.select2-container--focus, */
+    .select2.select2-container.select2-container--default {
+        @apply hidden;
+    }
+
     .control-label,label[for="field-orderform-fields-expiry"] {
         @apply label text-neutral-dark-300;
     }

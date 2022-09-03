@@ -1,14 +1,31 @@
-<div class="my-12 px-4 max-w-7xl mx-auto">
-    <h1 class="text-4xl mb-12">Tambah Nilai</h1>
-    <p class="text-neutral-dark-300 mb-12">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna al</p>
+<div x-data="{alertVisible: true}" class="my-12 px-4 max-w-7xl mx-auto">
+
+    {% if success or error %}
+    <template x-teleport="#alert-container-authed">
+        <div class="alert {{ success ? 'alert-success' : 'alert-error' }} shadow-lg relative" x-show="alertVisible" x-transition>
+            <div class="pr-8 items-start">
+                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                <span>{{ success ? successText : errorText }}</span>
+            </div>
+            <button class="absolute top-2 md:top-4 right-4" @click="alertVisible = false">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+            </button>
+        </div>
+    </template>
+    {% endif %}
+
+    <h1 class="text-4xl mb-5">Tambah Nilai</h1>
+    <p class="text-neutral-dark-300 mb-5">Tambah nilai di page ini dengan pelbagai gateway yang kami sediakan.<br>Kami tanggung cas anda 100%. Anda bayar RM20, anda dapat RM20 ke dalam akaun anda.</p>
 
     <div class="flex gap-4 items-start" x-data="{ paymentMethods: [
         { id: '33654',  label: 'Perbankan Online ( ❌ e-wallet ) 1.0% bonus MAX' },
         { id: '74886',  label: 'Kad Bank (Instant)' },
         { id: '5332',   label: 'Pembayaran Bitcoin (3% bonus kadar rata)' },
         { id: '51863',  label: 'E-Wallet - Pembayaran QR' },
-        { id: '72727',  label: 'E-Wallet (Touch \'n\' Go) - Transfer Melalui No. Telefon' },
-        { id: '27272',  label: 'Transfer Secara Manual' },
+        { id: '10',  label: 'E-Wallet (Touch \'n\' Go) - Transfer Melalui No. Telefon' },
+        { id: '20',  label: 'Transfer Secara Manual' },
     ], selectedPaymentMethod: '' }"
         x-init="selectedPaymentMethod = paymentMethods[0].id"
     >
@@ -16,32 +33,47 @@
             <div class="bg-white shadow-lg rounded-box w-full card-compact mb-4">
                 <div class="card-body">
                     <h2 class="text-base font-light mb-2">Tambah Nilai</h2>
-                    <div class="form-control">
-                        <label class="label">
-                            <span class="label-text text-neutral-dark-300">Cara bayar</span>
-                        </label>
-                        <select class="select select-bordered" x-model="selectedPaymentMethod">
-                            <template x-for="paymentMethod in paymentMethods" :key="paymentMethod.id">
-                                <option :value="paymentMethod.id" x-text="paymentMethod.label"></option>
-                            </template>
-                        </select>
-                    </div>
-                    <!-- In system payment components -->
-                    <div class="flex flex-col" x-show="!['51863', '72727', '27272'].includes(selectedPaymentMethod)">
+                    <form method="post" action="" class="hidden"></form>
+                    <form method="post" action="">
                         <div class="form-control">
-                            <label class="label">
-                                <span class="label-text text-neutral-dark-300">Kuantiti</span>
+                            <label class="label" for="method">
+                                <span class="label-text text-neutral-dark-300">Cara bayar</span>
                             </label>
-                            <label class="input-group">
-                                <span>RM</span>
-                                <input type="number" min="20" placeholder="Isi amaun" class="input input-bordered w-full" />
-                            </label>
-                            <label class="label">
-                                <span class="label-text-alt">Minima: RM20</span>
-                            </label>
+                            <select class="select select-bordered" x-model="selectedPaymentMethod" id="method" name="AddFoundsForm[type]">
+                                <template x-for="paymentMethod in paymentMethods" :key="paymentMethod.id">
+                                    <option :value="paymentMethod.id" x-text="paymentMethod.label"></option>
+                                </template>
+                            </select>
                         </div>
-                        <button class="btn btn-primary mt-3">Hantar</button>
-                    </div>
+                        <!-- In system payment components -->
+                        <div class="flex flex-col" x-show="!['51863', '10', '20'].includes(selectedPaymentMethod)">
+                            <div class="form-control">
+                                <label class="label">
+                                    <span class="label-text text-neutral-dark-300">Amaun</span>
+                                </label>
+                                <label class="input-group" for="amount">
+                                    <span>RM</span>
+                                    <input type="number" placeholder="Isi amaun" class="input input-bordered w-full" name="AddFoundsForm[amount]" id="amount" min="20" step="0.01"/>
+                                </label>
+                                <label class="label">
+                                    <span class="label-text-alt">Minima: RM20</span>
+                                </label>
+                            </div>
+                            <input type="hidden" name="_csrf" value="{{ csrftoken }}">
+                            <button type="submit" class="btn btn-primary mt-3" @click="loading=true" x-data="{ loading:false }">
+                                <span class="flex items-center relative">
+                                    <span :class="loading && '-translate-x-4'" class="transition-transform">Hantar</span>
+                                    <span :class="loading && 'translate-x-4 opacity-100'" class="absolute right-0 transition-transform opacity-0">
+                                        <svg class="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        </svg>
+                                    </span>
+                                </span>
+                            </button>
+
+                        </div>
+                    </form>
                     <!-- QR payment components -->
                     <div x-show="selectedPaymentMethod == paymentMethods[3].id">
                         <h3 class="px-1 mt-2 text-neutral-dark-300">Pilih Aplikasi</h3>
@@ -56,8 +88,8 @@
                                 "
                             >
                                 <div class="h-72 relative mb-8">
-                                    <img x-show="qrSelection == 'shopeepay'" src="/src/img/neworder--QRpayment-ShopeePay.jpeg" alt="ShopeePay" class="absolute mx-auto inset-x-0 h-full" x-transition.opacity>
-                                    <img x-show="qrSelection == 'touchngo'" src="/src/img/neworder--QRpayment-TouchNGo.jpeg" alt="ShopeePay" class="absolute mx-auto inset-x-0 h-full" x-transition.opacity>
+                                    <img x-show="qrSelection == 'shopeepay'" src="https://cdn.mypanel.link/af5a5a/fgnu9r868wt50ibz.jpeg" alt="ShopeePay" class="absolute mx-auto inset-x-0 h-full" x-transition.opacity>
+                                    <img x-show="qrSelection == 'touchngo'" src="https://cdn.mypanel.link/af5a5a/zq630sldy4u1mk93.jpeg" alt="ShopeePay" class="absolute mx-auto inset-x-0 h-full" x-transition.opacity>
                                 </div>
                                 <p class="mb-8 text-center font-bold">MOHAMMAD IQBAL BIN MOHD ROZALI</p>
                                 <p class="mb-6 text-center">Scan di kaunter kedai runcit yang terima QR Payment</p>
@@ -109,7 +141,7 @@
                     <h2 class="card-title">Perbankan Online</h2>
                     <p>Topup menggunakan FPX, dan lain-lain sistem perbankan online. (rujuk gambar di bawah)</p>
                     <div class="divider divider-vertical"></div>
-                    <div class="max-w-2xl mx-auto"><img src="/src/img/neworder--onlinebanking-acceptlist.jpg" alt="Online banking accept list"></div>
+                    <div class="max-w-2xl mx-auto"><img src="https://cdn.mypanel.link/af5a5a/62hnrtm2g0zd07ok.jpg" alt="Online banking accept list"></div>
                     <div class="divider divider-vertical"></div>
                     <ul class="flex flex-col gap-4">
                         <li>Nilai Topup & Bonus</li>
@@ -123,7 +155,7 @@
                     <h2 class="card-title">Kad Bank</h2>
                     <p>TOPUP menggunakan Visa dan MasterCard (rujuk gambar di bawah)</p>
                     <div class="divider divider-vertical"></div>
-                    <div class="max-w-2xl mx-auto"><img src="/src/img/neworder--bankingcard-acceptlist.jpg" alt="Online banking accept list"></div>
+                    <div class="max-w-2xl mx-auto"><img src="https://cdn.mypanel.link/af5a5a/w11c99on24hqs90x.jpg" alt="Online banking accept list"></div>
                     <div class="divider divider-vertical"></div>
                     <p>*TIADA CAS TERSEMBUNYI</p>
                 </div>
@@ -148,24 +180,24 @@
                             </ul>
                         </li>
                         <li>Kemudian masukkan amaun anda mahu tambah nilai (minima RM20) dan teruskan pembayaran.</li>
-                        <li>Hantar resit ke admin TokeyFollower:</li>
+                        <li>Hantar resit ke admin TokeyFollower di whatsapp (018-913-3685):</li>
                     </ol>
                     <ol class="list-decimal flex flex-col gap-3 pl-5 mb-3 font-light" x-show="selectedPaymentMethod == paymentMethods[4].id">
                         <li>Buat pembayaran melalui aplikasi Touch 'n' Go. Masukkan no telefon di sebelah.</li>
                         <li>Masukkan amaun anda mahu tambah nilai (minima RM20) dan teruskan pembayaran.</li>
-                        <li>Hantar resit ke admin TokeyFollower:</li>
+                        <li>Hantar resit ke admin TokeyFollower di whatsapp (018-913-3685):</li>
                     </ol>
                     <ol class="list-decimal flex flex-col gap-3 pl-5 mb-3 font-light" x-show="selectedPaymentMethod == paymentMethods[5].id">
                         <li>Deposit ke akaun tokeyfollower (minima RM20), rujuk maklumat akaun di sebelah.</li>
-                        <li>Hantar resit ke admin TokeyFollower:</li>
+                        <li>Hantar resit ke admin TokeyFollower di whatsapp (018-913-3685):</li>
                     </ol>
-                    <button class="btn btn-secondary mb-3">
+                    <a href="https://api.whatsapp.com/send?phone=60189133685" target="_blank" class="btn btn-secondary mb-3">
                         Buka Whatsapp
                         <svg class="w-5 h-5 ml-3" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M11.8392 9.19383C11.8081 9.17887 10.6416 8.60448 10.4344 8.52989C10.3497 8.4995 10.2591 8.46983 10.1627 8.46983C10.0052 8.46983 9.87285 8.54833 9.76978 8.70251C9.65326 8.8757 9.30054 9.28801 9.19155 9.41118C9.17732 9.42744 9.15789 9.44687 9.14625 9.44687C9.13581 9.44687 8.95529 9.37254 8.90064 9.34879C7.64937 8.80526 6.6996 7.4982 6.56937 7.27778C6.55077 7.24609 6.54999 7.2317 6.54984 7.2317C6.55441 7.21492 6.59649 7.17274 6.6182 7.15098C6.68173 7.08812 6.75056 7.00526 6.81716 6.92511C6.84869 6.88713 6.88028 6.84911 6.91129 6.81326C7.00791 6.70085 7.05093 6.61357 7.1008 6.51248L7.12693 6.45996C7.24869 6.21804 7.14469 6.01389 7.11108 5.94796C7.0835 5.89279 6.59098 4.70412 6.53862 4.57924C6.41269 4.27788 6.2463 4.13757 6.01508 4.13757C5.99363 4.13757 6.01508 4.13757 5.92511 4.14137C5.81555 4.14599 5.21893 4.22453 4.95514 4.39082C4.6754 4.56718 4.20215 5.12937 4.20215 6.11804C4.20215 7.00786 4.76682 7.84802 5.00927 8.16755C5.01529 8.1756 5.02636 8.19196 5.04241 8.21544C5.97088 9.57139 7.12833 10.5763 8.30168 11.045C9.43129 11.4962 9.9662 11.5484 10.2703 11.5484C10.2704 11.5484 10.2704 11.5484 10.2704 11.5484C10.3981 11.5484 10.5004 11.5384 10.5907 11.5295L10.6479 11.524C11.0381 11.4894 11.8957 11.0451 12.0908 10.503C12.2444 10.076 12.285 9.60952 12.1827 9.44022C12.1127 9.32511 11.992 9.26718 11.8392 9.19383Z" fill="currentColor"/>
                             <path d="M8.14201 0C3.80871 0 0.283312 3.49891 0.283312 7.79964C0.283312 9.19065 0.655572 10.5523 1.36077 11.7439L0.0110009 15.7255C-0.0141419 15.7997 0.00455936 15.8818 0.0594684 15.9377C0.0991048 15.9782 0.152871 16 0.20778 16C0.228819 16 0.250014 15.9968 0.270689 15.9902L4.42238 14.671C5.55848 15.278 6.84253 15.5984 8.14206 15.5984C12.4749 15.5984 16 12.0999 16 7.79964C16 3.49891 12.4749 0 8.14201 0ZM8.14201 13.9737C6.91921 13.9737 5.73484 13.6206 4.71676 12.9526C4.68253 12.9301 4.64279 12.9185 4.60279 12.9185C4.58165 12.9185 4.56045 12.9218 4.53983 12.9283L2.46009 13.5894L3.13147 11.6087C3.15318 11.5446 3.14232 11.4739 3.10232 11.4192C2.32705 10.3599 1.91723 9.10831 1.91723 7.79964C1.91723 4.39481 4.70965 1.62473 8.14196 1.62473C11.5739 1.62473 14.366 4.39481 14.366 7.79964C14.366 11.2041 11.574 13.9737 8.14201 13.9737Z" fill="currentColor"/>
                         </svg>
-                    </button>
+                    </a>
                     <p>*TIADA CAS TERSEMBUNYI</p>
                 </div>
             </div>

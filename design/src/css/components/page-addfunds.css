@@ -1,0 +1,8 @@
+/* @layer components {
+    #instruction_instruction {
+        @apply hidden;
+    }
+    .input-group > .form-control {
+        @apply input input-bordered;
+    }
+} */

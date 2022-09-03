@@ -1,36 +1,94 @@
-<div class="my-12 px-4 max-w-7xl mx-auto">
-    <h1 class="text-4xl mb-12">Cipta Order</h1>
-    <p class="text-neutral-dark-300 mb-12">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna al</p>
+<div x-data="{alertVisible: true}" class="my-12 px-4 max-w-7xl mx-auto">
+
+    {% if success == 1 or error %}
+    <template x-teleport="#alert-container-authed">
+        <div class="alert {{ success == 1 ? 'alert-success' : 'alert-error' }} shadow-lg relative" x-show="alertVisible" x-transition>
+            <div class="pr-8 items-start">
+                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                {% if error %}
+                    <span>{{ errorMessage }}</span>
+                {% endif %}
+                {% if success == 1 %}
+                    <div>
+                        <h4 class="mb-3">Order anda telah ditambah ke sistem untuk diproses. Sila pergi ke halaman <a href="/orders" class="link">semak order</a> untuk cek order anda.</h4>
+                        Id: {{order['id']}}<br>
+                        Servis: {{order['service']}}
+                        <br>
+                        Link: {{order['link']}}<br>
+                        Kuantiti: {{order['quantity']}}<br>
+                        Cas: {% if order.converted %} <span data-toggle="tooltip" data-placement="top" title="{{ order.original_charge }}">{{ order['charge'] }}</span> {% else %} {{ order['charge'] }} {% endif %}<br>
+                        Baki Akaun: {{ order['balance'] }}<br>
+                    </div>
+                {% endif %}
+            </div>
+            <button class="absolute top-2 md:top-4 right-4" @click="alertVisible = false">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+            </button>
+        </div>
+    </template>
+    {% endif %}
+
+    <h1 class="text-4xl mb-5">Cipta Order</h1>
+    <p class="text-neutral-dark-300 mb-5">Pilih kategori dan servis yang anda mahu untuk letak order anda, kemudian tekan bayar. Pastikan baki anda cukup dahulu.</p>
 
     <div class="flex gap-4 items-start">
-        <div class="w-full">
+        <form class="w-full" action="{{ page['url'] }}" method="post" id="order-form">
             <div class="bg-white shadow-lg rounded-box w-full card card-compact mb-4">
                 <div class="card-body">
                     <h2 class="text-base font-light mb-2">Cipta Order</h2>
+
+                    {# Category select input #}
+                    {% if categories %}
                     <div class="form-control">
-                        <label class="label">
+                        <label class="label" for="orderform-category">
                             <span class="label-text text-neutral-dark-300">Kategori</span>
                         </label>
-                        <select class="select select-bordered">
-                            <option disabled selected>Pilih Kategori</option>
-                            <option>Star Wars</option>
-                            <option>Harry Potter</option>
-                            <option>Lord of the Rings</option>
-                            <option>Planet of the Apes</option>
-                            <option>Star Trek</option>
+                        <select
+                            class="form-control"
+                            id="orderform-category"
+                            name="OrderForm[category]"
+                            data-select="true"
+                            data-select-search="true"
+                            data-select-search-placeholder="Pilih Kategori"
+                        >
+                            {% for category in extended_categories %}
+                            <option
+                                value="{{ category.id }}"
+                                {% if category.icon %}
+                                    data-icon="
+                                    {% if category.icon['icon_type'] == 'icon' %}
+                                        <span class='{{ category.icon['icon'] }}'></span>
+                                    {% elseif category.icon['icon_type'] == 'emoji' %}
+                                        <span>{{ category.icon['icon'] }}</span>
+                                    {% elseif category.icon['icon_type'] == 'image' %}
+                                        <img src='{{ category.icon['url'] }}' alt='{{ category.name }}' class='img-responsive btn-group-vertical'>
+                                    {% endif %}
+                                    "
+                                {% endif %}
+                                {% if category.id == data['category'] %} selected {% endif %}
+                            >
+                                {{ category.name }}
+                            </option>
+                            {% endfor %}
+                            <option data-type="0" value="1460" data-template="{{service_id}} {{service_name}}" data-id="1460" data-name="Instagram Views [Max: 5M] [Start Time: 0-1 Hour] [Speed: INSTANT] ⛔ - 0.355 per 1000">1460 - Instagram Views [Max: 5M] [Start Time: 0-1 Hour] [Speed: INSTANT] ⛔ - 0.355 per 1000</option>
                         </select>
+
                     </div>
+                    {% endif %}
+                    {# Service select input #}
                     <div class="form-control">
-                        <label class="label">
+                        <label class="label" for="orderform-service">
                             <span class="label-text text-neutral-dark-300">Servis</span>
                         </label>
-                        <select class="select select-bordered">
-                            <option disabled selected>Pilih Servis</option>
-                            <option>Star Wars</option>
-                            <option>Harry Potter</option>
-                            <option>Lord of the Rings</option>
-                            <option>Planet of the Apes</option>
-                            <option>Star Trek</option>
+                        <select
+                            id="orderform-service"
+                            name="OrderForm[service]"
+                            data-select="true"
+                            data-select-search="true"
+                            data-select-search-placeholder="Pilih Servis"
+                            class="select select-bordered">
                         </select>
                     </div>
                     <div class="divider"></div>
@@ -41,15 +99,26 @@
             <div class="bg-white shadow-lg rounded-box w-full card-compact mb-4">
                 <div class="card-body">
                     <div class="flex justify-between items-center mb-4">
-                        <h2 class="text-base font-light">Jumlah Pembayaran</h2>
-                        <input type="text" value="RM 123123.00" class="input text-center font-bold" disabled>
+                        <label for="charge" class="text-base font-light">Jumlah Pembayaran</label>
+                        <input type="text" class="input input-bordered text-center font-bold" id="charge" value="{{ order['charge'] }}" readonly>
                     </div>
-                    <button class="btn btn-primary">Cipta Order</button>
+                    <input type="hidden" name="_csrf" value="{{ csrftoken }}">
+                    <button class="btn btn-primary" @click="loading=true" x-data="{ loading:false }">
+                        <span class="flex items-center relative">
+                            <span :class="loading && '-translate-x-4'" class="transition-transform">Cipta Order</span>
+                            <span :class="loading && 'translate-x-4 opacity-100'" class="absolute right-0 transition-transform opacity-0">
+                                <svg class="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                            </span>
+                        </span>
+                    </button>
                 </div>
             </div>
-        </div>
+        </form>
         
-       <div class="w-[44rem]">
+       <div class="hidden md:block md:w-[44rem]">
             <div class="bg-white shadow-lg rounded-box card-compact mb-4">
                 <div class="card-body">
                     <h2 class="text-base font-light px-1">Rujukan Emoji</h2>
@@ -67,7 +136,7 @@
                 </div>
             </div>
             <div class="bg-white shadow-lg rounded-box card-compact mb-4">
-                <div class="card-body" id="service_description">
+                <div class="card-body fields" id="service_description">
                     <label for="service_description" class="text-base font-light px-1">Butiran</label>
                     <div class="bg-neutral-light-100 rounded px-4 py-4 min-h-[16rem]">
                         {{service['description']}}

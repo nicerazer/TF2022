@@ -2,12 +2,13 @@
     <div class="flex justify-between">
         <h2 class="text-xl">Semak Order</h2>
         <div class="flex gap-2">
-            <a class="btn btn-sm font-light rounded px-4 btn-primary" href="#">All</a>
-            <a class="btn btn-sm font-light rounded px-4 btn-secondary" href="#">Tengah Proses</a>
-            <a class="btn btn-sm font-light rounded px-4 btn-secondary" href="#">Dah Siap</a>
-            <a class="btn btn-sm font-light rounded px-4 btn-secondary" href="#">Canceled</a>
-            <a class="btn btn-sm font-light rounded px-4 btn-secondary" href="#">Pending</a>
-            <a class="btn btn-sm font-light rounded px-4 btn-secondary" href="#">Partial</a>
+            <a class="btn btn-sm font-light rounded px-4 {{ 'all' == status ? 'btn-primary' : 'btn-secondary'}}" href="{{ page['url'] }}">Semua</a>
+            <a class="btn btn-sm font-light rounded px-4 {{ 'pending' == status ? 'btn-primary' : 'btn-secondary'}}" href="{{ page['url'] }}/pending">Tergantung</a>
+            <a class="btn btn-sm font-light rounded px-4 {{ 'inprogress' == status ? 'btn-primary' : 'btn-secondary'}}" href="{{ page['url'] }}/inprogress">Tengah Progress</a>
+            <a class="btn btn-sm font-light rounded px-4 {{ 'completed' == status ? 'btn-primary' : 'btn-secondary'}}" href="{{ page['url'] }}/completed">Dah Siap</a>
+            <a class="btn btn-sm font-light rounded px-4 {{ 'partial' == status ? 'btn-primary' : 'btn-secondary'}}" href="{{ page['url'] }}/partial">Partial</a>
+            <a class="btn btn-sm font-light rounded px-4 {{ 'processing' == status ? 'btn-primary' : 'btn-secondary'}}" href="{{ page['url'] }}/processing">Tengah Proses</a>
+            <a class="btn btn-sm font-light rounded px-4 {{ 'canceled' == status ? 'btn-primary' : 'btn-secondary'}}" href="{{ page['url'] }}/canceled">Canceled</a>
         </div>
     </div>
 
@@ -20,14 +21,14 @@
                         <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
                     </svg>
                 </span>
-                <div class="form-control">
+                <form class="form-control" action="{{ page['url'] }}" method="get" id="history-search">
                     <div class="input-group">
-                        <input type="text" placeholder="Isi carian" class="input w-full bg-white pl-12 placeholder:text-slate-400" {% if orderList is empty %}disabled{% endif %} />
+                        <input type="text" value="{{ search }}" placeholder="Isi carian" class="input w-full bg-white pl-12 placeholder:text-slate-400" {% if orderList is empty %}disabled{% endif %} />
                         <button class="btn btn-secondary btn-square {% if orderList is empty %}btn-disabled{% endif %}">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-                        </button>                        
+                        </button>
                     </div>
-                </div>
+                </form>
             </label>
             <div>
                 <button class="btn btn-primary px-8" {% if orderList is empty %}disabled{% endif %}>
@@ -40,7 +41,7 @@
             </div>
         </div>
 
-        {% if orderList not empty %}
+        {% if not orderList is empty %}
         <table class="bg-white w-full">
             <thead>
                 <tr>
@@ -95,10 +96,10 @@
                         </span>
                         {% endif %}
 
-                        {% if not order['refill'] is empty %}
+                        {% if order['refill'] is not empty %}
                         <a href="{{ order['refill'] }}" class="btn btn-secondary btn-sm w-24">Refill</a>
                         {% endif %}
-                        {% if not order['cancel'] is empty %}
+                        {% if order['cancel'] is not empty %}
                         <a href="{{ order['cancel'] }}" class="btn btn-warning btn-sm w-24">Cancel</a>
                         {% endif %}
                     </td>
@@ -108,9 +109,9 @@
         </table>
         {% else %}
         <div class="bg-white h-[40rem] w-full flex flex-col items-center justify-center">
-            <img src="/src/img/generic--table-emptystate.png" alt="Empty table state artwork" class="mb-5 w-[16.5rem]">
+            <img src="https://cdn.mypanel.link/af5a5a/i3mj5klcbdmfkymo.png" alt="Empty table state artwork" class="mb-5 w-[16.5rem]">
             <p class="font-light mb-3">Anda masih belum letak order...</p>
-            <a href="/pages/neworder/" class="link link-primary link-hover text-sm font-medium flex items-center">
+            <a href="/neworder" class="link link-primary link-hover text-sm font-medium flex items-center">
                 <span>Pergi ke halaman order</span>
                 <span
                     class="text-primary animate-bounce-side ml-3"
@@ -123,23 +124,32 @@
         </div>
         {% endif %}
         <div class="h-20 bg-neutral-light-200 flex items-center justify-between px-4 rounded-b-box">
-            <div class="flex items-center gap-4">
-                <button class="btn btn-secondary btn-square">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
-                    </svg>
-                </button>
-                
-                <span class="text-neutral-dark-300">laman</span>
-                <input type="text" class="input w-[5rem] text-center" placeholder="1...">
-                <span class="text-neutral-dark-300">dari 24</span>
+            {% if pagination['count'] > 100 %}
+                {% if searchList %}
+                {% set params = {} %}
+                {% for search in searchList %}
+                    {% set params = params | merge([search['name'] ~ '=' ~ search['value']]) %}
+                {% endfor %}
+                {% set params = '?' ~ params|join('&') %}
+                {% endif %}
+                <div class="flex items-center gap-4">
+                    <a {% if pagination['current'] != 1 %}href="{{ page['url'] }}/{{ status }}/{{ pagination['last'] }}{{ params }}"{% endif %} class="btn btn-secondary btn-square {% if not pagination['current'] != 1 %}btn-disabled{% endif %}">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                    
+                    <span class="text-neutral-dark-300">laman</span>
+                    <input type="text" class="input w-[5rem] text-center" placeholder="1...">
+                    <span class="text-neutral-dark-300">dari 24</span>
 
-                <button class="btn btn-secondary btn-square">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-                    </svg>
-                </button>
-            </div>
+                    <a {% if pagination['current'] < pagination['pages'] %}href="{{ page['url'] }}/{{ status }}/{{ pagination['next'] }}{{ params }}"{% endif %} class="btn btn-secondary btn-square {% if not pagination['current'] < pagination['pages'] %}btn-disabled{% endif %}">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                </div>
+            {% endif %}
         </div>
     </div>
 </div>
