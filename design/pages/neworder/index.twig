@@ -1,14 +1,15 @@
 <div x-data="{alertVisible: true}" class="my-12 px-4 max-w-7xl mx-auto">
 
-    {% if success == 1 or error %}
+    {% if success in [1,2] or error %}
     <template x-teleport="#alert-container-authed">
-        <div class="alert {{ success == 1 ? 'alert-success' : 'alert-error' }} shadow-lg relative" x-show="alertVisible" x-transition>
+        <div class="alert {{ success in [1,2] ? 'alert-success' : 'alert-error' }} shadow-lg relative" x-show="alertVisible" x-transition>
             <div class="pr-8 items-start">
-                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                 {% if error %}
+                    <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                     <span>{{ errorMessage }}</span>
                 {% endif %}
                 {% if success == 1 %}
+                    <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                     <div>
                         <h4 class="mb-3">Order anda telah ditambah ke sistem untuk diproses. Sila pergi ke halaman <a href="/orders" class="link">semak order</a> untuk cek order anda.</h4>
                         Id: {{order['id']}}<br>
@@ -19,6 +20,25 @@
                         Cas: {% if order.converted %} <span data-toggle="tooltip" data-placement="top" title="{{ order.original_charge }}">{{ order['charge'] }}</span> {% else %} {{ order['charge'] }} {% endif %}<br>
                         Baki Akaun: {{ order['balance'] }}<br>
                     </div>
+                {% endif %}
+                {% if success == 2 %}
+                    <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    Subscription Id: {{order['id']}}<br>
+                    Servis: {{order['service']}}<br>
+                    Username/Link: {{order['link']}}<br>
+                    Kuantiti:
+                    {% if order['quantity_min'] == order['quantity_max'] %}
+                    {{order['quantity_max']}}<br>
+                    {% else %}
+                    {{order['quantity_min']}}-{{order['quantity_max']}}<br>
+                    {% endif %}
+                    Post Baharu
+                    {% if 0 == order['posts'] %}
+                    &#8734;<br>
+                    {% else %}
+                    {{order['posts']}}<br>
+                    {% endif %}
+                    Delay: {{order['delay']}}<br>
                 {% endif %}
             </div>
             <button class="absolute top-2 md:top-4 right-4" @click="alertVisible = false">
@@ -33,7 +53,7 @@
     <h1 class="text-4xl mb-5">Cipta Order</h1>
     <p class="text-neutral-dark-300 mb-5">Pilih kategori dan servis yang anda mahu untuk letak order anda, kemudian tekan bayar. Pastikan baki anda cukup dahulu.</p>
 
-    <div class="flex flex-col md:flex-row gap-4 items-start">
+    <div class="flex flex-col md:flex-row gap-4 items-start mb-3">
         <form class="w-full" action="{{ page['url'] }}" method="post" id="order-form">
             <div class="bg-white shadow-lg rounded-box w-full card card-compact mb-4">
                 <div class="card-body">
@@ -92,12 +112,21 @@
                         </select>
                     </div>
 
-                    <div class="block md:hidden">
-                        <label for="service_description" class="text-base font-light px-1">Butiran</label>
-                        <div class="bg-neutral-light-100 border border-neutral-dark-200 rounded-md px-4 py-4 min-h-[16rem] service_description_teleport_container">
+                    <div class="form-control" id="service_description">
+                        <label for="service_description" class="label">
+                            <span class="label-text text-neutral-dark-300">Ulasan</span>
+                        </label>
+                        <div class="bg-neutral-light-100 border border-neutral-dark-200 rounded-md px-4 py-4">
                             {{service['description']}}
                         </div>
                     </div>
+
+                    {# <div class="card-body fields" id="service_description">
+                        <label for="service_description" class="text-base font-light px-1">Butiran</label>
+                        <div class="bg-neutral-light-100 rounded px-4 py-4 min-h-[16rem]">
+                            {{service['description']}}
+                        </div>
+                    </div> #}
 
                     <div class="divider"></div>
                     <h2 class="text-base font-light mb-2">Butiran Order</h2>
@@ -125,11 +154,14 @@
                 </div>
             </div>
         </form>
-        
        <div class="w-full md:w-[44rem]">
             <div class="bg-white shadow-lg rounded-box card-compact mb-4">
                 <div class="card-body">
-                    <h2 class="text-base font-light px-1">Rujukan Emoji</h2>
+                    <div class="card-title">
+                        Rujukan Emoji
+                    </div>
+
+                    {# <h2 class="text-base font-light px-1">Rujukan Emoji</h2> #}
                     <div class="bg-neutral-light-100 rounded px-4 py-4 min-h-[16rem]">
                         <ul class="flex flex-col gap-4">
                             <li>⭐ Best Seller</li>
@@ -143,20 +175,154 @@
                     </div>
                 </div>
             </div>
-            <div class="bg-white shadow-lg rounded-box card-compact mb-4 hidden md:block">
-                <div class="card-body fields">
+            <div class="bg-white card card-compact mb-3">
+                <div class="card-body">
+                    <div class="card-title">
+                    Tutorial
+                    </div>
+                </div>
+                <div>
+                    <iframe class="w-full" width="560" height="315" src="https://www.youtube.com/embed/KX0vX0FmYfQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+
+            {# <div class="bg-white shadow-lg rounded-box card-compact mb-4">
+                <div class="card-body fields" id="service_description">
                     <label for="service_description" class="text-base font-light px-1">Butiran</label>
-                    <div class="bg-neutral-light-100 rounded px-4 py-4 min-h-[16rem] service_description_teleport_container">
+                    <div class="bg-neutral-light-100 rounded px-4 py-4 min-h-[16rem]">
                         {{service['description']}}
                     </div>
+                </div>
+            </div> #}
+            {# <div class="bg-neutral-light-100 rounded px-4 py-4 min-h-[16rem] service_description_teleport_container">
+
+            </div> #}
+        </div>
+
+    </div>
+    <div class="divider divider-vertical mb-8"></div>
+
+    <h1 class="text-2xl mb-5">Panduan order dari pelbagai servis di TokeyFollower</h1>
+
+    <!-- YELLOW CARDS ORIGINAL BACKUP -->
+    <div class="flex gap-8 mb-8">
+
+        <div class="flex-1">
+            <div class="card bg-secondary text-secondary-content text-center">
+                <div class="card-body">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="my-3 mx-auto bi bi-arrow-repeat" viewBox="0 0 16 16">
+                        <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z"></path>
+                        <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z"></path>
+                    </svg>
+                    <h3>Guaranteed follower</h3>
+                    <p>Follower yang direfill, jumlah drop sedikit sahaja.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex-1">
+            <div class="card bg-secondary text-secondary-content text-center">
+                <div class="card-body">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="my-3 mx-auto bi bi-exclamation-diamond-fill" viewBox="0 0 16 16">
+                        <path d="M9.05.435c-.58-.58-1.52-.58-2.1 0L.436 6.95c-.58.58-.58 1.519 0 2.098l6.516 6.516c.58.58 1.519.58 2.098 0l6.516-6.516c.58-.58.58-1.519 0-2.098L9.05.435zM8 4c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995A.905.905 0 0 1 8 4zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"></path>
+                    </svg>
+                    <h3>Not guaranteed</h3>
+                    <p>Follower yang tidak direfill, jumlah drop banyak.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex-1">
+            <div class="card bg-secondary text-secondary-content text-center">
+                <div class="card-body">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="my-3 mx-auto bi bi-graph-up" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M0 0h1v15h15v1H0V0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5z"></path>
+                    </svg>				
+                    <h3>Top sale follower</h3>
+                    <p>Follower yang murah, dan ramai guna (not guaranteed).</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex-1">
+            <div class="card bg-secondary text-secondary-content text-center">
+                <div class="card-body">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="my-3 mx-auto bi bi-cash-stack" viewBox="0 0 16 16">
+                        <path d="M1 3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1H1zm7 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"></path>
+                        <path d="M0 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V5zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V7a2 2 0 0 1-2-2H3z"></path>
+                    </svg>
+                    <h3>Promotion (cheap)</h3>
+                    <p>Sangat, sangat, sangat murah berbanding yang lain.</p>
                 </div>
             </div>
         </div>
 
     </div>
 
-    <template x-teleport=".service_description_teleport_container">
-        <div id="service_description">{{service['description']}}</div>
-    </template>
+    <div class="divider divider-vertical mb-8"></div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mb-8">
+
+        <div class="card bg-white shadow mb-3">
+            <div class="card-body">
+                <span class="card-title">Penerangan Order</span>
+                <div class="card-text">
+                    <p class="mb-3"><span class="badge badge-secondary mb-1">ID</span><br>Adalah No Order anda</p>
+                    <p class="mb-3"><span class="badge badge-secondary mb-1">DATE</span><br>Tarikh yang kita order</p>
+                    <p class="mb-3"><span class="badge badge-secondary mb-1">LINK</span><br>Nama ig, link gambar, link video semua yang kita order, akan keluar di link</p>
+                    <p class="mb-3"><span class="badge badge-secondary mb-1">CHARGE</span><br>Harga charge setiap servis yang dikenakan</p>
+                    <p class="mb-3"><span class="badge badge-secondary mb-1">START COUNT</span><br>Start count ni macam followers / likes / views yang sedia ada oleh account para pengguna itu sendiri</p>
+                    <p class="mb-3"><span class="badge badge-secondary mb-1">SERVICE</span><br>Pilihan sistem servis yang awak guna</p>
+                    <p class="mb-3"><span class="badge badge-secondary mb-1">STATUS</span><br>Mengetahui sama ada servis yang awak sudah submit dah masuk atau belum masuk</p>
+                    <p class="mb-3"><span class="badge badge-secondary mb-1">REMAINS</span><br>Jika nampak remain 0, bermakna tiada penambahan followers / likes / views tersebut. Jika ada +16 sebagai contoh, bermakna awak menerima tambahan daripada sistem tersebut</p>
+                    <p class="mb-3"><span class="badge badge-secondary mb-1">QUANTITY</span><br>Jumlah kuantiti followers / likes / views</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card bg-white shadow mb-3">
+            <div class="card-body">
+                <span class="card-title">Prosedur Order</span>
+                <div class="card-text">
+                    <p class="mb-3"><span class="badge badge-secondary mb-1">PENDING</span><br>Segala order awak telah diterima oleh sistem selepas awak submit order. Kalau lama sangat pending, tunggu je.</p>
+                    <p class="mb-3"><span class="badge badge-secondary mb-1">IN PROGRESS</span><br>Sistem sedang mengumpul database mengikut order yang anda submit. Kalau lama sangat pending, tunggu je.</p>
+                    <p class="mb-3"><span class="badge badge-secondary mb-1">COMPLETED</span><br>Yeay! Order awak sudah siap sepenuhnya!</p>
+                    <p class="mb-3"><span class="badge badge-secondary mb-1">PARTIAL</span><br>Order anda disekat kerana ketidakupayaan sistem untuk meneruskan. Duit dalam server telah pun direfund semula secara automatic. Oleh itu, awak kena buat new order semula.</p>
+                    <p class="mb-3"><span class="badge badge-secondary mb-1">CANCELED</span><br>Order awak telah dibatal antara sebabnya ialah sesuatu account itu private, link salah, quantiti nak order tu salah. Duit telah direfund semula oleh sistem tersebut. Awak hanya perlu buat new order semula sahaja.</p>
+                    <p class="mb-3"><span class="badge badge-secondary mb-1">PROCESSING</span><br>Order awak sedang di proses nak masukkan followers, likes, views yang awak order jadi awak perlu tunggu sahaja sehingga ia jadi COMPLETED.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="divider divider-vertical mb-8"></div>
+
+    <div class="max-w-2xl mx-auto">
+        <h4 class="text-center my-8">Nota Penting</h4>
+        <ul class="list-disc list-outside text-neutral-dark-700 ml-4">
+            <li class="mb-4 font-light"><strong>Jangan masuk order jika order anda menghadapi masalah</strong>, kami hanya akan bantu selesaikan masalah pada latest order! Please take note.</li>
+            <li class="mb-4 font-light">Selepas Masuk Order, sebarang <strong>cancel order adalah tidak diterima</strong>. Jangan <strong>PRIVATE ATAU PADAM</strong> link selepas masuk order, order akan terus tulis complete jika berlaku.&nbsp; Tidak dibenarkan cancel atau refund sama sekali. Kami tidak boleh cancel order sama sekali, <em>sistem 100% automatik.</em></li>
+            <li class="mb-4 font-light">Jangan masuk order <strong>lebih dari satu kali</strong> dalam sistem yang sama atau sistem yang berlainan pada masa yang sama. Jika order anda sudah <strong>"IN PROGRESS"</strong> jangan order lagi untuk link yang sama. Jika sudah complete baru boleh masukkan order lagi sekali. <strong>Tiada REFUND</strong> jika berlaku.</li>
+            <li class="mb-4 font-light">Tekan <strong>REPORT PROBLEM</strong> jika anda mengalami sebarang masalah. Anda hanya boleh hantar satu report sahaja, jika ada masalah lain, sila mesej pada report yang telah anda buka sebelum ini.</li>
+        </ul>
+    </div>
+
+    <div class="max-w-2xl mx-auto">
+        <h4 class="text-center my-8">Nota Untuk User Baharu</h4>
+        <ul class="list-disc list-outside text-neutral-dark-700 ml-4">
+            <li class="mb-4 font-light"><p>Anda mesti mempunyai baki di dalam sistem ini untuk tambah follower. Anda boleh menuju ke page tambah duit di sebelah kiri page ini untuk menambah baki wang anda. Selepas menambah baki, sistem boleh digunakan.</p></li>
+            <li class="mb-4 font-light"><p>Untuk belajar cara-cara untuk menambah follower, pergi ke page <strong><a href="https://tokeyfollower.com/faq">Tutorial Sistem</a></strong></p></li>
+            <li class="mb-4 font-light"><p>3% bonus untuk payment RM50 keatas</p></li>
+            <li class="mb-4 font-light"><p>User baru yang tidak menambah duit ke dalam sistem dalam masa 30 hari, akan di remove. Kami mahukan user yang berkualiti sahaja.</p></li>
+        </ul>
+    </div>
+
+
 </div>
 
+<script>
+// window.addEventListener('load', (event) => {
+//     document.getElementsByClassName('drawer-content')[0].scrollTo(0,1800);
+// });
+</script>

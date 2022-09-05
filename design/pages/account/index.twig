@@ -22,7 +22,7 @@
                     </div>
                     <div class="flex flex-col">
                         <span class="font-light">Baki</span>
-                        <span class="tex-3xl font-bold">RM0.97</span>
+                        <span class="tex-3xl font-bold">RM{{ user['balance'] }}</span>
                     </div>
                 </div>
                 <div class="px-4 py-3 rounded-lg bg-secondary text-secondary-content flex items-center justify-content-start flex-1">
@@ -31,7 +31,7 @@
                     </div>
                     <div class="flex flex-col">
                         <span class="font-light">Perbelanjaan</span>
-                        <span class="tex-3xl font-bold">RM1,615</span>
+                        <span class="tex-3xl font-bold">RM{{ user['spent'] }}</span>
                     </div>
                 </div>
             </div>
@@ -75,7 +75,7 @@
                                 Username anda tidak boleh ditukar dan ia adalah muktamad
                             </span>
                         </div>
-                        <input type="text" class="input input-bordered input-disabled w-full md:w-96 ml-auto" id="username" value="azamofficial" readonly="">
+                        <input type="text" class="input input-bordered input-disabled w-full md:w-96 ml-auto" id="username" value="{{ user['username'] }}" readonly="">
                     </div>
 
                     <hr class="my-5" style="height: .5px;">

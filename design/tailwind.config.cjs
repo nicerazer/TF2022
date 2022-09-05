@@ -32,7 +32,10 @@ module.exports = {
     './pages/**/*.{twig,html}',
     './templates/**/*.twig',
     './src/**/*.{html,twig,js,ts}',
-  ],  
+  ],
+  safelist: [
+    '.select2.select2-container.select2-container--default',
+  ],
   theme: {
     extend: {
       colors: {

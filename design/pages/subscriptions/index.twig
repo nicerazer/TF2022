@@ -1,14 +1,13 @@
 <div class="py-4 px-8">
     <div class="flex justify-between">
-        <h2 class="text-xl">Semak Order</h2>
+        <h2 class="text-xl">Semak Subscriptions</h2>
         <div class="flex gap-2">
             <a class="btn btn-sm font-light rounded px-4 {{ 'all' == status ? 'btn-primary' : 'btn-secondary'}}" href="{{ page['url'] }}">Semua</a>
-            <a class="btn btn-sm font-light rounded px-4 {{ 'pending' == status ? 'btn-primary' : 'btn-secondary'}}" href="{{ page['url'] }}/pending">Tergantung</a>
-            <a class="btn btn-sm font-light rounded px-4 {{ 'inprogress' == status ? 'btn-primary' : 'btn-secondary'}}" href="{{ page['url'] }}/inprogress">Tengah Progress</a>
+            <a class="btn btn-sm font-light rounded px-4 {{ 'active' == status ? 'btn-primary' : 'btn-secondary'}}" href="{{ page['url'] }}/active">Aktif</a>
+            <a class="btn btn-sm font-light rounded px-4 {{ 'paused' == status ? 'btn-primary' : 'btn-secondary'}}" href="{{ page['url'] }}/paused">Pause</a>
             <a class="btn btn-sm font-light rounded px-4 {{ 'completed' == status ? 'btn-primary' : 'btn-secondary'}}" href="{{ page['url'] }}/completed">Dah Siap</a>
-            <a class="btn btn-sm font-light rounded px-4 {{ 'partial' == status ? 'btn-primary' : 'btn-secondary'}}" href="{{ page['url'] }}/partial">Partial</a>
-            <a class="btn btn-sm font-light rounded px-4 {{ 'processing' == status ? 'btn-primary' : 'btn-secondary'}}" href="{{ page['url'] }}/processing">Tengah Proses</a>
-            <a class="btn btn-sm font-light rounded px-4 {{ 'canceled' == status ? 'btn-primary' : 'btn-secondary'}}" href="{{ page['url'] }}/canceled">Canceled</a>
+            <a class="btn btn-sm font-light rounded px-4 {{ 'expired' == status ? 'btn-primary' : 'btn-secondary'}}" href="{{ page['url'] }}/expired">Luput</a>
+            <a class="btn btn-sm font-light rounded px-4 {{ 'error' == status ? 'btn-primary' : 'btn-secondary'}}" href="{{ page['url'] }}/error">Canceled</a>
         </div>
     </div>
 
@@ -47,63 +46,74 @@
             <thead>
                 <tr>
                     <th class="text-start px-4 py-2">Id</th>
-                    <td class="text-start px-4 py-2">Date</td>
                     <td class="text-start px-4 py-2">Username/Link</td>
-                    <td class="text-start px-4 py-2">Service</td>
+                    <td class="text-start px-4 py-2">Kuantiti</td>
+                    <td class="text-start px-4 py-2">Post Baharu</td>
+                    <td class="text-start px-4 py-2">Post Lama</td>
+                    <td class="text-start px-4 py-2">Delay</td>
+                    <td class="text-start px-4 py-2">Servis</td>
                     <td class="text-start px-4 py-2">Status</td>
-                    <td class="text-end px-4 py-2">Start Count</td>
-                    <td class="text-end px-4 py-2">Qty.</td>
-                    <td class="text-end px-4 py-2">Charge</td>
-                    <td class="text-end px-4 py-2">Remains</td>
-                    <td class="text-start px-4 py-2"></td>
+                    <td class="text-start px-4 py-2">Created</td>
+                    <td class="text-start px-4 py-2">Updated</td>
+                    <td class="text-start px-4 py-2">Expiry</td>
                 </tr>
             </thead>
             <tbody>
                 {% for order in orderList %}
                 <tr>
                     <th class="align-baseline text-start px-4 pb-2 font-medium text-neutral-dark-300">{{ order['id'] }}</th>
+                    <th class="align-baseline text-start px-4 pb-2">{{ order['link'] }}</th>
+                    <th class="align-baseline text-start px-4 pb-2">{% if order['quantity_min'] == order['quantity_max'] %}{{ order['quantity_max']}}{% else %}{{ order['quantity_min'] }}-{{ order['quantity_max'] }}{% endif %}</th>
+                    <td class="whitespace-nowrap">
+                        {% if order['current_count'] %}
+                            <a class="link link-primary" href="{{ page_url('orders') }}?subscription={{ order['id'] }}">{{ order['current_count'] }}</a>
+                        {% else %}
+                            {{ order['current_count'] }}
+                        {% endif %}
+                        <span> / </span>{{ order['quantity'] }}
+                    </td>
+                    <td class="whitespace-nowrap">
+                        {% if order['current_old_posts'] %}
+                            <a class="link link-primary" href="{{ page_url('orders') }}?subscription={{ order['id'] }}&likes_spread=1">{{ order['current_old_posts'] }}</a>
+                        {% else %}
+                            {{ order['current_old_posts'] }}
+                        {% endif %}
+                        <span> / </span>{{ order['old_posts'] }}
+                    </td>
+                    <td>{{ order['delay'] }}</td>
+                    <td>{{ order['service'] }}</td>
+                    <td>{{ order['status_name'] }}</td>
                     <td class="align-baseline text-start px-4 pb-2">
                         <div class="leading-none">
-                            <span>{{ order['date']|date('F d, Y') }}</span><br>
-                            <span class="text-xs text-neutral-dark-300">{{ order['date']|date('h:i A') }}</span>
+                            <span>{{ order['date_created']|date('F d, Y') }}</span><br>
+                            <span class="text-xs text-neutral-dark-300">{{ order['date_created']|date('h:i A') }}</span>
                         </div>
                     </td>
-                    <td class="align-baseline text-start px-4 pb-2"><span class="break-all">{{ order['link'] }}</span></td>
-                    <td class="align-baseline text-start px-4 pb-2">{{ order['service'] }}</td>
                     <td class="align-baseline text-start px-4 pb-2">
-                        <div class="badge
-                        {% if order['status'] == "completed" %} badge-success
-                        {% elseif order['status'] == "canceled" %} badge-error
-                        {% else %} badge-secondary {% endif %}
-                        badge-sm">{{ order['status'] }}</div>
+                        <div class="leading-none">
+                            <span>{{ order['date_updated']|date('F d, Y') }}</span><br>
+                            <span class="text-xs text-neutral-dark-300">{{ order['date_updated']|date('h:i A') }}</span>
+                        </div>
                     </td>
-                    <td class="align-baseline text-end px-4 pb-2">{{ order['start_count'] }}</td>
-                    <td class="align-baseline text-end px-4 pb-2">{{ order['quantity'] }}</td>
-                    <td class="align-baseline text-end px-4 pb-2">{{ order['charge'] }}</td>
-                    <td class="align-baseline text-end px-4 pb-2">{{ order['remains'] }}</td>
-                    <td class="align-baseline text-start px-4 pb-2 flex flex-col gap-2">
-                        {% if order['refillAvailableTime'] %}
-                        <button class="btn btn-disabled btn-sm">
-                            Wait {{ order['refillAvailableTime'] }}
-                        </button>
-                        {% endif %}
-                        {% if order['refilling'] %}
-                        <span class="text-neutral-dark-700 flex items-center translate-y-1 animate-pulse">
-                            <svg class="animate-spin -ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                            </svg>
-                            Refilling
-                        </span>
-                        {% endif %}
+                    <td class="align-baseline text-start px-4 pb-2">
+                        <div class="leading-none">
+                            <span>{{ order['date_expiry']|date('F d, Y') }}</span><br>
+                            <span class="text-xs text-neutral-dark-300">{{ order['date_expiry']|date('h:i A') }}</span>
+                        </div>
+                    </td>
 
-                        {% if order['refill'] is not empty %}
-                        <a href="{{ order['refill'] }}" class="btn btn-secondary btn-sm w-24">Refill</a>
+                    <td>
+                        {% if order['status'] == 1 or order['status'] == 0 %}
+                        <a href="{{ page['url'] }}/stop/{{order['id']}}" class="btn btn-error btn-sm w-24">Cancel</a>
                         {% endif %}
-                        {% if order['cancel'] is not empty %}
-                        <a href="{{ order['cancel'] }}" class="btn btn-warning btn-sm w-24">Cancel</a>
+                        {% if order['status'] == 2 %}
+                        <a href="{{ page['url'] }}/resume/{{order['id']}}" class="btn btn-primary btn-sm w-24">Sambung</a>
+                        {% endif %}
+                        {% if order['status'] == 3 or order['status'] == 4 or order['status'] == 5 %}
+                        <a href="{{ page['url'] }}/reorder/{{order['id']}}" class="btn btn-secondary btn-sm w-24">Order Semula</a>
                         {% endif %}
                     </td>
+
                 </tr>
                 {% endfor %}
             </tbody>

@@ -10,6 +10,13 @@ export default defineConfig({
       globals: {
         "site": {
           "name": "development",
+          "menu": [
+            {"name": "subscriptions", "link": "/subscriptions"},
+            {"name": "refill", "link": "/refill"},
+            {"name": "account", "link": "/account"},
+            {"name": "orders", "link": "/orders"},
+            {"name": "neworder", "link": "/neworder"}
+          ],
           "scripts": [
             {
               "src": "/123jquery.123.com"

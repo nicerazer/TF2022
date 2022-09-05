@@ -1,14 +1,13 @@
 <div class="py-4 px-8">
     <div class="flex justify-between">
-        <h2 class="text-xl">Semak Order</h2>
+        <h2 class="text-xl">Semak Refill</h2>
         <div class="flex gap-2">
             <a class="btn btn-sm font-light rounded px-4 {{ 'all' == status ? 'btn-primary' : 'btn-secondary'}}" href="{{ page['url'] }}">Semua</a>
             <a class="btn btn-sm font-light rounded px-4 {{ 'pending' == status ? 'btn-primary' : 'btn-secondary'}}" href="{{ page['url'] }}/pending">Tergantung</a>
             <a class="btn btn-sm font-light rounded px-4 {{ 'inprogress' == status ? 'btn-primary' : 'btn-secondary'}}" href="{{ page['url'] }}/inprogress">Tengah Progress</a>
             <a class="btn btn-sm font-light rounded px-4 {{ 'completed' == status ? 'btn-primary' : 'btn-secondary'}}" href="{{ page['url'] }}/completed">Dah Siap</a>
-            <a class="btn btn-sm font-light rounded px-4 {{ 'partial' == status ? 'btn-primary' : 'btn-secondary'}}" href="{{ page['url'] }}/partial">Partial</a>
-            <a class="btn btn-sm font-light rounded px-4 {{ 'processing' == status ? 'btn-primary' : 'btn-secondary'}}" href="{{ page['url'] }}/processing">Tengah Proses</a>
-            <a class="btn btn-sm font-light rounded px-4 {{ 'canceled' == status ? 'btn-primary' : 'btn-secondary'}}" href="{{ page['url'] }}/canceled">Canceled</a>
+            <a class="btn btn-sm font-light rounded px-4 {{ 'rejected' == status ? 'btn-primary' : 'btn-secondary'}}" href="{{ page['url'] }}/rejected">Rejected</a>
+            <a class="btn btn-sm font-light rounded px-4 {{ 'error' == status ? 'btn-primary' : 'btn-secondary'}}" href="{{ page['url'] }}/error">Error</a>
         </div>
     </div>
 
@@ -42,67 +41,39 @@
             </div>
         </div>
 
-        {% if orderList is not empty %}
+        {% if refillList is not empty %}
         <table class="bg-white w-full">
             <thead>
                 <tr>
                     <th class="text-start px-4 py-2">Id</th>
                     <td class="text-start px-4 py-2">Date</td>
-                    <td class="text-start px-4 py-2">Username/Link</td>
-                    <td class="text-start px-4 py-2">Service</td>
+                    <td class="text-start px-4 py-2">Order Id</td>
+                    <td class="text-start px-4 py-2">Refill Link</td>
+                    <td class="text-start px-4 py-2">Servis</td>
                     <td class="text-start px-4 py-2">Status</td>
-                    <td class="text-end px-4 py-2">Start Count</td>
-                    <td class="text-end px-4 py-2">Qty.</td>
-                    <td class="text-end px-4 py-2">Charge</td>
-                    <td class="text-end px-4 py-2">Remains</td>
-                    <td class="text-start px-4 py-2"></td>
                 </tr>
             </thead>
             <tbody>
-                {% for order in orderList %}
+                {% for refill in refillList %}
                 <tr>
-                    <th class="align-baseline text-start px-4 pb-2 font-medium text-neutral-dark-300">{{ order['id'] }}</th>
+                    <th class="align-baseline text-start px-4 pb-2 font-medium text-neutral-dark-300">{{ refill['id'] }}</th>
                     <td class="align-baseline text-start px-4 pb-2">
                         <div class="leading-none">
-                            <span>{{ order['date']|date('F d, Y') }}</span><br>
-                            <span class="text-xs text-neutral-dark-300">{{ order['date']|date('h:i A') }}</span>
+                            <span>{{ refill['date']|date('F d, Y') }}</span><br>
+                            <span class="text-xs text-neutral-dark-300">{{ refill['date']|date('h:i A') }}</span>
                         </div>
                     </td>
-                    <td class="align-baseline text-start px-4 pb-2"><span class="break-all">{{ order['link'] }}</span></td>
-                    <td class="align-baseline text-start px-4 pb-2">{{ order['service'] }}</td>
+                    <td class="align-baseline text-start px-4 pb-2">
+                        <a class="link link-primary" href="{{ page_url('orders') }}?search={{ refill['order_id'] }}">{{ refill['order_id'] }}</a>
+                    </td>
+                    <td class="align-baseline text-start px-4 pb-2 text-neutral-dark-300">{{ refill['link'] }}</td>
+                    <td class="align-baseline text-start px-4 pb-2">{{ refill['service'] }}</td>
                     <td class="align-baseline text-start px-4 pb-2">
                         <div class="badge
-                        {% if order['status'] == "completed" %} badge-success
-                        {% elseif order['status'] == "canceled" %} badge-error
+                        {% if refill['status'] == "completed" %} badge-success
+                        {% elseif refill['status'] == "canceled" %} badge-error
                         {% else %} badge-secondary {% endif %}
-                        badge-sm">{{ order['status'] }}</div>
-                    </td>
-                    <td class="align-baseline text-end px-4 pb-2">{{ order['start_count'] }}</td>
-                    <td class="align-baseline text-end px-4 pb-2">{{ order['quantity'] }}</td>
-                    <td class="align-baseline text-end px-4 pb-2">{{ order['charge'] }}</td>
-                    <td class="align-baseline text-end px-4 pb-2">{{ order['remains'] }}</td>
-                    <td class="align-baseline text-start px-4 pb-2 flex flex-col gap-2">
-                        {% if order['refillAvailableTime'] %}
-                        <button class="btn btn-disabled btn-sm">
-                            Wait {{ order['refillAvailableTime'] }}
-                        </button>
-                        {% endif %}
-                        {% if order['refilling'] %}
-                        <span class="text-neutral-dark-700 flex items-center translate-y-1 animate-pulse">
-                            <svg class="animate-spin -ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                            </svg>
-                            Refilling
-                        </span>
-                        {% endif %}
-
-                        {% if order['refill'] is not empty %}
-                        <a href="{{ order['refill'] }}" class="btn btn-secondary btn-sm w-24">Refill</a>
-                        {% endif %}
-                        {% if order['cancel'] is not empty %}
-                        <a href="{{ order['cancel'] }}" class="btn btn-warning btn-sm w-24">Cancel</a>
-                        {% endif %}
+                        badge-sm">{{ refill['status'] }}</div>
                     </td>
                 </tr>
                 {% endfor %}

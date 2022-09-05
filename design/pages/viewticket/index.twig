@@ -1,0 +1,110 @@
+<div class="py-md-5 container-fluid" x-data="{alertVisible: true}">
+  <div class="row justify-content-center h-screen">
+    <div class="col-sm-12 col-md-9 col-lg-8 h-full">
+      <div class="card rounded-none h-full border-0">
+
+        <div class="card-header px-5 py-4 bg-white position-relative">
+
+          {% if error %}
+          <template x-teleport="#alert-container-authed">
+              <div class="alert alert-error shadow-lg relative" x-show="alertVisible" x-transition>
+                  <div class="pr-8 items-start">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                      <span>{{ errorMessage }}</span>
+                  </div>
+                  <button class="absolute top-2 md:top-4 right-4" @click="alertVisible = false">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                      </svg>
+                  </button>
+              </div>
+          </template>
+          {% endif %}
+
+          <a href="/tickets" class="text-decoration-none btn btn-outline border-0">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-arrow-left mr-3" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+            </svg>
+            Kembali
+          </a>
+        </div>
+
+        {% if messageList %}
+
+          <div id="viewticket-message-window" class="card-body overflow-auto position-relative" style="background: url(https://cdn.mypanel.link/af5a5a/x8l6xnoyqqopbulj.png); background-repeat: repeat-y; background-size: cover;">
+            <div class="p-lg-5 p-md-4">
+              <ul>
+
+                {% set isFirstLoop = true %}
+                {% set isCurrentMessageSupport = messageList[0]['support'] %}
+                {% for message in messageList %}
+                  {% if not isFirstLoop and isCurrentMessageSupport != message['support'] %}
+                  <li class="py-3"></li>
+                  {% endif %}
+                  <li class="mb-3 {% if message['support'] == 0 %}md:pl-5 ml-5 {% else %}md:pr-5 mr-5{% endif %}">
+                    <div class="flex flex-col {% if message['support'] == 0 %}sm:ml-5 sm:pl-5 justify-end {% else %}sm:mr-5 sm:pr-5 justify-start{% endif %}">
+
+                      {% if isFirstLoop or isCurrentMessageSupport != message['support'] %}
+                        {% set isCurrentMessageSupport = message['support'] %}
+                        {% set isFirstLoop = false %}
+                        <div class="mb-2">
+                          <div class="items-base {% if message['support'] == 0 %}float-right {% else %} float-left{% endif %}">
+                            <span class="fs-6 me-1 lead align-middle">{{ date(message['time'])|date("j F Y") }}</span>
+
+                            {% if message['support'] == 0 %}
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                              <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                              <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 1.37A7 7 0 0 0 8 1z"/>
+                            </svg>
+                            {% else %}
+                            <img src="https://cdn.mypanel.link/af5a5a/q7l42zq35bnzb3r9.jpg" alt="" width="16" height="16" >
+                            {% endif %}
+                            
+                          </div>
+                        </div>
+                      {% endif %}   
+
+                      <div class="flex {% if message['support'] == 0 %}justify-end {% else %} justify-start{% endif %}">
+                        <div class="card {% if message['support'] == 0 %}bg-primary text-white {% else %}bg-white {% endif %}border-0 min-w-[5rem]" style="box-shadow: -4px 4px 0px rgba(0, 0, 0, 0.5);">
+                          <div class="card-body flex flex-col items-end">
+                            <span>{{ message['message'] }}</span>
+                            <small class="font-light {% if message['support'] == 0 %}text-white {% else %}text-neutral-dark-700{% endif %}">{{ date(message['time'])|date("g:i A") }}</small>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </li>
+
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+
+        {% else %}
+          <div class="card-body d-flex align-items-center justify-content-center" style="height: 200px;">
+            <p>Chat is empty...</p>
+          </div>
+        {% endif %}
+
+        <form method="post" action="" class="w-full input-group">
+          <textarea id="message" name="TicketMessageForm[message]" type="text" class="flex-1 textarea textarea-bordered resize-none h-24" placeholder="Isi mesej anda..." {% if not canAddMessage %} disabled {% endif %}></textarea>
+          <button class="btn btn-primary h-full" type="submit">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 20 20" style="transform:translateY(-2px) translateX(1px) rotate(90deg);" fill="currentColor">
+              <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
+            </svg>
+          </button>
+          <input class="hidden" type="hidden" name="_csrf" value="{{csrftoken}}">
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function toBottom()
+{
+    document.getElementById("viewticket-message-window").scrollTo({top:document.getElementById("viewticket-message-window").scrollHeight, behavior:'smooth'});
+}
+window.onload=toBottom;
+</script>
