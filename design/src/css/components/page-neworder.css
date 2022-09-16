@@ -1,4 +1,62 @@
 @layer components {
+    #fields .bootstrap-datetimepicker-widget {
+        @apply absolute top-0 right-0 inset-auto
+            bg-white text-neutral-dark-300 rounded-lg p-4 z-10 shadow-lg
+            border !important;
+    }
+    #fields .bootstrap-datetimepicker-widget .table-condensed {
+        @apply table-fixed w-[17rem];
+    }
+    #fields .bootstrap-datetimepicker-widget .datepicker-months .table-condensed td,
+    #fields .bootstrap-datetimepicker-widget .datepicker-years .table-condensed td {
+        @apply grid grid-cols-4 gap-6 w-[17rem];
+    }
+    #fields .bootstrap-datetimepicker-widget .datepicker-decades .table-condensed td {
+        @apply grid grid-cols-2 w-[17rem];
+    }
+    #fields .bootstrap-datetimepicker-widget .datepicker-months .table-condensed td span,
+    #fields .bootstrap-datetimepicker-widget .datepicker-years .table-condensed td span, 
+    #fields .bootstrap-datetimepicker-widget .datepicker-decades .table-condensed td .decade {
+        @apply btn btn-ghost;
+    }
+    #fields .bootstrap-datetimepicker-widget .datepicker-decades .table-condensed td .decade {
+        @apply bg-white;
+    }
+    #fields .bootstrap-datetimepicker-widget .datepicker-months .table-condensed td span.disabled,
+    #fields .bootstrap-datetimepicker-widget .datepicker-years .table-condensed td span.disabled, {
+        @apply btn btn-secondary btn-disabled;
+    }
+
+    #fields .bootstrap-datetimepicker-widget .datepicker-days .table-condensed th {
+        @apply text-center;
+    }
+    #fields .bootstrap-datetimepicker-widget .datepicker-days .table-condensed tr {
+        @apply leading-8;
+    }
+    #fields .bootstrap-datetimepicker-widget .datepicker-days .day,
+    #fields .bootstrap-datetimepicker-widget .picker-switch {
+        @apply cursor-pointer hover:text-black text-neutral-dark-300 text-center align-middle;
+    }
+    #fields .bootstrap-datetimepicker-widget .datepicker-days .day.disabled {
+        @apply cursor-default hover:text-slate-300 text-slate-300;
+    }
+    #fields .bootstrap-datetimepicker-widget .fa {
+        @apply btn btn-sm btn-ghost h-full px-0 w-full;
+    }
+    #fields .bootstrap-datetimepicker-widget .fa.fa-chevron-left::before {
+        content: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMCAyMCIgZmlsbD0iY3VycmVudENvbG9yIiBjbGFzcz0idy01IGgtNSI+DQogIDxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTE1Ljc5IDE0Ljc3YS43NS43NSAwIDAxLTEuMDYuMDJsLTQuNS00LjI1YS43NS43NSAwIDAxMC0xLjA4bDQuNS00LjI1YS43NS43NSAwIDExMS4wNCAxLjA4TDExLjgzMiAxMGwzLjkzOCAzLjcxYS43NS43NSAwIDAxLjAyIDEuMDZ6bS02IDBhLjc1Ljc1IDAgMDEtMS4wNi4wMmwtNC41LTQuMjVhLjc1Ljc1IDAgMDEwLTEuMDhsNC41LTQuMjVhLjc1Ljc1IDAgMTExLjA0IDEuMDhMNS44MzIgMTBsMy45MzggMy43MWEuNzUuNzUgMCAwMS4wMiAxLjA2eiIgY2xpcC1ydWxlPSJldmVub2RkIiAvPg0KPC9zdmc+DQo=);
+        @apply w-4 h-4;
+    }
+
+    #fields .bootstrap-datetimepicker-widget .fa.fa-chevron-right::before {
+        content: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMCAyMCIgZmlsbD0iY3VycmVudENvbG9yIiBjbGFzcz0idy01IGgtNSI+DQogIDxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTEwLjIxIDE0Ljc3YS43NS43NSAwIDAxLjAyLTEuMDZMMTQuMTY4IDEwIDEwLjIzIDYuMjlhLjc1Ljc1IDAgMTExLjA0LTEuMDhsNC41IDQuMjVhLjc1Ljc1IDAgMDEwIDEuMDhsLTQuNSA0LjI1YS43NS43NSAwIDAxLTEuMDYtLjAyeiIgY2xpcC1ydWxlPSJldmVub2RkIiAvPg0KICA8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik00LjIxIDE0Ljc3YS43NS43NSAwIDAxLjAyLTEuMDZMOC4xNjggMTAgNC4yMyA2LjI5YS43NS43NSAwIDExMS4wNC0xLjA4bDQuNSA0LjI1YS43NS43NSAwIDAxMCAxLjA4bC00LjUgNC4yNWEuNzUuNzUgMCAwMS0xLjA2LS4wMnoiIGNsaXAtcnVsZT0iZXZlbm9kZCIgLz4NCjwvc3ZnPg0K);
+        @apply w-4 h-4;
+    }
+
+    #fields .input-group {
+        @apply relative;
+    }
+
     .select2-hidden-accessible,#orderform-category {
         @apply select select-bordered w-full flex-row;
     }

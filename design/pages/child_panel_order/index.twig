@@ -1,0 +1,99 @@
+<div x-data="{alertVisible: true}" class="my-8 px-4 max-w-4xl mx-auto w-full">
+
+    <h1 class="text-4xl mb-5">Order Child Panel</h1>
+    <p class="text-neutral-dark-300 mb-5 max-w-2xl">Laman untuk order child panel</p>
+
+    {% if errorForm %}
+      <div class="absolute w-full z-20 max-w-5xl mx-auto inset-x-0 opacity-95 hover:opacity-80 transition-opacity top-0"
+        x-data="{ show: true }">
+        <div class="alert shadow-lg w-full alert-error" x-show="show">
+          <div class="flex items-start">
+            <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current self-start flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            <span>{{ errorFormMessage }}</span>
+            <button @click="show = false">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+
+    {% if childpanel %}
+        <div class="card bg-white shadow mb-5">
+            <div class="card-body">{{ childpanel }}</div>
+        </div>
+    {% endif %}
+
+    {% if showForm %}
+    <div class="card card-body bg-secondary text-secondary-content shadow mb-5">
+        <div class="card-title">Sila tukar 'nameservers' kepada:</div>
+        <div class="grid grid-cols-2">
+            {% for ns in name_servers %}
+                <div>{{ ns }}</div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <form action="{{ page['url'] }}" method="post" class="grid grid-cols-2 gap-2">
+        <div class="form-control col-span-2">
+            <label class="label" for="domain">
+                <span class="label-text">Domain</span>
+            </label>
+            <input type="text" class="input input-bordered" id="domain" name="CreateOrderForm[domain]" value="{{ form['domain'] }}">
+        </div>
+        <div class="form-control">
+            <label class="label" for="createorderform-currency">
+                <span class="label-text">Pilih Mata Wang</span>
+            </label>
+            <select id="createorderform-currency" class="select select-bordered" name="CreateOrderForm[currency]" aria-required="true">
+                {% for currency in currenciesList %}
+                    <option value="{{ currency['code'] }}" {% if form['currency'] == currency['code'] %} selected{% endif %}>
+                        {{ currency['name'] }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-control">
+            <label class="label" for="createorderform-username">
+                <span class="label-text">Username Admin</span>
+            </label>
+            <input
+                type="text" id="createorderform-username" class="input input-bordered"
+                name="CreateOrderForm[username]" aria-required="true"
+                value="{{ form['username'] }}">
+        </div>
+        <div class="form-control">
+            <label class="label" for="createorderform-password">
+                <span class="label-text">Kata Laluan Admin</span>
+            </label>
+            <input type="password" id="createorderform-password" class="input input-bordered" name="CreateOrderForm[password]" aria-required="true">
+        </div>
+        <div class="form-control">
+            <label class="label" for="createorderform-password_confirm">
+                <span class="label-text">Masukkan Semula Kata Laluan</span>
+            </label>
+            <input
+                type="password" id="createorderform-password_confirm" class="input input-bordered"
+                name="CreateOrderForm[password_confirm]" aria-required="true">
+        </div>
+        <div class="form-control">
+            <label class="label" for="price">
+                <span class="label-text">Masukkan Harga</span>
+            </label>
+            <div class="input-group">
+                <span>RM</span>
+                <input type="number" min="100" class="input input-bordered" id="price" value="{{ price }}" readonly>
+            </div>
+            <label class="label">
+                <span class="label-text-alt">Minima RM100</span>
+            </label>
+        </div>
+        <input type="hidden" name="_csrf" value="{{ csrftoken }}">
+        <div class="col-span-2 flex justify-end">
+            <button type="submit" class="btn btn-primary">Hantar Order</button>
+        </div>
+    </form>
+    {% endif %}
+</div>

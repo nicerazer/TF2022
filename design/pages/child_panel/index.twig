@@ -1,0 +1,79 @@
+<div x-data="{alertVisible: true}" class="my-8 px-4 max-w-6xl mx-auto w-full">
+
+    <h1 class="text-4xl mb-5">Child Panel</h1>
+    <p class="text-neutral-dark-300 mb-5 max-w-2xl">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae perspiciatis, porro ab a aspernatur inventore. Aliquid esse aperiam commodi beatae.</p>
+
+    {% if panelsList %}
+        {% if success or error or renew or restore %}
+            <div class="absolute top-0 w-full z-20 max-w-5xl mx-auto inset-x-0 my-12 opacity-95 hover:opacity-90 transition-opacity"
+            x-data="{
+                show: true
+                ,alertClass:
+                    {% if success %}'alert-success'{% endif %}
+                    {% if error %}'alert-error'{% endif %}
+                    {% if renew or restore %}'alert-warning'{% endif %}
+                ,status:
+                    {% if success %}'success'{% endif %}
+                    {% if error %}'error'{% endif %}
+                    {% if renew %}'renew'{% endif %}
+                    {% if restore %}'restore'{% endif %}
+            }">
+                <!-- success = 1, error = 2,  -->
+                <div class="alert shadow-lg w-full" :class="alertClass" x-show="show">
+                    <div>
+                        <svg x-show="status == 'success'" xmlns="http://www.w3.org/2000/svg" class="stroke-current self-start flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        <svg x-show="status == 'error'" xmlns="http://www.w3.org/2000/svg" class="stroke-current self-start flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        {# <svg x-show="status == 'renew' || status == 'restore'" xmlns="http://www.w3.org/2000/svg" class="stroke-current self-start flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> #}
+                        <svg x-show="status == 'renew' || status == 'restore'" class="stroke-current self-start flex-shrink-0 h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" /></svg>
+
+                        <div class="ml-1">
+                            {% if success %}
+                                <span>{{ successMessage }}</span>
+                            {% elseif error %}
+                                <span>{{ errorMessage }}</span>
+                            {% elseif renew %}
+                                <p>{{ renewMessage }}</p>
+                                <a href="{{ renewUrl }}" class="mt-2 btn btn-sm btn-primary" id="child-panels-renew">Renew</a>
+                            {% elseif restore %}
+                                <a href="{{ restoreUrl }}" class="btn btn-xs btn-primary" id="child-panels-restore">Restore</a>
+                            {% endif %}
+                        </div>
+                        <button class="absolute top-2 md:top-4 right-4" @click="show = false">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        <table class="table w-full">
+            <thead>
+            <tr>
+                <th>Domain</th>
+                <th>Status</th>
+                <th>Created</th>
+                <th>Expiry</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for panel in panelsList %}
+                <tr>
+                    <td>{{ panel['domain'] }}</td>
+                    <td>{{ panel['status'] }}</td>
+                    <td>{{ panel['created'] }}</td>
+                    <td>{{ panel['expiry'] }}</td>
+                    <td>
+                        {% if panel['admin'] %}
+                            <a href="{{ panel['admin_url'] }}" class="btn btn-secondary float-right"
+                                    target="_blank">Buka</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+</div>

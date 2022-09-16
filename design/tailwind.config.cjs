@@ -37,6 +37,14 @@ module.exports = {
     '.select2.select2-container.select2-container--default',
   ],
   theme: {
+    screens: {
+      'xs': '540px',
+      'sm': '640px',
+      'md': '768px',
+      'lg': '1024px',
+      'xl': '1280px',
+      '2xl': '1536px'
+    },
     extend: {
       colors: {
         'neutral-light-100': localColors.neutral.light['100'],
@@ -46,6 +54,9 @@ module.exports = {
         'neutral-dark-700': localColors.neutral.dark['700'],
         'neutral-dark-300': localColors.neutral.dark['300'],
         'neutral-dark-200': localColors.neutral.dark['200'],
+        
+        'tertiary': localColors.tertiary.normal,
+
         'error-focus': '#F3BFBF',
         'error-content-focus': '#DE2121',
       },

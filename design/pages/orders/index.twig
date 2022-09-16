@@ -1,9 +1,9 @@
-<div class="py-4 px-8">
+<div class="py-4 px-8 w-full">
     <div class="flex justify-between">
         <h2 class="text-xl">Semak Order</h2>
         <div class="flex gap-2">
             <a class="btn btn-sm font-light rounded px-4 {{ 'all' == status ? 'btn-primary' : 'btn-secondary'}}" href="{{ page['url'] }}">Semua</a>
-            <a class="btn btn-sm font-light rounded px-4 {{ 'pending' == status ? 'btn-primary' : 'btn-secondary'}}" href="{{ page['url'] }}/pending">Tergantung</a>
+            <a class="btn btn-sm font-light rounded px-4 {{ 'pending' == status ? 'btn-primary' : 'btn-secondary'}}" href="{{ page['url'] }}/pending">Pending</a>
             <a class="btn btn-sm font-light rounded px-4 {{ 'inprogress' == status ? 'btn-primary' : 'btn-secondary'}}" href="{{ page['url'] }}/inprogress">Tengah Progress</a>
             <a class="btn btn-sm font-light rounded px-4 {{ 'completed' == status ? 'btn-primary' : 'btn-secondary'}}" href="{{ page['url'] }}/completed">Dah Siap</a>
             <a class="btn btn-sm font-light rounded px-4 {{ 'partial' == status ? 'btn-primary' : 'btn-secondary'}}" href="{{ page['url'] }}/partial">Partial</a>
@@ -12,7 +12,7 @@
         </div>
     </div>
 
-    <div class="shadow-md mt-4">
+    <div class="shadow-md mt-4 w-full">
         <div class="h-20 bg-neutral-light-200 flex items-center justify-between px-4 rounded-t-box">
             <label class="relative block w-[44rem]">
                 <span class="sr-only">Search</span>
@@ -32,82 +32,134 @@
                 </form>
             </label>
             <div>
-                <button class="btn btn-primary px-8" {% if true or orderList is empty %}disabled{% endif %}>
+                {% if pagination['count'] > 100 %}
+                    {% if searchList %}
+                        {% set params = {} %}
+                        {% for search in searchList %}
+                            {% set params = params | merge([search['name'] ~ '=' ~ search['value']]) %}
+                        {% endfor %}
+                        {% set params = '?' ~ params|join('&') %}
+                    {% endif %}
+                    <div class="btn-group">
+
+                        {% if pagination['current'] != 1 %}
+                            <a class="btn btn-secondary" href="{{ page['url'] }}/{{ status }}/{{ pagination['last'] }}{{ params }}" aria-label="Previous">«</a>
+                        {% endif %}
+
+                        {% set r, l = 3, 3 %}
+                        {# in sets of 3? #}
+
+                        {% if pagination['current'] == 1 %}
+                            {% set r = 6 %}
+                        {% endif %}
+                        {# First page leads to right to be 6? #}
+
+                        {% if pagination['current'] == 2 %}
+                            {% set r = 5 %}
+                        {% endif %}
+                        {# Second page leads to right to be 5? #}
+
+                        {% if pagination['current'] >= pagination['pages'] %}
+                            {% set l = 5 %}
+                        {% endif %}
+                        {# Makes sure its the end of paging #}
+
+                        {# Goes until the end of total page #}
+                        {% for i in 1..ceil(pagination['pages']) %}
+                            {% if i >= (pagination['current']-l) and i <= (pagination['current']+r) %}
+                                <a
+                                    class="btn {% if i == pagination['current'] %}btn-primary{% else %}btn-secondary{% endif %}"
+                                    href="{{ page['url'] }}/{{ status }}/{{i}}{{ params }}">
+                                    {{i}}
+                                </a>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if pagination['current'] < pagination['pages'] %}
+                            <a class="btn btn-secondary" href="{{ page['url'] }}/{{ status }}/{{ pagination['next'] }}{{ params }}" aria-label="Next">»</a>
+                        {% endif %}
+                    </div>
+                {% endif %}
+
+                {# <button class="btn btn-primary px-8" {% if true or orderList is empty %}disabled{% endif %}>
                     Tetapan Jadual
                     <svg xmlns="http://www.w3.org/2000/svg" class="ml-3 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
-                </button>
+                </button> #}
             </div>
         </div>
 
         {% if orderList is not empty %}
-        <table class="bg-white w-full">
-            <thead>
-                <tr>
-                    <th class="text-start px-4 py-2">Id</th>
-                    <td class="text-start px-4 py-2">Date</td>
-                    <td class="text-start px-4 py-2">Username/Link</td>
-                    <td class="text-start px-4 py-2">Service</td>
-                    <td class="text-start px-4 py-2">Status</td>
-                    <td class="text-end px-4 py-2">Start Count</td>
-                    <td class="text-end px-4 py-2">Qty.</td>
-                    <td class="text-end px-4 py-2">Charge</td>
-                    <td class="text-end px-4 py-2">Remains</td>
-                    <td class="text-start px-4 py-2"></td>
-                </tr>
-            </thead>
-            <tbody>
-                {% for order in orderList %}
-                <tr>
-                    <th class="align-baseline text-start px-4 pb-2 font-medium text-neutral-dark-300">{{ order['id'] }}</th>
-                    <td class="align-baseline text-start px-4 pb-2">
-                        <div class="leading-none">
-                            <span>{{ order['date']|date('F d, Y') }}</span><br>
-                            <span class="text-xs text-neutral-dark-300">{{ order['date']|date('h:i A') }}</span>
-                        </div>
-                    </td>
-                    <td class="align-baseline text-start px-4 pb-2"><span class="break-all">{{ order['link'] }}</span></td>
-                    <td class="align-baseline text-start px-4 pb-2">{{ order['service'] }}</td>
-                    <td class="align-baseline text-start px-4 pb-2">
-                        <div class="badge
-                        {% if order['status'] == "completed" %} badge-success
-                        {% elseif order['status'] == "canceled" %} badge-error
-                        {% else %} badge-secondary {% endif %}
-                        badge-sm">{{ order['status'] }}</div>
-                    </td>
-                    <td class="align-baseline text-end px-4 pb-2">{{ order['start_count'] }}</td>
-                    <td class="align-baseline text-end px-4 pb-2">{{ order['quantity'] }}</td>
-                    <td class="align-baseline text-end px-4 pb-2">{{ order['charge'] }}</td>
-                    <td class="align-baseline text-end px-4 pb-2">{{ order['remains'] }}</td>
-                    <td class="align-baseline text-start px-4 pb-2 flex flex-col gap-2">
-                        {% if order['refillAvailableTime'] %}
-                        <button class="btn btn-disabled btn-sm">
-                            Wait {{ order['refillAvailableTime'] }}
-                        </button>
-                        {% endif %}
-                        {% if order['refilling'] %}
-                        <span class="text-neutral-dark-700 flex items-center translate-y-1 animate-pulse">
-                            <svg class="animate-spin -ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                            </svg>
-                            Refilling
-                        </span>
-                        {% endif %}
+        <div class="overflow-x-auto relative">
+            <table class="bg-white w-full">
+                <thead>
+                    <tr>
+                        <th class="text-start px-4 py-2">Id</th>
+                        <td class="text-start px-4 py-2">Date</td>
+                        <td class="text-start px-4 py-2">Username/Link</td>
+                        <td class="text-start px-4 py-2">Service</td>
+                        <td class="text-start px-4 py-2">Status</td>
+                        <td class="text-end px-4 py-2">Start Count</td>
+                        <td class="text-end px-4 py-2">Qty.</td>
+                        <td class="text-end px-4 py-2">Charge</td>
+                        <td class="text-end px-4 py-2">Remains</td>
+                        <td class="text-start px-4 py-2"></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orderList %}
+                    <tr>
+                        <th class="align-baseline text-start px-4 pb-2 font-medium text-neutral-dark-300">{{ order['id'] }}</th>
+                        <td class="align-baseline text-start px-4 pb-2">
+                            <div class="leading-none">
+                                <span>{{ order['date']|date('F d, Y') }}</span><br>
+                                <span class="text-xs text-neutral-dark-300">{{ order['date']|date('h:i A') }}</span>
+                            </div>
+                        </td>
+                        <td class="align-baseline text-start px-4 pb-2"><div class="break-all w-56">{{ order['link'] }}</div></td>
+                        <td class="align-baseline text-start px-4 pb-2">{{ order['service'] }}</td>
+                        <td class="align-baseline text-start px-4 pb-2">
+                            <div class="whitespace-nowrap badge
+                            {% if order['status'] == "Dah Siap" %} badge-success
+                            {% elseif order['status'] == "Canceled" %} badge-error
+                            {% else %} badge-secondary {% endif %}
+                            badge-sm">{{ order['status'] }}</div>
+                        </td>
+                        <td class="align-baseline text-end px-4 pb-2">{{ order['start_count'] }}</td>
+                        <td class="align-baseline text-end px-4 pb-2">{{ order['quantity'] }}</td>
+                        <td class="align-baseline text-end px-4 pb-2">{{ order['charge'] }}</td>
+                        <td class="align-baseline text-end px-4 pb-2">{{ order['remains'] }}</td>
+                        <td class="align-baseline text-start px-4 pb-2 flex flex-col gap-2">
+                            {% if order['refillAvailableTime'] %}
+                            <span class="text-sm text-neutral-dark-300">{{ order['refillAvailableTime'] }}</span>
+                            {# <button type="button" class="btn btn-disabled btn-sm h-fit">
+                            </button> #}
+                            {% endif %}
+                            {% if order['refilling'] == 1 %}
+                            <span class="text-neutral-dark-700 flex items-center translate-y-1 animate-pulse">
+                                <svg class="animate-spin -ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                Refilling
+                            </span>
+                            {% endif %}
 
-                        {% if order['refill'] is not empty %}
-                        <a href="{{ order['refill'] }}" class="btn btn-secondary btn-sm w-24">Refill</a>
-                        {% endif %}
-                        {% if order['cancel'] is not empty %}
-                        <a href="{{ order['cancel'] }}" class="btn btn-warning btn-sm w-24">Cancel</a>
-                        {% endif %}
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                            {% if order['refill'] == 1 %}
+                            <a href="{{ page['url'] }}/{{ order['id'] }}/refill" class="btn btn-secondary btn-sm w-24">Refill</a>
+                            {% endif %}
+                            {% if order['cancel'] == 1 %}
+                            <a href="{{ page['url'] }}/{{ order['id'] }}/cancel" class="btn btn-warning btn-sm w-24">Cancel</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {# <div class="w-full h-full bg-red-300 opacity-70 absolute top-0"></div> #}
+        </div>
         {% else %}
         <div class="bg-white h-[40rem] w-full flex flex-col items-center justify-center">
             <img src="https://cdn.mypanel.link/af5a5a/i3mj5klcbdmfkymo.png" alt="Empty table state artwork" class="mb-5 w-[16.5rem]">
@@ -127,28 +179,50 @@
         <div class="h-20 bg-neutral-light-200 flex items-center justify-between px-4 rounded-b-box">
             {% if pagination['count'] > 100 %}
                 {% if searchList %}
-                {% set params = {} %}
-                {% for search in searchList %}
-                    {% set params = params | merge([search['name'] ~ '=' ~ search['value']]) %}
-                {% endfor %}
-                {% set params = '?' ~ params|join('&') %}
+                    {% set params = {} %}
+                    {% for search in searchList %}
+                        {% set params = params | merge([search['name'] ~ '=' ~ search['value']]) %}
+                    {% endfor %}
+                    {% set params = '?' ~ params|join('&') %}
                 {% endif %}
-                <div class="flex items-center gap-4">
-                    <a {% if pagination['current'] != 1 %}href="{{ page['url'] }}/{{ status }}/{{ pagination['last'] }}{{ params }}"{% endif %} class="btn btn-secondary btn-square {% if not pagination['current'] != 1 %}btn-disabled{% endif %}">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
-                        </svg>
-                    </a>
-                    
-                    <span class="text-neutral-dark-300">laman</span>
-                    <input type="text" class="input w-[5rem] text-center" placeholder="1...">
-                    <span class="text-neutral-dark-300">dari 24</span>
+                <div class="btn-group">
 
-                    <a {% if pagination['current'] < pagination['pages'] %}href="{{ page['url'] }}/{{ status }}/{{ pagination['next'] }}{{ params }}"{% endif %} class="btn btn-secondary btn-square {% if not pagination['current'] < pagination['pages'] %}btn-disabled{% endif %}">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-                        </svg>
-                    </a>
+                    {% if pagination['current'] != 1 %}
+                        <a class="btn btn-secondary" href="{{ page['url'] }}/{{ status }}/{{ pagination['last'] }}{{ params }}" aria-label="Previous">«</a>
+                    {% endif %}
+
+                    {% set r, l = 3, 3 %}
+                    {# in sets of 3? #}
+
+                    {% if pagination['current'] == 1 %}
+                        {% set r = 6 %}
+                    {% endif %}
+                    {# First page leads to right to be 6? #}
+
+                    {% if pagination['current'] == 2 %}
+                        {% set r = 5 %}
+                    {% endif %}
+                    {# Second page leads to right to be 5? #}
+
+                    {% if pagination['current'] >= pagination['pages'] %}
+                        {% set l = 5 %}
+                    {% endif %}
+                    {# Makes sure its the end of paging #}
+
+                    {# Goes until the end of total page #}
+                    {% for i in 1..ceil(pagination['pages']) %}
+                        {% if i >= (pagination['current']-l) and i <= (pagination['current']+r) %}
+                            <a
+                                class="btn {% if i == pagination['current'] %}btn-primary{% else %}btn-secondary{% endif %}"
+                                href="{{ page['url'] }}/{{ status }}/{{i}}{{ params }}">
+                                {{i}}
+                            </a>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if pagination['current'] < pagination['pages'] %}
+                        <a class="btn btn-secondary" href="{{ page['url'] }}/{{ status }}/{{ pagination['next'] }}{{ params }}" aria-label="Next">»</a>
+                    {% endif %}
                 </div>
             {% endif %}
         </div>

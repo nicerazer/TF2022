@@ -1,4 +1,4 @@
-<div x-data="{alertVisible: true}" class="my-12 px-4 max-w-7xl mx-auto">
+<div x-data="{alertVisible: true}" class="my-8 px-4 max-w-7xl mx-auto">
 
     {% if success or error %}
     <template x-teleport="#alert-container-authed">
@@ -19,7 +19,7 @@
     <h1 class="text-4xl mb-5">Tambah Nilai</h1>
     <p class="text-neutral-dark-300 mb-5">Tambah nilai di page ini dengan pelbagai gateway yang kami sediakan.<br>Kami tanggung cas anda 100%. Anda bayar RM20, anda dapat RM20 ke dalam akaun anda.</p>
 
-    <div class="flex gap-4 items-start" x-data="{ paymentMethods: [
+    <div class="flex flex-col lg:flex-row gap-4 items-start" x-data="{ paymentMethods: [
         { id: '33654',  label: 'Perbankan Online ( ❌ e-wallet ) 1.0% bonus MAX' },
         { id: '74886',  label: 'Kad Bank (Instant)' },
         { id: '5332',   label: 'Pembayaran Bitcoin (3% bonus kadar rata)' },
@@ -27,9 +27,8 @@
         { id: '10',  label: 'E-Wallet (Touch \'n\' Go) - Transfer Melalui No. Telefon' },
         { id: '20',  label: 'Transfer Secara Manual' },
     ], selectedPaymentMethod: '' }"
-        x-init="selectedPaymentMethod = paymentMethods[0].id"
-    >
-        <div class="w-full">
+        x-init="selectedPaymentMethod = paymentMethods[0].id">
+        <div class="flex-1 md:flex-initial w-full">
             <div class="bg-white shadow-lg rounded-box w-full card-compact mb-4">
                 <div class="card-body">
                     <h2 class="text-base font-light mb-2">Tambah Nilai</h2>
@@ -82,7 +81,7 @@
                                 <button @click="qrSelection = 'shopeepay'" class="flex-1 btn rounded-r-none" :class="qrSelection == 'shopeepay' ? 'btn-primary' : 'btn-secondary'">ShopeePay</button>
                                 <button @click="qrSelection = 'touchngo'" class="flex-1 btn rounded-l-none" :class="qrSelection == 'touchngo' ? 'btn-primary' : 'btn-secondary'">Touch 'n' Go</button>
                             </div>
-                            <div class="py-16 px-14 bg-neutral-light-100 bg-no-repeat bg-cover"
+                            <div class="flex flex-col justify-center py-16 bg-neutral-light-100 bg-no-repeat bg-cover"
                                 style="
                                     background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjA5IiBoZWlnaHQ9IjUyMSIgdmlld0JveD0iMCAwIDYwOSA1MjEiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNOTUgLTg5Qzk2LjEwNDYgLTg5IDk3IC04OC4xMDQ2IDk3IC04N1YyNzNDOTcgMjc0LjEwNSA5Ni4xMDQ2IDI3NSA5NSAyNzVINzFDNjkuODk1NCAyNzUgNjkgMjc0LjEwNSA2OSAyNzNWLTg3QzY5IC04OC4xMDQ2IDY5Ljg5NTQgLTg5IDcxIC04OUg5NVoiIGZpbGw9IiNFNkYxRkEiLz4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xMjcgLTE0OEMxMjguMTA1IC0xNDggMTI5IC0xNDcuMTA1IDEyOSAtMTQ2VjIxNEMxMjkgMjE1LjEwNSAxMjguMTA1IDIxNiAxMjcgMjE2SDExNUMxMTMuODk1IDIxNiAxMTMgMjE1LjEwNSAxMTMgMjE0Vi0xNDZDMTEzIC0xNDcuMTA1IDExMy44OTUgLTE0OCAxMTUgLTE0OEgxMjdaIiBmaWxsPSIjRTZGMUZBIi8+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNNDQgLTQ1QzQ4LjQxODMgLTQ1IDUyIC00MS40MTgzIDUyIC0zN1YzNjVDNTIgMzY5LjQxOCA0OC40MTgzIDM3MyA0NCAzNzNILTEwQy0xNC40MTgzIDM3MyAtMTggMzY5LjQxOCAtMTggMzY1Vi0zN0MtMTggLTQxLjQxODMgLTE0LjQxODMgLTQ1IC0xMCAtNDVINDRaIiBmaWxsPSIjRTZGMUZBIi8+CjxjaXJjbGUgb3BhY2l0eT0iMC4yNSIgY3g9IjU4NS41IiBjeT0iNDIxLjUiIHI9Ijk5LjUiIGZpbGw9InVybCgjcGFpbnQwX2xpbmVhcl8xMTY1XzE0NTUpIi8+CjxnIG9wYWNpdHk9IjAuMTUiPgo8cmVjdCB4PSItMzEiIHk9IjQ3NyIgd2lkdGg9IjE1MiIgaGVpZ2h0PSIxMiIgcng9IjIiIGZpbGw9IiNCQ0RFRjUiLz4KPHJlY3QgeD0iLTMxIiB5PSI0OTQiIHdpZHRoPSIxMjQiIGhlaWdodD0iMTIiIHJ4PSIyIiBmaWxsPSIjQkNERUY1Ii8+CjxjaXJjbGUgY3g9IjYxLjUiIGN5PSI0MzcuNSIgcj0iNC41IiBmaWxsPSIjMDA3Q0I5Ii8+CjxjaXJjbGUgY3g9Ijc5LjUiIGN5PSI0MzcuNSIgcj0iNC41IiBmaWxsPSIjMDA3Q0I5Ii8+CjxjaXJjbGUgY3g9Ijk3LjUiIGN5PSI0MzcuNSIgcj0iNC41IiBmaWxsPSIjMDA3Q0I5Ii8+CjxjaXJjbGUgY3g9IjYxLjUiIGN5PSI0NTAuNSIgcj0iNC41IiBmaWxsPSIjMDA3Q0I5Ii8+CjxjaXJjbGUgY3g9Ijc5LjUiIGN5PSI0NTAuNSIgcj0iNC41IiBmaWxsPSIjMDA3Q0I5Ii8+CjxjaXJjbGUgY3g9Ijk3LjUiIGN5PSI0NTAuNSIgcj0iNC41IiBmaWxsPSIjMDA3Q0I5Ii8+CjxjaXJjbGUgY3g9IjYxLjUiIGN5PSI0NjMuNSIgcj0iNC41IiBmaWxsPSIjMDA3Q0I5Ii8+CjxjaXJjbGUgY3g9Ijc5LjUiIGN5PSI0NjMuNSIgcj0iNC41IiBmaWxsPSIjMDA3Q0I5Ii8+CjxjaXJjbGUgY3g9Ijk3LjUiIGN5PSI0NjMuNSIgcj0iNC41IiBmaWxsPSIjMDA3Q0I5Ii8+CjxjaXJjbGUgY3g9IjYxLjUiIGN5PSI0NzYuNSIgcj0iNC41IiBmaWxsPSIjMDA3Q0I5Ii8+CjxjaXJjbGUgY3g9Ijc5LjUiIGN5PSI0NzYuNSIgcj0iNC41IiBmaWxsPSIjMDA3Q0I5Ii8+CjxjaXJjbGUgY3g9Ijk3LjUiIGN5PSI0NzYuNSIgcj0iNC41IiBmaWxsPSIjMDA3Q0I5Ii8+CjxjaXJjbGUgY3g9IjYxLjUiIGN5PSI0ODkuNSIgcj0iNC41IiBmaWxsPSIjMDA3Q0I5Ii8+CjxjaXJjbGUgY3g9Ijc5LjUiIGN5PSI0ODkuNSIgcj0iNC41IiBmaWxsPSIjMDA3Q0I5Ii8+CjxjaXJjbGUgY3g9Ijk3LjUiIGN5PSI0ODkuNSIgcj0iNC41IiBmaWxsPSIjMDA3Q0I5Ii8+CjwvZz4KPGRlZnM+CjxsaW5lYXJHcmFkaWVudCBpZD0icGFpbnQwX2xpbmVhcl8xMTY1XzE0NTUiIHgxPSI1ODUuNSIgeTE9IjMyMiIgeDI9IjUwOSIgeTI9IjQyMiIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgo8c3RvcCBzdG9wLWNvbG9yPSIjOEQ4OUUxIi8+CjxzdG9wIG9mZnNldD0iMC45NTgzOTYiIHN0b3AtY29sb3I9IiM4RDg5RTEiIHN0b3Atb3BhY2l0eT0iMC41Ii8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPC9zdmc+Cg==');
                                 "
@@ -98,13 +97,13 @@
                             </div>
                         </div>
                     </div>
-                    <!-- TouchNGo mobile payment components -->
+                    <!-- TouchNGo mobile / Manual transfer payment components -->
                     <div x-show="[paymentMethods[4].id, paymentMethods[5].id].includes(selectedPaymentMethod)">
-                        <div class="rounded-md flex flex-col py-16 px-14">
+                        <div class="rounded-md flex flex-col justify-center py-16">
                             <div class="relative mx-auto flex flex-col" x-data>
                                 <div class="relative mx-auto flex flex-col rounded-md overflow-hidden">
                                     <div
-                                        class="group cursor-pointer relative tracking-[1rem] border border-neutral-light-400 bg-neutral-light-300 text-primary text-center font-light text-3xl rounded-md px-14 py-4"
+                                        class="group cursor-pointer relative tracking-widest lg:tracking-[1rem] border border-neutral-light-400 bg-neutral-light-300 text-primary text-center font-light text-3xl rounded-md px-14 py-4"
                                         @click="onClickCopy"
                                         message="Hello World">
                                         <span id="addfunds--copytext" x-text="paymentMethods[4].id == selectedPaymentMethod ? '0199947574' : '563046328509'"></span>
@@ -135,7 +134,7 @@
             </div>
         </div>
         
-       <div class="w-[44rem]">
+        <div class="flex-1 md:flex-initial w-full lg:w-[44rem]">
             <div class="card bg-white shadow-lg rounded-box mb-4">
                 <div class="card-body flex" x-show="selectedPaymentMethod == paymentMethods[0].id">
                     <h2 class="card-title">Perbankan Online</h2>
@@ -206,14 +205,19 @@
 </div>
 
 <script>
+const elCopiedBackdrop = document.getElementsByClassName('addfunds--copiednotification')[0]
+const elCopiedMessage = document.getElementsByClassName('addfunds--copiednotification')[1]
+
 const onClickCopy = (e) => {
-    navigator.clipboard.writeText(document.getElementById('addfunds--copytext').textContent)
-    document.getElementsByClassName('addfunds--copiednotification')[0].classList.add('opacity-100')
-    document.getElementsByClassName('addfunds--copiednotification')[1].classList.add('opacity-100')
+    const copyText = document.getElementById('addfunds--copytext').textContent
+    navigator.clipboard.writeText(copyText)
+    elCopiedBackdrop.classList.remove('opacity-0')
+    elCopiedMessage.classList.remove('opacity-0')
 
     setTimeout(function() {
-        document.getElementsByClassName('addfunds--copiednotification')[0].classList.remove('opacity-100')
-        document.getElementsByClassName('addfunds--copiednotification')[1].classList.remove('opacity-100')
+        elCopiedBackdrop.classList.add('opacity-0')
+        elCopiedMessage.classList.add('opacity-0')
     }, 1000);
 }
+
 </script>

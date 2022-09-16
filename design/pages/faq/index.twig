@@ -1,0 +1,361 @@
+<div class="">
+  <section class="my-32 flex flex-col lg:flex-row gap-8 lg:gap-0 mx-4 sm:mx-6 md:mx-8 lg:mx-16 xl:mx-auto justify-between lg:w-10/12" x-data="{selectedIndex: 0}">
+    <div class="max-w-md lg:mr-5 xl:mt-10">
+      <h2 class="text-4xl font-bold mb-5 leading-normal">Permulaan anda di TokeyFollower!</h2>
+      <p class="text-lg text-neutral-dark-300 mb-5 leading-loose">Selamat datang ke TokeyFollower. Anda hanya perlu ikut 3 langkah sahaja untuk akaun anda hasilkan followers dan likes:</p>
+      <ol class="list-decimal list-inside text-neutral-dark-300 font-semibold">
+        <li class="mb-3">Tambah Nilai</li>
+        <li class="mb-3">Cek Baki</li>
+        <li class="mb-3">Order Servis</li>
+      </ol>
+    </div>
+
+    <div class="w-full">
+      <div class="tabs">
+        <a @click="cueYoutube('KX0vX0FmYfQ', 0); selectedIndex = 0" :class="{ 'tab-active': selectedIndex==0 }" class="tab xl:tab-lg xs:tab-lifted -ml-[0.5px]">1. Tambah Nilai</a>
+        <a @click="cueYoutube('KX0vX0FmYfQ', 0); selectedIndex = 1" :class="{ 'tab-active': selectedIndex==1 }" class="tab xl:tab-lg xs:tab-lifted">2. Cek Baki</a>
+        <a @click="cueYoutube('yJPEp3dK1Sk', 0); selectedIndex = 2" :class="{ 'tab-active': selectedIndex==2 }" class="tab xl:tab-lg xs:tab-lifted">3. Order Servis</a>
+      </div>
+      <div class="p-0 xs:p-4 sm:p-8 rounded-xl bg-neutral-light-100 w-full" :class="{ 'rounded-tl-none': selectedIndex==0 }">
+        <div id="player1" class="w-full h-fit aspect-video rounded-lg shadow-lg"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="my-32 flex flex-col lg:flex-row gap-8 lg:gap-0 mx-2 sm:mx-4 md:mx-8 lg:mx-16 xl:mx-auto justify-between lg:w-10/12" x-data="{selectedIndex: 0}">
+    <div class="max-w-md lg:mr-5 xl:mt-10">
+      <h2 class="text-4xl font-bold mb-5 leading-normal">Panduan penggunaan servis di TokeyFollower</h2>
+      <p class="text-lg text-neutral-dark-300 mb-5 leading-loose">Dah boleh order? Anda boleh mula plan bisnes anda dengan demand customer mengikuti servis yang kami sediakan. Dari Likes ke Follower, dari Instagram ke Facebook, kami sediakan pelbagai servis untuk anda sebagai seller.</p>
+    </div>
+  
+    <div class="w-full">
+      <div class="tabs">
+        <a @click="cueYoutube('fzKJtGFRUUE', 1); selectedIndex = 0" :class="{ 'tab-active': selectedIndex==0 }" class="tab xl:tab-lg xs:tab-lifted -ml-[0.5px]">Tambah Follower</a>
+        <a @click="cueYoutube('S0XY5R-n5mI', 1); selectedIndex = 1" :class="{ 'tab-active': selectedIndex==1 }" class="tab xl:tab-lg xs:tab-lifted">Likes Instagram</a>
+        <a @click="cueYoutube('lmtburImqX0', 1); selectedIndex = 2" :class="{ 'tab-active': selectedIndex==2 }" class="tab xl:tab-lg xs:tab-lifted">Auto Post Likes Instagram</a>
+      </div>
+      <div class="p-0 xs:p-4 sm:p-8 rounded-xl bg-neutral-light-100 w-full" :class="{ 'rounded-tl-none': selectedIndex==0 }">
+        <div id="player2" class="w-full h-fit aspect-video rounded-lg shadow-lg"></div>
+      </div>
+    </div>
+  </section>
+  
+  <div class="divider divider-vertical w-10/12 mx-auto my-32"></div>
+  
+  <section class="mb-32 flex flex-col md:flex-row justify-between w-full px-4 xs:px-8 lg:mx-auto xl:w-10/12">
+    <div class="max-w-md mr-5 mt-4">
+      <h2 class="text-4xl font-bold mb-5 leading-normal">Market bisnes anda!</h2>
+      <p class="text-lg text-neutral-dark-300 mb-5 leading-loose">Dah dalami servis di TokeyFollower? Anda yakin untuk majukan bisnes anda kehadapan? Bina 'customer base' anda dengan harga anda sendiri. Buat poster untuk letak harga-harga anda untuk tarik customer dengan lebih efektif.</p>
+    </div>
+
+    <div class="card card-compact bg-neutral-light-100 lg:w-96 xl:w-auto">
+      <div class="card-body">
+        <div class="carousel">
+          <div id="item1" class="carousel-item w-full xl:w-[24rem]">
+            <img src="https://cdn.mypanel.link/af5a5a/q29rbm8imaz4hyiu.jpeg" class="w-full rounded-md" />
+          </div>
+          <div id="item2" class="carousel-item w-full xl:w-[24rem]">
+            <img src="https://cdn.mypanel.link/af5a5a/a9ap4f1qoqd005cz.jpeg" class="w-full rounded-md" />
+          </div>
+          <div id="item3" class="carousel-item w-full xl:w-[24rem]">
+            <img src="https://cdn.mypanel.link/af5a5a/atyejot7omzxlixu.jpeg" class="w-full rounded-md" />
+          </div>
+        </div>
+        <div class="flex justify-center w-full py-2 gap-2" x-data>
+          <a href="#item1" class="btn btn-secondary btn-xs">1</a>
+          <a href="#item2" class="btn btn-secondary btn-xs">2</a>
+          <a href="#item3" class="btn btn-secondary btn-xs">3</a>
+        </div>
+      </div>
+    </div>
+  
+          {# <p class="lead">Anda perlu promote jualan anda dengan harga anda sendiri. Lihat <mark><em class="text-primary">slideshow</em></mark> di sebelah/bawah #}
+  </section>
+  
+  <section class="bg-neutral-light-200 w-full py-24">
+    <div class="flex lg:flex-row flex-col items-start justify-between gap-8 mx-2 md:mx-8 lg:mx-auto lg:w-11/12 xl:w-10/12">
+      <div class="card card-compact xs:card-normal bg-white bg-opacity-40 shadow">
+        <div class="card-body">
+          <h2 class="rounded-md text-xl font-bold my-5 leading-normal bg-neutral-dark-700 text-neutral-light-400 py-5 px-6">Follower sedikit? Kurang Yakin?</h2>
+          <div class="mb-5">
+            <h4 class="mb-3">Servis: <span class="badge badge-primary">Follower Instant</span></h4>
+            <p>Guna servis ini; hasilkan follower sebenar dengan harga paling murah!</p>
+          </div>
+          <div>
+            <h3 class="rounded-md text-xl font-bold my-5 leading-normal bg-neutral-dark-700 text-neutral-light-400 py-5 px-6">Nak yakinkan customer anda?</h3>
+            <p>Dalam bisnes online instagram, anda perlu ada <mark class="uppercase">Follower 5k</mark> dan keatas untuk menjadi "trusted seller"</p>
+          </div>
+        </div>
+      </div>
+      <div class="card card-compact xs:card-normal bg-white bg-opacity-40 shadow lg:mt-24">
+        <div class="card-body">
+          <h2 class="rounded-md text-xl font-bold my-5 leading-normal bg-neutral-dark-700 text-neutral-light-400 py-5 px-6">Pakej Viral Besok</h2>
+          <p class="pb-5">Anda berminat untuk menjadi viral, dan menjadi trusted seller di hati customer?</p>
+          <ul class="flex flex-col gap-4">
+            <li>
+              <span class="badge badge-secondary badge-lg text-sm font-bold mb-2 h-fit">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="mr-1 w-5 h-5 inline">
+                  <path fill-rule="evenodd" d="M16.403 12.652a3 3 0 000-5.304 3 3 0 00-3.75-3.751 3 3 0 00-5.305 0 3 3 0 00-3.751 3.75 3 3 0 000 5.305 3 3 0 003.75 3.751 3 3 0 005.305 0 3 3 0 003.751-3.75zm-2.546-4.46a.75.75 0 00-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
+                </svg>
+                Kelebihan pakej viral besok
+              </span>
+              <p>Follower instant siap dalam masa 3-6 jam</p>
+            </li>
+            <li>
+              <span class="badge badge-secondary badge-lg text-sm font-bold mb-2 h-fit">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="mr-1 w-5 h-5 inline">
+                  <path fill-rule="evenodd" d="M16.403 12.652a3 3 0 000-5.304 3 3 0 00-3.75-3.751 3 3 0 00-5.305 0 3 3 0 00-3.751 3.75 3 3 0 000 5.305 3 3 0 003.75 3.751 3 3 0 005.305 0 3 3 0 003.751-3.75zm-2.546-4.46a.75.75 0 00-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
+                </svg>
+                Real Follower; Kekal abadi (No Drop)
+              </span>
+              <p>Follower kami adalah kekad abadi (Jangan beli follower yang drop walaupun laju, kerana ini akan merugikan anda)</p>
+            </li>
+            <li>
+              <span class="badge badge-secondary badge-lg text-sm font-bold mb-2 h-fit">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="mr-1 w-5 h-5 inline">
+                  <path fill-rule="evenodd" d="M16.403 12.652a3 3 0 000-5.304 3 3 0 00-3.75-3.751 3 3 0 00-5.305 0 3 3 0 00-3.751 3.75 3 3 0 000 5.305 3 3 0 003.75 3.751 3 3 0 005.305 0 3 3 0 003.751-3.75zm-2.546-4.46a.75.75 0 00-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
+                </svg>
+                Selamat dan berkesan (Username sahaja)
+              </span>
+              <p>Jangan tertipu kepada servis follower yang meminta passowrd. Instant follower tidak memerlukan password</p>
+            </li>
+            <li>
+              <span class="badge badge-secondary badge-lg text-sm font-bold mb-2 h-fit">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="mr-1 w-5 h-5 inline">
+                  <path fill-rule="evenodd" d="M16.403 12.652a3 3 0 000-5.304 3 3 0 00-3.75-3.751 3 3 0 00-5.305 0 3 3 0 00-3.751 3.75 3 3 0 000 5.305 3 3 0 003.75 3.751 3 3 0 005.305 0 3 3 0 003.751-3.75zm-2.546-4.46a.75.75 0 00-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
+                </svg>
+                Refund jika servis tidak memuaskan
+              </span>
+              <p>Kami bersedia untuk refund dalam masa 7 hari jika terdapat sebarang masalah</p>
+            </li>
+            <li>
+              <span class="badge badge-secondary badge-lg text-sm font-bold mb-2 h-fit">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="mr-1 w-5 h-5 inline">
+                  <path fill-rule="evenodd" d="M16.403 12.652a3 3 0 000-5.304 3 3 0 00-3.75-3.751 3 3 0 00-5.305 0 3 3 0 00-3.751 3.75 3 3 0 000 5.305 3 3 0 003.75 3.751 3 3 0 005.305 0 3 3 0 003.751-3.75zm-2.546-4.46a.75.75 0 00-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
+                </svg>
+                Jadi viral hanya sekelip mata
+              </span>
+              <p>Tingkatkan sale anda dengan follower kami! Kami membantu anda mencari customer</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <section class="bg-neutral-light-200 w-full py-24">
+    <div class="mx-2 md:mx-8 lg:mx-auto lg:w-8/12 max-w-4xl">
+      <h4 class="text-center font-bold text-2xl mb-10">Frequently asked questions (FAQ)</h4>
+      <div class="flex flex-col gap-4">
+        <div tabindex="0" class="collapse collapse-arrow border border-base-300 bg-base-100 rounded-box">
+          {# <input type="checkbox" /> #}
+          <div class="collapse-title text-xl font-medium">
+            What is Partial status?
+          </div>
+          <div class="collapse-content">
+            <p>Partial Status is when we partially refund the remains of an order. Sometimes for some reasons we are unable to deliver a full order, so we refund you the remaining undelivered amount.</p>
+            <p>Example: You bought an order with quantity 10 000 and charges 10$, let's say we delivered 9 000 and the remaining 1 000 we couldn't deliver, then we will "Partial" the order and refund you the remaining 1 000 (1$ in this example).</p>
+          </div>
+        </div>
+        <div tabindex="0" class="collapse collapse-arrow border border-base-300 bg-base-100 rounded-box">
+          {# <input type="checkbox" /> #}
+          <div class="collapse-title text-xl font-medium">
+            What is Drip Feed?
+          </div>
+          <div class="collapse-content">
+            <p class="mb-2">Drip Feed is a service that we are offering so you would be able to put the same order multiple times automatically.</p>
+            <p class="mb-2">Example: let's say you want to get 1000 likes on your Instagram Post but you want to get 100 likes each 30 minutes, you will put</p>
+            <p class="mb-2"><span class="badge badge-secondary">Quantity: 100</span></p>
+            <p class="mb-2"><span class="badge badge-secondary">Runs: 10</span> (as you want to run this order 10 times, if you want to get 2000 likes, you will run it 20 times, etc…)</p>
+            <p class="mb-2"><span class="badge-badge-secondary">Interval: 30</span> (because you want to get 100 likes on your post each 30 minutes, if you want each hour, you will put 60 because the time is in minutes)</p>
+            <p class="mb-2">P.S: Never order more quantity than the maximum which is written on the service name (Quantity x Runs),</p>
+            <p class="mb-2">Example if the service's max is 4000, you don’t put Quantity: 500 and Run: 10, because total quantity will be 500x10 = 5000 which is bigger than the service max (4000).</p>
+            <p class="mb-2">Also never put the Interval below the actual start time (some services need 60 minutes to start, don’t put Interval less than the service start time or it will cause a fail in your order).</p>
+          </div>
+        </div>
+        <div tabindex="0" class="collapse collapse-arrow border border-base-300 bg-base-100 rounded-box">
+          {# <input type="checkbox" /> #}
+          <div class="collapse-title text-xl font-medium">
+            How do I use mass order?
+          </div>
+          <div class="collapse-content">
+            <p>You put the service ID followed by | followed by the link followed by | followed by quantity on each line</p>
+            <p>Let's say you want to use the Mass Order to add Instagram Followers to your 3 accounts: abcd, asdf, qwer</p>
+            <p>Let's say you want to add 1000 followers for each account, the output will be like this:</p>
+            <p>ID|Link|Quantity</p>
+            <p>or in this example:</p>
+            <p>102|abcd|1000</p>
+            <p>102|asdf|1000</p>
+            <p>102|qwer|1000</p>
+          </div>
+        </div>
+
+        <div tabindex="0" class="collapse collapse-arrow border border-base-300 bg-base-100 rounded-box">
+          <input type="checkbox" />
+          <div class="collapse-title text-xl font-medium">
+            I want a panel like yours / I want to resell your services how?
+          </div>
+          <div class="collapse-content">
+            You put the service ID followed by | followed by the link followed by | To get a panel like ours, please check <a href="http://bit.ly/panellikejap" class="link link-primary">http://bit.ly/panellikejap</a> to rent a panel, and then you can connect to us via API easily!
+          </div>
+        </div>
+
+        <div tabindex="0" class="collapse collapse-arrow border border-base-300 bg-base-100 rounded-box">
+          {# <input type="checkbox" /> #}
+          <div class="collapse-title text-xl font-medium">
+            Cancel button / Refill button is not working for me?
+          </div>
+          <div class="collapse-content">
+            The cancel or refill button sends a trigger to cancel or refill an order, it doesn't work instantly, it's just a trigger, sometimes it's too late to stop an order, and sometimes an order might not need refill.
+          </div>
+        </div>
+
+        <div tabindex="0" class="collapse collapse-arrow border border-base-300 bg-base-100 rounded-box">
+          {# <input type="checkbox" /> #}
+          <div class="collapse-title text-xl font-medium">
+            Can I get a discount?
+          </div>
+          <div class="collapse-content">
+            We do not offer any discount, the prices that you see are the prices that you get!
+          </div>
+        </div>
+
+        <div tabindex="0" class="collapse collapse-arrow border border-base-300 bg-base-100 rounded-box">
+          {# <input type="checkbox" /> #}
+          <div class="collapse-title text-xl font-medium">
+            When can you activate my paypal?
+          </div>
+          <div class="collapse-content">
+            You can use Paypal whenever you want by following the instructions in the Add Funds page (manual use) To have it automatically enabled, you have to have added at least 100$ in your account, and then you can send us a ticket with your username to enable it for you!
+          </div>
+        </div>
+
+        <div tabindex="0" class="collapse collapse-arrow border border-base-300 bg-base-100 rounded-box">
+          {# <input type="checkbox" /> #}
+          <div class="collapse-title text-xl font-medium">
+            Does drip feed work with mass order / or with API?
+          </div>
+          <div class="collapse-content">
+            Drip Feed doesn't work with neither "Mass Order" nor API.
+          </div>
+        </div>
+
+        <div tabindex="0" class="collapse collapse-arrow border border-base-300 bg-base-100 rounded-box">
+          {# <input type="checkbox" /> #}
+          <div class="collapse-title text-xl font-medium">
+            Do you accept Paytm?
+          </div>
+          <div class="collapse-content">
+            Unfortunately, Paytm is only available in India and we are facing a lot of problems to add it!
+          </div>
+        </div>
+
+        <div tabindex="0" class="collapse collapse-arrow border border-base-300 bg-base-100 rounded-box">
+          {# <input type="checkbox" /> #}
+          <div class="collapse-title text-xl font-medium">
+            How to get youtube comment link?
+          </div>
+          <div class="collapse-content">
+            <p>Find the timestamp that is located next to your username above your comment (for example: "3 days ago") and hover over it then right click and "Copy Link Address".</p>
+            <p>The link will be something like this: https://www.youtube.com/watch?v=12345&amp;lc=a1b21etc instead of just https://www.youtube.com/watch?v=12345</p>
+          </div>
+        </div>
+
+        <div tabindex="0" class="collapse collapse-arrow border border-base-300 bg-base-100 rounded-box">
+          {# <input type="checkbox" /> #}
+          <div class="collapse-title text-xl font-medium">
+            Which youtube view service can be used with monetizable video?
+          </div>
+          <div class="collapse-content">
+            The one that has "Monetized" in its service' name.
+          </div>
+        </div>
+
+        <div tabindex="0" class="collapse collapse-arrow border border-base-300 bg-base-100 rounded-box">
+          {# <input type="checkbox" /> #}
+          <div class="collapse-title text-xl font-medium">
+            What is "Instagram mentions", how do you use it?
+          </div>
+          <div class="collapse-content">
+            <p>Instagram Mention is when you mention someone on Instagram (example @abcde this means you have mentioned abcde under this post and abcde will receive a notification to check the post).</p>
+            <p>Basically the Instagram Mentions [User Followers], you put the link of your post, and the username of the person that you want us to mention HIS FOLLOWERS!</p>
+          </div>
+        </div>
+
+        <div tabindex="0" class="collapse collapse-arrow border border-base-300 bg-base-100 rounded-box">
+          {# <input type="checkbox" /> #}
+          <div class="collapse-title text-xl font-medium">
+            What is "Instagram impressions"?
+          </div>
+          <div class="collapse-content">
+            Impression means reach (also how many users have seen your post) it is mostly used with brands, they will ask you to show them statistic of the impressions your posts have.
+          </div>
+        </div>
+        <div tabindex="0" class="collapse collapse-arrow border border-base-300 bg-base-100 rounded-box">
+          {# <input type="checkbox" /> #}
+          <div class="collapse-title text-xl font-medium">
+            The link must be added before the user goes live or after?
+          </div>
+          <div class="collapse-content">
+            After he goes live, or just 5 second before he goes!
+          </div>
+        </div>
+
+        <div tabindex="0" class="collapse collapse-arrow border border-base-300 bg-base-100 rounded-box">
+          {# <input type="checkbox" /> #}
+          <div class="collapse-title text-xl font-medium">
+            What is VIP service?
+          </div>
+          <div class="collapse-content">
+            VIP Support For 30 (60 or 180 Days) We Will Answer Your Tickets Have You On Skype And Have Your Phone Number For 24/7 Hours Priority VIP Support For Any Order Open A Ticket After You Purchase This Service And Send Order ID Quantity Must Be 1000
+          </div>
+        </div>
+
+        <div tabindex="0" class="collapse collapse-arrow border border-base-300 bg-base-100 rounded-box">
+          {# <input type="checkbox" /> #}
+          <div class="collapse-title text-xl font-medium">
+            What is "Instagram Saves", and what does it do?
+          </div>
+          <div class="collapse-content">
+            Instagram Saves is when a user saves a post to his history on Instagram (by pressing the save button near the like button). A lot of saves for a post increase its impression.
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</div>
+{# <script src="https://www.youtube.com/iframe_api"></script> #}
+<script>
+  var tag = document.createElement('script');
+
+  tag.src = "https://www.youtube.com/iframe_api";
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+  let players = [];
+  function onYouTubeIframeAPIReady() {
+    ['KX0vX0FmYfQ', 'fzKJtGFRUUE'].forEach((videoId, index) => {
+      const playerName = 'player' + (index + 1)
+      players[index] = new YT.Player(playerName, {
+        height: '390',
+        width: '640',
+        videoId: videoId,
+        playerVars: {
+          'playsinline': 1
+        },
+      });
+    });
+  }
+
+  function cueYoutube(id, playerIndex) {
+    players[playerIndex].cueVideoById(id)
+    // players[playerIndex].cueVideoById(id)
+  }
+
+  // 4. The API will call this function when the video player is ready.
+  function onPlayerReady(event) {
+    event.target.playVideo();
+  }
+</script>

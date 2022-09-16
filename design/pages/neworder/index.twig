@@ -1,4 +1,4 @@
-<div x-data="{alertVisible: true}" class="my-12 px-4 max-w-7xl mx-auto">
+<div x-data="{alertVisible: true}" class="my-8 px-4 max-w-7xl mx-auto w-full">
 
     {% if success in [1,2] or error %}
     <template x-teleport="#alert-container-authed">
@@ -55,7 +55,7 @@
 
     <div class="flex flex-col md:flex-row gap-4 items-start mb-3">
         <form class="w-full" action="{{ page['url'] }}" method="post" id="order-form">
-            <div class="bg-white shadow-lg rounded-box w-full card card-compact mb-4">
+            <div class="bg-white shadow-lg rounded-box w-full card card-compact overflow-visible mb-4">
                 <div class="card-body">
                     <h2 class="text-base font-light mb-2">Cipta Order</h2>
 
@@ -130,7 +130,645 @@
 
                     <div class="divider"></div>
                     <h2 class="text-base font-light mb-2">Butiran Order</h2>
-                    <div id="fields"></div>
+                    {# <div id="fields"></div> #}
+                    <div id="fields">
+                        <div class="form-group fields" id="order_min">
+                            <label class="control-label" for="order_count">Kuantiti</label>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" id="order_count" name="OrderForm[min]" value="" placeholder="Min"><small class="help-block min-max">Min: 100 - Max: 1400000</small>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" id="order_count" name="OrderForm[max]" value="" placeholder="Max">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group fields hidden" id="order_delay">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="control-label" for="field-orderform-fields-delay">Delay</label>
+                                    <select class="form-control" name="OrderForm[delay]" id="field-orderform-fields-delay">
+                                        
+                                        <option value="0">No delay</option>
+                                        
+                                        <option value="300">5 minutes</option>
+                                        
+                                        <option value="600">10 minutes</option>
+                                        
+                                        <option value="900">15 minutes</option>
+                                        
+                                        <option value="1800">30 minutes</option>
+                                        
+                                        <option value="3600">60 minutes</option>
+                                        
+                                        <option value="5400">90 minutes</option>
+                                        
+                                        <option value="7200">120 minutes</option>
+                                        
+                                        <option value="9000">150 minutes</option>
+                                        
+                                        <option value="10800">180 minutes</option>
+                                        
+                                        <option value="12600">210 minutes</option>
+                                        
+                                        <option value="14400">240 minutes</option>
+                                        
+                                        <option value="16200">270 minutes</option>
+                                        
+                                        <option value="18000">300 minutes</option>
+                                        
+                                        <option value="21600">360 minutes</option>
+                                        
+                                        <option value="25200">420 minutes</option>
+                                        
+                                        <option value="28800">480 minutes</option>
+                                        
+                                        <option value="32400">540 minutes</option>
+                                        
+                                        <option value="36000">600 minutes</option>
+                                        
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="field-orderform-fields-expiry">Expiry</label>
+                                        <div class="input-group">
+                                        <input
+                                            class="form-control datetime"
+                                            autocomplete="off"
+                                            name="OrderForm[expiry]"
+                                            value=""
+                                            type="text"
+                                            id="field-orderform-fields-expiry"
+                                        />
+                                        <div
+                                            class="bootstrap-datetimepicker-widget dropdown-menu usetwentyfour bottom"
+                                            style="inset: 1047.6px auto auto 318px"
+                                        >
+                                            <ul class="list-unstyled">
+                                            <li>
+                                                <div class="datepicker">
+                                                <div class="datepicker-days" style="display: block">
+                                                    <table class="table-condensed">
+                                                    <thead>
+                                                        <tr>
+                                                        <th class="prev disabled" data-action="previous">
+                                                            <span
+                                                            class="fa fa-chevron-left"
+                                                            title="Previous Month"
+                                                            ></span>
+                                                        </th>
+                                                        <th
+                                                            class="picker-switch"
+                                                            data-action="pickerSwitch"
+                                                            colspan="5"
+                                                            title="Select Month"
+                                                        >
+                                                            September 2022
+                                                        </th>
+                                                        <th class="next" data-action="next">
+                                                            <span class="fa fa-chevron-right" title="Next Month"></span>
+                                                        </th>
+                                                        </tr>
+                                                        <tr>
+                                                        <th class="dow">Su</th>
+                                                        <th class="dow">Mo</th>
+                                                        <th class="dow">Tu</th>
+                                                        <th class="dow">We</th>
+                                                        <th class="dow">Th</th>
+                                                        <th class="dow">Fr</th>
+                                                        <th class="dow">Sa</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                        <td
+                                                            data-action="selectDay"
+                                                            data-day="08/28/2022"
+                                                            class="day old disabled weekend"
+                                                        >
+                                                            28
+                                                        </td>
+                                                        <td
+                                                            data-action="selectDay"
+                                                            data-day="08/29/2022"
+                                                            class="day old disabled"
+                                                        >
+                                                            29
+                                                        </td>
+                                                        <td
+                                                            data-action="selectDay"
+                                                            data-day="08/30/2022"
+                                                            class="day old disabled"
+                                                        >
+                                                            30
+                                                        </td>
+                                                        <td
+                                                            data-action="selectDay"
+                                                            data-day="08/31/2022"
+                                                            class="day old disabled"
+                                                        >
+                                                            31
+                                                        </td>
+                                                        <td
+                                                            data-action="selectDay"
+                                                            data-day="09/01/2022"
+                                                            class="day disabled"
+                                                        >
+                                                            1
+                                                        </td>
+                                                        <td
+                                                            data-action="selectDay"
+                                                            data-day="09/02/2022"
+                                                            class="day disabled"
+                                                        >
+                                                            2
+                                                        </td>
+                                                        <td
+                                                            data-action="selectDay"
+                                                            data-day="09/03/2022"
+                                                            class="day disabled weekend"
+                                                        >
+                                                            3
+                                                        </td>
+                                                        </tr>
+                                                        <tr>
+                                                        <td
+                                                            data-action="selectDay"
+                                                            data-day="09/04/2022"
+                                                            class="day disabled weekend"
+                                                        >
+                                                            4
+                                                        </td>
+                                                        <td
+                                                            data-action="selectDay"
+                                                            data-day="09/05/2022"
+                                                            class="day disabled"
+                                                        >
+                                                            5
+                                                        </td>
+                                                        <td
+                                                            data-action="selectDay"
+                                                            data-day="09/06/2022"
+                                                            class="day disabled"
+                                                        >
+                                                            6
+                                                        </td>
+                                                        <td
+                                                            data-action="selectDay"
+                                                            data-day="09/07/2022"
+                                                            class="day disabled"
+                                                        >
+                                                            7
+                                                        </td>
+                                                        <td
+                                                            data-action="selectDay"
+                                                            data-day="09/08/2022"
+                                                            class="day disabled"
+                                                        >
+                                                            8
+                                                        </td>
+                                                        <td
+                                                            data-action="selectDay"
+                                                            data-day="09/09/2022"
+                                                            class="day disabled"
+                                                        >
+                                                            9
+                                                        </td>
+                                                        <td
+                                                            data-action="selectDay"
+                                                            data-day="09/10/2022"
+                                                            class="day disabled weekend"
+                                                        >
+                                                            10
+                                                        </td>
+                                                        </tr>
+                                                        <tr>
+                                                        <td
+                                                            data-action="selectDay"
+                                                            data-day="09/11/2022"
+                                                            class="day disabled weekend"
+                                                        >
+                                                            11
+                                                        </td>
+                                                        <td
+                                                            data-action="selectDay"
+                                                            data-day="09/12/2022"
+                                                            class="day disabled"
+                                                        >
+                                                            12
+                                                        </td>
+                                                        <td
+                                                            data-action="selectDay"
+                                                            data-day="09/13/2022"
+                                                            class="day disabled"
+                                                        >
+                                                            13
+                                                        </td>
+                                                        <td
+                                                            data-action="selectDay"
+                                                            data-day="09/14/2022"
+                                                            class="day disabled"
+                                                        >
+                                                            14
+                                                        </td>
+                                                        <td
+                                                            data-action="selectDay"
+                                                            data-day="09/15/2022"
+                                                            class="day today"
+                                                        >
+                                                            15
+                                                        </td>
+                                                        <td data-action="selectDay" data-day="09/16/2022" class="day">
+                                                            16
+                                                        </td>
+                                                        <td
+                                                            data-action="selectDay"
+                                                            data-day="09/17/2022"
+                                                            class="day weekend"
+                                                        >
+                                                            17
+                                                        </td>
+                                                        </tr>
+                                                        <tr>
+                                                        <td
+                                                            data-action="selectDay"
+                                                            data-day="09/18/2022"
+                                                            class="day weekend"
+                                                        >
+                                                            18
+                                                        </td>
+                                                        <td data-action="selectDay" data-day="09/19/2022" class="day">
+                                                            19
+                                                        </td>
+                                                        <td data-action="selectDay" data-day="09/20/2022" class="day">
+                                                            20
+                                                        </td>
+                                                        <td data-action="selectDay" data-day="09/21/2022" class="day">
+                                                            21
+                                                        </td>
+                                                        <td data-action="selectDay" data-day="09/22/2022" class="day">
+                                                            22
+                                                        </td>
+                                                        <td data-action="selectDay" data-day="09/23/2022" class="day">
+                                                            23
+                                                        </td>
+                                                        <td
+                                                            data-action="selectDay"
+                                                            data-day="09/24/2022"
+                                                            class="day weekend"
+                                                        >
+                                                            24
+                                                        </td>
+                                                        </tr>
+                                                        <tr>
+                                                        <td
+                                                            data-action="selectDay"
+                                                            data-day="09/25/2022"
+                                                            class="day weekend"
+                                                        >
+                                                            25
+                                                        </td>
+                                                        <td data-action="selectDay" data-day="09/26/2022" class="day">
+                                                            26
+                                                        </td>
+                                                        <td data-action="selectDay" data-day="09/27/2022" class="day">
+                                                            27
+                                                        </td>
+                                                        <td data-action="selectDay" data-day="09/28/2022" class="day">
+                                                            28
+                                                        </td>
+                                                        <td data-action="selectDay" data-day="09/29/2022" class="day">
+                                                            29
+                                                        </td>
+                                                        <td data-action="selectDay" data-day="09/30/2022" class="day">
+                                                            30
+                                                        </td>
+                                                        <td
+                                                            data-action="selectDay"
+                                                            data-day="10/01/2022"
+                                                            class="day new weekend"
+                                                        >
+                                                            1
+                                                        </td>
+                                                        </tr>
+                                                        <tr>
+                                                        <td
+                                                            data-action="selectDay"
+                                                            data-day="10/02/2022"
+                                                            class="day new weekend"
+                                                        >
+                                                            2
+                                                        </td>
+                                                        <td
+                                                            data-action="selectDay"
+                                                            data-day="10/03/2022"
+                                                            class="day new"
+                                                        >
+                                                            3
+                                                        </td>
+                                                        <td
+                                                            data-action="selectDay"
+                                                            data-day="10/04/2022"
+                                                            class="day new"
+                                                        >
+                                                            4
+                                                        </td>
+                                                        <td
+                                                            data-action="selectDay"
+                                                            data-day="10/05/2022"
+                                                            class="day new"
+                                                        >
+                                                            5
+                                                        </td>
+                                                        <td
+                                                            data-action="selectDay"
+                                                            data-day="10/06/2022"
+                                                            class="day new"
+                                                        >
+                                                            6
+                                                        </td>
+                                                        <td
+                                                            data-action="selectDay"
+                                                            data-day="10/07/2022"
+                                                            class="day new"
+                                                        >
+                                                            7
+                                                        </td>
+                                                        <td
+                                                            data-action="selectDay"
+                                                            data-day="10/08/2022"
+                                                            class="day new weekend"
+                                                        >
+                                                            8
+                                                        </td>
+                                                        </tr>
+                                                    </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="datepicker-months" style="display: none">
+                                                    <table class="table-condensed">
+                                                    <thead>
+                                                        <tr>
+                                                        <th class="prev disabled" data-action="previous">
+                                                            <span
+                                                            class="fa fa-chevron-left"
+                                                            title="Previous Year"
+                                                            ></span>
+                                                        </th>
+                                                        <th
+                                                            class="picker-switch"
+                                                            data-action="pickerSwitch"
+                                                            colspan="5"
+                                                            title="Select Year"
+                                                        >
+                                                            2022
+                                                        </th>
+                                                        <th class="next" data-action="next">
+                                                            <span class="fa fa-chevron-right" title="Next Year"></span>
+                                                        </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                        <td colspan="7">
+                                                            <span data-action="selectMonth" class="month disabled"
+                                                            >Jan</span
+                                                            ><span data-action="selectMonth" class="month disabled"
+                                                            >Feb</span
+                                                            ><span data-action="selectMonth" class="month disabled"
+                                                            >Mar</span
+                                                            ><span data-action="selectMonth" class="month disabled"
+                                                            >Apr</span
+                                                            ><span data-action="selectMonth" class="month disabled"
+                                                            >May</span
+                                                            ><span data-action="selectMonth" class="month disabled"
+                                                            >Jun</span
+                                                            ><span data-action="selectMonth" class="month disabled"
+                                                            >Jul</span
+                                                            ><span data-action="selectMonth" class="month disabled"
+                                                            >Aug</span
+                                                            ><span data-action="selectMonth" class="month">Sep</span
+                                                            ><span data-action="selectMonth" class="month">Oct</span
+                                                            ><span data-action="selectMonth" class="month">Nov</span
+                                                            ><span data-action="selectMonth" class="month">Dec</span>
+                                                        </td>
+                                                        </tr>
+                                                    </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="datepicker-years" style="display: none">
+                                                    <table class="table-condensed">
+                                                    <thead>
+                                                        <tr>
+                                                        <th class="prev disabled" data-action="previous">
+                                                            <span
+                                                            class="fa fa-chevron-left"
+                                                            title="Previous Decade"
+                                                            ></span>
+                                                        </th>
+                                                        <th
+                                                            class="picker-switch"
+                                                            data-action="pickerSwitch"
+                                                            colspan="5"
+                                                            title="Select Decade"
+                                                        >
+                                                            2017-2028
+                                                        </th>
+                                                        <th class="next" data-action="next">
+                                                            <span
+                                                            class="fa fa-chevron-right"
+                                                            title="Next Decade"
+                                                            ></span>
+                                                        </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                        <td colspan="7">
+                                                            <span data-action="selectYear" class="year disabled"
+                                                            >2017</span
+                                                            ><span data-action="selectYear" class="year disabled"
+                                                            >2018</span
+                                                            ><span data-action="selectYear" class="year disabled"
+                                                            >2019</span
+                                                            ><span data-action="selectYear" class="year disabled"
+                                                            >2020</span
+                                                            ><span data-action="selectYear" class="year disabled"
+                                                            >2021</span
+                                                            ><span data-action="selectYear" class="year">2022</span
+                                                            ><span data-action="selectYear" class="year">2023</span
+                                                            ><span data-action="selectYear" class="year">2024</span
+                                                            ><span data-action="selectYear" class="year">2025</span
+                                                            ><span data-action="selectYear" class="year">2026</span
+                                                            ><span data-action="selectYear" class="year">2027</span
+                                                            ><span data-action="selectYear" class="year">2028</span>
+                                                        </td>
+                                                        </tr>
+                                                    </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="datepicker-decades" style="display: none">
+                                                    <table class="table-condensed">
+                                                    <thead>
+                                                        <tr>
+                                                        <th class="prev disabled" data-action="previous">
+                                                            <span
+                                                            class="fa fa-chevron-left"
+                                                            title="Previous Century"
+                                                            ></span>
+                                                        </th>
+                                                        <th
+                                                            class="picker-switch"
+                                                            data-action="pickerSwitch"
+                                                            colspan="5"
+                                                        >
+                                                            2000-2107
+                                                        </th>
+                                                        <th class="next" data-action="next">
+                                                            <span
+                                                            class="fa fa-chevron-right"
+                                                            title="Next Century"
+                                                            ></span>
+                                                        </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                        <td colspan="7">
+                                                            <span
+                                                            data-action="selectDecade"
+                                                            class="decade disabled"
+                                                            data-selection="2005"
+                                                            >2000 - 2011</span
+                                                            ><span
+                                                            data-action="selectDecade"
+                                                            class="decade active"
+                                                            data-selection="2017"
+                                                            >2012 - 2023</span
+                                                            ><span
+                                                            data-action="selectDecade"
+                                                            class="decade"
+                                                            data-selection="2029"
+                                                            >2024 - 2035</span
+                                                            ><span
+                                                            data-action="selectDecade"
+                                                            class="decade"
+                                                            data-selection="2041"
+                                                            >2036 - 2047</span
+                                                            ><span
+                                                            data-action="selectDecade"
+                                                            class="decade"
+                                                            data-selection="2053"
+                                                            >2048 - 2059</span
+                                                            ><span
+                                                            data-action="selectDecade"
+                                                            class="decade"
+                                                            data-selection="2065"
+                                                            >2060 - 2071</span
+                                                            ><span
+                                                            data-action="selectDecade"
+                                                            class="decade"
+                                                            data-selection="2077"
+                                                            >2072 - 2083</span
+                                                            ><span
+                                                            data-action="selectDecade"
+                                                            class="decade"
+                                                            data-selection="2089"
+                                                            >2084 - 2095</span
+                                                            ><span
+                                                            data-action="selectDecade"
+                                                            class="decade"
+                                                            data-selection="2101"
+                                                            >2096 - 2107</span
+                                                            ><span></span><span></span><span></span>
+                                                        </td>
+                                                        </tr>
+                                                    </tbody>
+                                                    </table>
+                                                </div>
+                                                </div>
+                                            </li>
+                                            <li class="picker-switch accordion-toggle">
+                                                <table class="table-condensed">
+                                                <tbody>
+                                                    <tr></tr>
+                                                </tbody>
+                                                </table>
+                                            </li>
+                                            </ul>
+                                        </div>
+                                        <span class="input-group-btn">
+                                            <button
+                                            class="btn btn-default btn-big-secondary clear-datetime"
+                                            type="button"
+                                            data-rel="#field-orderform-fields-expiry"
+                                            >
+                                            <span class="fa far fa-trash-alt"></span>
+                                            </button>
+                                        </span>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group fields" id="order_delay">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="control-label" for="field-orderform-fields-delay">Delay</label>
+                                    <select class="form-control" name="OrderForm[delay]" id="field-orderform-fields-delay">
+                                        
+                                        <option value="0">No delay</option>
+                                        
+                                        <option value="300">5 minutes</option>
+                                        
+                                        <option value="600">10 minutes</option>
+                                        
+                                        <option value="900">15 minutes</option>
+                                        
+                                        <option value="1800">30 minutes</option>
+                                        
+                                        <option value="3600">60 minutes</option>
+                                        
+                                        <option value="5400">90 minutes</option>
+                                        
+                                        <option value="7200">120 minutes</option>
+                                        
+                                        <option value="9000">150 minutes</option>
+                                        
+                                        <option value="10800">180 minutes</option>
+                                        
+                                        <option value="12600">210 minutes</option>
+                                        
+                                        <option value="14400">240 minutes</option>
+                                        
+                                        <option value="16200">270 minutes</option>
+                                        
+                                        <option value="18000">300 minutes</option>
+                                        
+                                        <option value="21600">360 minutes</option>
+                                        
+                                        <option value="25200">420 minutes</option>
+                                        
+                                        <option value="28800">480 minutes</option>
+                                        
+                                        <option value="32400">540 minutes</option>
+                                        
+                                        <option value="36000">600 minutes</option>
+                                        
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="field-orderform-fields-expiry">Expiry</label>
+                                    <div class="input-group">
+                                        <input class="form-control datetime" autocomplete="off" name="OrderForm[expiry]" value="" type="text" id="field-orderform-fields-expiry"><div class="bootstrap-datetimepicker-widget dropdown-menu usetwentyfour bottom" style="inset: 1047.6px auto auto 405.838px;"><ul class="list-unstyled"><li><div class="datepicker"><div class="datepicker-days" style="display: none;"><table class="table-condensed"><thead><tr><th class="prev disabled" data-action="previous"><span class="fa fa-chevron-left" title="Previous Month"></span></th><th class="picker-switch" data-action="pickerSwitch" colspan="5" title="Select Month">September 2022</th><th class="next" data-action="next"><span class="fa fa-chevron-right" title="Next Month"></span></th></tr><tr><th class="dow">Su</th><th class="dow">Mo</th><th class="dow">Tu</th><th class="dow">We</th><th class="dow">Th</th><th class="dow">Fr</th><th class="dow">Sa</th></tr></thead><tbody><tr><td data-action="selectDay" data-day="08/28/2022" class="day old disabled weekend">28</td><td data-action="selectDay" data-day="08/29/2022" class="day old disabled">29</td><td data-action="selectDay" data-day="08/30/2022" class="day old disabled">30</td><td data-action="selectDay" data-day="08/31/2022" class="day old disabled">31</td><td data-action="selectDay" data-day="09/01/2022" class="day disabled">1</td><td data-action="selectDay" data-day="09/02/2022" class="day disabled">2</td><td data-action="selectDay" data-day="09/03/2022" class="day disabled weekend">3</td></tr><tr><td data-action="selectDay" data-day="09/04/2022" class="day disabled weekend">4</td><td data-action="selectDay" data-day="09/05/2022" class="day disabled">5</td><td data-action="selectDay" data-day="09/06/2022" class="day disabled">6</td><td data-action="selectDay" data-day="09/07/2022" class="day disabled">7</td><td data-action="selectDay" data-day="09/08/2022" class="day disabled">8</td><td data-action="selectDay" data-day="09/09/2022" class="day disabled">9</td><td data-action="selectDay" data-day="09/10/2022" class="day disabled weekend">10</td></tr><tr><td data-action="selectDay" data-day="09/11/2022" class="day disabled weekend">11</td><td data-action="selectDay" data-day="09/12/2022" class="day disabled">12</td><td data-action="selectDay" data-day="09/13/2022" class="day disabled">13</td><td data-action="selectDay" data-day="09/14/2022" class="day disabled">14</td><td data-action="selectDay" data-day="09/15/2022" class="day disabled">15</td><td data-action="selectDay" data-day="09/16/2022" class="day today">16</td><td data-action="selectDay" data-day="09/17/2022" class="day weekend">17</td></tr><tr><td data-action="selectDay" data-day="09/18/2022" class="day weekend">18</td><td data-action="selectDay" data-day="09/19/2022" class="day">19</td><td data-action="selectDay" data-day="09/20/2022" class="day">20</td><td data-action="selectDay" data-day="09/21/2022" class="day">21</td><td data-action="selectDay" data-day="09/22/2022" class="day">22</td><td data-action="selectDay" data-day="09/23/2022" class="day">23</td><td data-action="selectDay" data-day="09/24/2022" class="day weekend">24</td></tr><tr><td data-action="selectDay" data-day="09/25/2022" class="day weekend">25</td><td data-action="selectDay" data-day="09/26/2022" class="day">26</td><td data-action="selectDay" data-day="09/27/2022" class="day">27</td><td data-action="selectDay" data-day="09/28/2022" class="day">28</td><td data-action="selectDay" data-day="09/29/2022" class="day">29</td><td data-action="selectDay" data-day="09/30/2022" class="day">30</td><td data-action="selectDay" data-day="10/01/2022" class="day new weekend">1</td></tr><tr><td data-action="selectDay" data-day="10/02/2022" class="day new weekend">2</td><td data-action="selectDay" data-day="10/03/2022" class="day new">3</td><td data-action="selectDay" data-day="10/04/2022" class="day new">4</td><td data-action="selectDay" data-day="10/05/2022" class="day new">5</td><td data-action="selectDay" data-day="10/06/2022" class="day new">6</td><td data-action="selectDay" data-day="10/07/2022" class="day new">7</td><td data-action="selectDay" data-day="10/08/2022" class="day new weekend">8</td></tr></tbody></table></div><div class="datepicker-months" style="display: block;"><table class="table-condensed"><thead><tr><th class="prev disabled" data-action="previous"><span class="fa fa-chevron-left" title="Previous Year"></span></th><th class="picker-switch" data-action="pickerSwitch" colspan="5" title="Select Year">2022</th><th class="next" data-action="next"><span class="fa fa-chevron-right" title="Next Year"></span></th></tr></thead><tbody><tr><td colspan="7"><span data-action="selectMonth" class="month disabled">Jan</span><span data-action="selectMonth" class="month disabled">Feb</span><span data-action="selectMonth" class="month disabled">Mar</span><span data-action="selectMonth" class="month disabled">Apr</span><span data-action="selectMonth" class="month disabled">May</span><span data-action="selectMonth" class="month disabled">Jun</span><span data-action="selectMonth" class="month disabled">Jul</span><span data-action="selectMonth" class="month disabled">Aug</span><span data-action="selectMonth" class="month">Sep</span><span data-action="selectMonth" class="month">Oct</span><span data-action="selectMonth" class="month">Nov</span><span data-action="selectMonth" class="month">Dec</span></td></tr></tbody></table></div><div class="datepicker-years" style="display: none;"><table class="table-condensed"><thead><tr><th class="prev disabled" data-action="previous"><span class="fa fa-chevron-left" title="Previous Decade"></span></th><th class="picker-switch" data-action="pickerSwitch" colspan="5" title="Select Decade">2017-2028</th><th class="next" data-action="next"><span class="fa fa-chevron-right" title="Next Decade"></span></th></tr></thead><tbody><tr><td colspan="7"><span data-action="selectYear" class="year disabled">2017</span><span data-action="selectYear" class="year disabled">2018</span><span data-action="selectYear" class="year disabled">2019</span><span data-action="selectYear" class="year disabled">2020</span><span data-action="selectYear" class="year disabled">2021</span><span data-action="selectYear" class="year">2022</span><span data-action="selectYear" class="year">2023</span><span data-action="selectYear" class="year">2024</span><span data-action="selectYear" class="year">2025</span><span data-action="selectYear" class="year">2026</span><span data-action="selectYear" class="year">2027</span><span data-action="selectYear" class="year">2028</span></td></tr></tbody></table></div><div class="datepicker-decades" style="display: none;"><table class="table-condensed"><thead><tr><th class="prev disabled" data-action="previous"><span class="fa fa-chevron-left" title="Previous Century"></span></th><th class="picker-switch" data-action="pickerSwitch" colspan="5">2000-2107</th><th class="next" data-action="next"><span class="fa fa-chevron-right" title="Next Century"></span></th></tr></thead><tbody><tr><td colspan="7"><span data-action="selectDecade" class="decade disabled" data-selection="2005">2000 - 2011</span><span data-action="selectDecade" class="decade active" data-selection="2017">2012 - 2023</span><span data-action="selectDecade" class="decade" data-selection="2029">2024 - 2035</span><span data-action="selectDecade" class="decade" data-selection="2041">2036 - 2047</span><span data-action="selectDecade" class="decade" data-selection="2053">2048 - 2059</span><span data-action="selectDecade" class="decade" data-selection="2065">2060 - 2071</span><span data-action="selectDecade" class="decade" data-selection="2077">2072 - 2083</span><span data-action="selectDecade" class="decade" data-selection="2089">2084 - 2095</span><span data-action="selectDecade" class="decade" data-selection="2101">2096 - 2107</span><span></span><span></span><span></span></td></tr></tbody></table></div></div></li><li class="picker-switch accordion-toggle"><table class="table-condensed"><tbody><tr></tr></tbody></table></li></ul></div>
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default btn-big-secondary clear-datetime" type="button" data-rel="#field-orderform-fields-expiry"><span class="fa far fa-trash-alt"></span></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                        
+                    </div>
                 </div>
             </div>
             <div class="bg-white shadow-lg rounded-box w-full card-compact mb-4">
@@ -155,14 +793,35 @@
             </div>
         </form>
        <div class="w-full md:w-[44rem]">
-            <div class="bg-white shadow-lg rounded-box card-compact mb-4">
+            <div class="card bg-white shadow mb-3">
                 <div class="card-body">
-                    <div class="card-title">
-                        Rujukan Emoji
+                    <h2 class="card-title">Referral Link</h2>
+                    <p class="pb-4">Jana pendapatan anda dengan affiliate, kawan atau kenalan anda daftar guna link anda , anda dapat 2% pulangan wang.</p>
+                    <div class="relative mx-auto flex flex-col rounded-md overflow-hidden" @click="onClickCopy">
+                        <div
+                            class="group cursor-pointer relative border border-neutral-light-400 bg-neutral-light-300 text-primary text-center font-light rounded-md px-14 py-4"
+                            @click="onClickCopy"
+                            message="Hello World">
+                            <span id="neworder--copytext">{{ user['referral_link'] }}</span>
+                            <div class="absolute right-2 bottom-2 group-hover:-translate-y-1 transition-transform">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M7 9a2 2 0 012-2h6a2 2 0 012 2v6a2 2 0 01-2 2H9a2 2 0 01-2-2V9z" />
+                                    <path d="M5 3a2 2 0 00-2 2v6a2 2 0 002 2V5h8a2 2 0 00-2-2H5z" />
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="neworder--copiednotification absolute pointer-events-none inset-x-0 inset-y-0 transition-opacity duration-100 z-10 bg-white/30 backdrop-blur-sm opacity-0"></div>
+                        <div class="neworder--copiednotification absolute pointer-events-none inset-x-0 inset-y-0 transition-opacity duration-100 z-20 flex items-center justify-center opacity-0"><span>Copied!</span></div>
                     </div>
+                </div>
+            </div>
 
-                    {# <h2 class="text-base font-light px-1">Rujukan Emoji</h2> #}
-                    <div class="bg-neutral-light-100 rounded px-4 py-4 min-h-[16rem]">
+
+            <div class="bg-white shadow-lg rounded-box mb-4">
+                <div class="card-body">
+                    <h2 class="card-title mb-3">Rujukan Emoji</h2>
+
+                    <div class="bg-neutral-light-100 rounded-md px-4 py-4 min-h-[16rem]">
                         <ul class="flex flex-col gap-4">
                             <li>⭐ Best Seller</li>
                             <li>⚡️ Instant</li>
@@ -175,7 +834,7 @@
                     </div>
                 </div>
             </div>
-            <div class="bg-white card card-compact mb-3">
+            <div class="bg-white card mb-3">
                 <div class="card-body">
                     <div class="card-title">
                     Tutorial
@@ -204,56 +863,109 @@
 
     <h1 class="text-2xl mb-5">Panduan order dari pelbagai servis di TokeyFollower</h1>
 
-    <!-- YELLOW CARDS ORIGINAL BACKUP -->
-    <div class="flex gap-8 mb-8">
-
-        <div class="flex-1">
-            <div class="card bg-secondary text-secondary-content text-center">
-                <div class="card-body">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="my-3 mx-auto bi bi-arrow-repeat" viewBox="0 0 16 16">
-                        <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z"></path>
-                        <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z"></path>
-                    </svg>
-                    <h3>Guaranteed follower</h3>
-                    <p>Follower yang direfill, jumlah drop sedikit sahaja.</p>
+    <!-- Ordering Refernce Cards -->
+    <div class="md:hidden">
+        <div class="carousel w-full mb-3">
+            <div id="item1" class="carousel-item w-full">
+                <div class="w-full card card-compact md:card-normal bg-secondary text-secondary-content text-center">
+                    <div class="card-body">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="my-3 mx-auto bi bi-arrow-repeat" viewBox="0 0 16 16">
+                            <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z"></path>
+                            <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z"></path>
+                        </svg>
+                        <h3>Guaranteed follower</h3>
+                        <p class="text-sm md:text-base">Follower yang direfill, jumlah drop sedikit sahaja.</p>
+                    </div>
                 </div>
+            </div>
+
+            <div id="item2" class="carousel-item w-full">
+                <div class="w-full card card-compact md:card-normal bg-secondary text-secondary-content text-center">
+                    <div class="card-body">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="my-3 mx-auto bi bi-exclamation-diamond-fill" viewBox="0 0 16 16">
+                            <path d="M9.05.435c-.58-.58-1.52-.58-2.1 0L.436 6.95c-.58.58-.58 1.519 0 2.098l6.516 6.516c.58.58 1.519.58 2.098 0l6.516-6.516c.58-.58.58-1.519 0-2.098L9.05.435zM8 4c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995A.905.905 0 0 1 8 4zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"></path>
+                        </svg>
+                        <h3>Not guaranteed</h3>
+                        <p class="text-sm md:text-base">Follower yang tidak direfill, jumlah drop banyak.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="item3" class="carousel-item w-full">
+                <div class="w-full card card-compact md:card-normal bg-secondary text-secondary-content text-center">
+                    <div class="card-body">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="my-3 mx-auto bi bi-graph-up" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M0 0h1v15h15v1H0V0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5z"></path>
+                        </svg>				
+                        <h3>Top sale follower</h3>
+                        <p class="text-sm md:text-base">Follower yang murah, dan ramai guna (not guaranteed).</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="item4" class="carousel-item w-full">
+                <div class="w-full card card-compact md:card-normal bg-secondary text-secondary-content text-center">
+                    <div class="card-body">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="my-3 mx-auto bi bi-cash-stack" viewBox="0 0 16 16">
+                            <path d="M1 3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1H1zm7 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"></path>
+                            <path d="M0 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V5zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V7a2 2 0 0 1-2-2H3z"></path>
+                        </svg>
+                        <h3>Promotion (cheap)</h3>
+                        <p class="text-sm md:text-base">Sangat, sangat, sangat murah berbanding yang lain.</p>
+                    </div>
+            </div>
+
+            </div>
+        </div>
+        <div class="flex justify-center w-full py-2 gap-2">
+            <a href="#item1" class="btn btn-primary btn-circle btn-xs">1</a>
+            <a href="#item2" class="btn btn-primary btn-circle btn-xs">2</a>
+            <a href="#item3" class="btn btn-primary btn-circle btn-xs">3</a>
+            <a href="#item4" class="btn btn-primary btn-circle btn-xs">4</a>
+        </div>
+    </div>
+
+    <div class="hidden md:grid grid-cols-2 lg:grid-cols-4 gap-8 mb-8 w-full">
+
+        <div class="card card-compact md:card-normal bg-secondary text-secondary-content text-center">
+            <div class="card-body">
+                <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="my-3 mx-auto bi bi-arrow-repeat" viewBox="0 0 16 16">
+                    <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z"></path>
+                    <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z"></path>
+                </svg>
+                <h3>Guaranteed follower</h3>
+                <p class="text-sm md:text-base">Follower yang direfill, jumlah drop sedikit sahaja.</p>
             </div>
         </div>
 
-        <div class="flex-1">
-            <div class="card bg-secondary text-secondary-content text-center">
-                <div class="card-body">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="my-3 mx-auto bi bi-exclamation-diamond-fill" viewBox="0 0 16 16">
-                        <path d="M9.05.435c-.58-.58-1.52-.58-2.1 0L.436 6.95c-.58.58-.58 1.519 0 2.098l6.516 6.516c.58.58 1.519.58 2.098 0l6.516-6.516c.58-.58.58-1.519 0-2.098L9.05.435zM8 4c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995A.905.905 0 0 1 8 4zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"></path>
-                    </svg>
-                    <h3>Not guaranteed</h3>
-                    <p>Follower yang tidak direfill, jumlah drop banyak.</p>
-                </div>
+        <div class="card card-compact md:card-normal bg-secondary text-secondary-content text-center">
+            <div class="card-body">
+                <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="my-3 mx-auto bi bi-exclamation-diamond-fill" viewBox="0 0 16 16">
+                    <path d="M9.05.435c-.58-.58-1.52-.58-2.1 0L.436 6.95c-.58.58-.58 1.519 0 2.098l6.516 6.516c.58.58 1.519.58 2.098 0l6.516-6.516c.58-.58.58-1.519 0-2.098L9.05.435zM8 4c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995A.905.905 0 0 1 8 4zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"></path>
+                </svg>
+                <h3>Not guaranteed</h3>
+                <p class="text-sm md:text-base">Follower yang tidak direfill, jumlah drop banyak.</p>
             </div>
         </div>
 
-        <div class="flex-1">
-            <div class="card bg-secondary text-secondary-content text-center">
-                <div class="card-body">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="my-3 mx-auto bi bi-graph-up" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M0 0h1v15h15v1H0V0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5z"></path>
-                    </svg>				
-                    <h3>Top sale follower</h3>
-                    <p>Follower yang murah, dan ramai guna (not guaranteed).</p>
-                </div>
+        <div class="card card-compact md:card-normal bg-secondary text-secondary-content text-center">
+            <div class="card-body">
+                <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="my-3 mx-auto bi bi-graph-up" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M0 0h1v15h15v1H0V0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5z"></path>
+                </svg>				
+                <h3>Top sale follower</h3>
+                <p class="text-sm md:text-base">Follower yang murah, dan ramai guna (not guaranteed).</p>
             </div>
         </div>
 
-        <div class="flex-1">
-            <div class="card bg-secondary text-secondary-content text-center">
-                <div class="card-body">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="my-3 mx-auto bi bi-cash-stack" viewBox="0 0 16 16">
-                        <path d="M1 3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1H1zm7 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"></path>
-                        <path d="M0 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V5zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V7a2 2 0 0 1-2-2H3z"></path>
-                    </svg>
-                    <h3>Promotion (cheap)</h3>
-                    <p>Sangat, sangat, sangat murah berbanding yang lain.</p>
-                </div>
+        <div class="card card-compact md:card-normal bg-secondary text-secondary-content text-center">
+            <div class="card-body">
+                <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="my-3 mx-auto bi bi-cash-stack" viewBox="0 0 16 16">
+                    <path d="M1 3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1H1zm7 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"></path>
+                    <path d="M0 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V5zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V7a2 2 0 0 1-2-2H3z"></path>
+                </svg>
+                <h3>Promotion (cheap)</h3>
+                <p class="text-sm md:text-base">Sangat, sangat, sangat murah berbanding yang lain.</p>
             </div>
         </div>
 
@@ -318,11 +1030,24 @@
         </ul>
     </div>
 
+    <div class="hidden opacity-100"></div>
+    <div class="hidden opacity-0"></div>
 
 </div>
 
 <script>
-// window.addEventListener('load', (event) => {
-//     document.getElementsByClassName('drawer-content')[0].scrollTo(0,1800);
-// });
+const elCopiedBackdrop = document.getElementsByClassName('neworder--copiednotification')[0]
+const elCopiedMessage = document.getElementsByClassName('neworder--copiednotification')[1]
+
+const onClickCopy = (e) => {
+    const copyText = document.getElementById('neworder--copytext').textContent
+    navigator.clipboard.writeText(copyText)
+    elCopiedBackdrop.classList.remove('opacity-0')
+    elCopiedMessage.classList.remove('opacity-0')
+
+    setTimeout(function() {
+        elCopiedBackdrop.classList.add('opacity-0')
+        elCopiedMessage.classList.add('opacity-0')
+    }, 1000);
+}
 </script>
