@@ -1,7 +1,6 @@
 import { defineConfig } from 'vite'
 import twig from 'vite-plugin-twig'
 import FullReload from 'vite-plugin-full-reload'
-import Twig from 'twig';
 
 export default defineConfig({
   // ...
