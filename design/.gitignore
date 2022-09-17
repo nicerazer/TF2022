@@ -8,7 +8,11 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
-dist
+# In dist, ignores everything except the final css for production use in github pages
+dist/**/*.html
+dist/**/*.js
+dist/**/*.svg
+dist/**/*.css
 !dist/assets/*.css
 dist-ssr
 *.local
