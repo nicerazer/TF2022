@@ -220,7 +220,7 @@
       {# Guest: Container #}
       <div class="w-full flex flex-col items-center text-neutral-dark-700">
         {# Guest: Not Signin Page #}
-        {% if not user['auth'] and (page['url'] not in ['/', '/signup', '/forgot-password'] or page['title'] == 'FAQ') %}
+        {% if not user['auth'] and (page['url'] not in ['/', '/signup', '/forgot-password', '/set-new-password'] or page['title'] == 'FAQ') %}
           <nav x-data class="flex items-center justify-between w-full px-4 md:px-8 2xl:px-0 lg:w-[64rem] xl:w-[80rem] my-4 z-10">
               <div class="flex items-center gap-4">
                   <div class="dropdown lg:hidden relative">

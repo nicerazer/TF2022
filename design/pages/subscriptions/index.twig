@@ -31,13 +31,54 @@
                 </form>
             </label>
             <div>
-                <button class="btn btn-primary px-8" {% if true or orderList is empty %}disabled{% endif %}>
-                    Tetapan Jadual
-                    <svg xmlns="http://www.w3.org/2000/svg" class="ml-3 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                </button>
+                {% if pagination['count'] > 100 %}
+                    {% if searchList %}
+                        {% set params = {} %}
+                        {% for search in searchList %}
+                            {% set params = params | merge([search['name'] ~ '=' ~ search['value']]) %}
+                        {% endfor %}
+                        {% set params = '?' ~ params|join('&') %}
+                    {% endif %}
+                    <div class="btn-group">
+
+                        {% if pagination['current'] != 1 %}
+                            <a class="btn btn-secondary" href="{{ page['url'] }}/{{ status }}/{{ pagination['last'] }}{{ params }}" aria-label="Previous">«</a>
+                        {% endif %}
+
+                        {% set r, l = 3, 3 %}
+                        {# in sets of 3? #}
+
+                        {% if pagination['current'] == 1 %}
+                            {% set r = 6 %}
+                        {% endif %}
+                        {# First page leads to right to be 6? #}
+
+                        {% if pagination['current'] == 2 %}
+                            {% set r = 5 %}
+                        {% endif %}
+                        {# Second page leads to right to be 5? #}
+
+                        {% if pagination['current'] >= pagination['pages'] %}
+                            {% set l = 5 %}
+                        {% endif %}
+                        {# Makes sure its the end of paging #}
+
+                        {# Goes until the end of total page #}
+                        {% for i in 1..ceil(pagination['pages']) %}
+                            {% if i >= (pagination['current']-l) and i <= (pagination['current']+r) %}
+                                <a
+                                    class="btn {% if i == pagination['current'] %}btn-primary{% else %}btn-secondary{% endif %}"
+                                    href="{{ page['url'] }}/{{ status }}/{{i}}{{ params }}">
+                                    {{i}}
+                                </a>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if pagination['current'] < pagination['pages'] %}
+                            <a class="btn btn-secondary" href="{{ page['url'] }}/{{ status }}/{{ pagination['next'] }}{{ params }}" aria-label="Next">»</a>
+                        {% endif %}
+                    </div>
+                {% endif %}
             </div>
         </div>
 
@@ -46,25 +87,27 @@
             <thead>
                 <tr>
                     <th class="text-start px-4 py-2">Id</th>
-                    <td class="text-start px-4 py-2">Username/Link</td>
-                    <td class="text-start px-4 py-2">Kuantiti</td>
-                    <td class="text-start px-4 py-2">Post Baharu</td>
-                    <td class="text-start px-4 py-2">Post Lama</td>
-                    <td class="text-start px-4 py-2">Delay</td>
-                    <td class="text-start px-4 py-2">Servis</td>
-                    <td class="text-start px-4 py-2">Status</td>
-                    <td class="text-start px-4 py-2">Created</td>
-                    <td class="text-start px-4 py-2">Updated</td>
-                    <td class="text-start px-4 py-2">Expiry</td>
+                    <td class="text-start pr-4 py-2">Username/Link</td>
+                    <td class="text-start pr-4 py-2">Quantity</td>
+                    <td class="text-start pr-4 py-2">New Posts</td>
+                    <td class="text-start pr-4 py-2">Old Posts</td>
+                    <td class="text-start pr-4 py-2">Delay</td>
+                    <td class="text-start pr-4 py-2">Service</td>
+                    <td class="text-start pr-4 py-2">Status</td>
+                    <td class="text-start pr-4 py-2">Created</td>
+                    <td class="text-start pr-4 py-2">Updated</td>
+                    <td class="text-start pr-4 py-2">Expiry</td>
                 </tr>
             </thead>
             <tbody>
                 {% for order in orderList %}
                 <tr>
                     <th class="align-baseline text-start px-4 pb-2 font-medium text-neutral-dark-300">{{ order['id'] }}</th>
-                    <th class="align-baseline text-start px-4 pb-2">{{ order['link'] }}</th>
-                    <th class="align-baseline text-start px-4 pb-2">{% if order['quantity_min'] == order['quantity_max'] %}{{ order['quantity_max']}}{% else %}{{ order['quantity_min'] }}-{{ order['quantity_max'] }}{% endif %}</th>
-                    <td class="whitespace-nowrap">
+                    <th class="align-baseline text-start pr-4 pb-2">
+                        <div class="break-all w-44">{{ order['link'] }}</div>
+                    </th>
+                    <th class="align-baseline text-start pr-4 pb-2">{% if order['quantity_min'] == order['quantity_max'] %}{{ order['quantity_max']}}{% else %}{{ order['quantity_min'] }}-{{ order['quantity_max'] }}{% endif %}</th>
+                    <td class="whitespace-nowrap pr-4">
                         {% if order['current_count'] %}
                             <a class="link link-primary" href="{{ page_url('orders') }}?subscription={{ order['id'] }}">{{ order['current_count'] }}</a>
                         {% else %}
@@ -72,7 +115,7 @@
                         {% endif %}
                         <span> / </span>{{ order['quantity'] }}
                     </td>
-                    <td class="whitespace-nowrap">
+                    <td class="whitespace-nowrap pr-4">
                         {% if order['current_old_posts'] %}
                             <a class="link link-primary" href="{{ page_url('orders') }}?subscription={{ order['id'] }}&likes_spread=1">{{ order['current_old_posts'] }}</a>
                         {% else %}
@@ -80,29 +123,36 @@
                         {% endif %}
                         <span> / </span>{{ order['old_posts'] }}
                     </td>
-                    <td>{{ order['delay'] }}</td>
-                    <td>{{ order['service'] }}</td>
-                    <td>{{ order['status_name'] }}</td>
-                    <td class="align-baseline text-start px-4 pb-2">
+                    <td class="align-baseline text-start pr-4">{{ order['delay'] }}</td>
+                    <td class="align-baseline text-start pr-4">{{ order['service'] }}</td>
+                    <td class="align-baseline text-start pr-4">
+                        <div class="whitespace-nowrap badge
+                        {% if order['status_name'] == "Expired" %} badge-success
+                        {% elseif order['status_name'] in ["Paused"] %} badge-accent
+                        {% elseif order['status_name'] in ["Canceled"] %} badge-error
+                        {% else %} badge-secondary {% endif %}
+                        badge-sm">{{ order['status_name'] }}</div>
+                    </td>
+                    <td class="align-baseline text-start pr-4 pb-2">
                         <div class="leading-none">
                             <span>{{ order['date_created']|date('F d, Y') }}</span><br>
                             <span class="text-xs text-neutral-dark-300">{{ order['date_created']|date('h:i A') }}</span>
                         </div>
                     </td>
-                    <td class="align-baseline text-start px-4 pb-2">
+                    <td class="align-baseline text-start pr-4 pb-2">
                         <div class="leading-none">
                             <span>{{ order['date_updated']|date('F d, Y') }}</span><br>
                             <span class="text-xs text-neutral-dark-300">{{ order['date_updated']|date('h:i A') }}</span>
                         </div>
                     </td>
-                    <td class="align-baseline text-start px-4 pb-2">
+                    <td class="align-baseline text-start pr-4 pb-2">
                         <div class="leading-none">
                             <span>{{ order['date_expiry']|date('F d, Y') }}</span><br>
                             <span class="text-xs text-neutral-dark-300">{{ order['date_expiry']|date('h:i A') }}</span>
                         </div>
                     </td>
 
-                    <td>
+                    <td class="align-baseline text-start pr-4 pb-2">
                         {% if order['status'] == 1 or order['status'] == 0 %}
                         <a href="{{ page['url'] }}/stop/{{order['id']}}" class="btn btn-error btn-sm w-24">Cancel</a>
                         {% endif %}

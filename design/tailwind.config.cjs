@@ -38,7 +38,7 @@ module.exports = {
   ],
   theme: {
     screens: {
-      'xs': '540px',
+      // 'xs': '540px',
       'sm': '640px',
       'md': '768px',
       'lg': '1024px',
@@ -55,7 +55,7 @@ module.exports = {
         'neutral-dark-300': localColors.neutral.dark['300'],
         'neutral-dark-200': localColors.neutral.dark['200'],
         
-        'tertiary': localColors.tertiary.normal,
+        // 'tertiary': localColors.tertiary.normal,
 
         'error-focus': '#F3BFBF',
         'error-content-focus': '#DE2121',
