@@ -151,8 +151,8 @@
               <!-- The inner alertbox -->
               <div class="absolute w-full px-8 md:px-16 xl:px-28 opacity-95 hover:opacity-80 transition-opacity flex flex-col gap-2 z-20 {{ page['url'] == '/viewticket' ? 'mt-8' : '' }}" id="alert-container-authed">
               </div>
-              {{ content }}
-              {# {% block content %}{% endblock %} #}
+              {# {{ content }} #}
+              {% block content %}{% endblock %}
             </div>
           </div>
         </div>
@@ -303,8 +303,8 @@
           </nav>
           #}
         {% endif %}
-        {{ content }}
-        {# {% block content %}{% endblock %} #}
+        {# {{ content }} #}
+        {% block content %}{% endblock %}
       </div>
     {% endif %}
 
