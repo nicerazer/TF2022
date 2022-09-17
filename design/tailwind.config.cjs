@@ -35,6 +35,14 @@ module.exports = {
   ],
   safelist: [
     '.select2.select2-container.select2-container--default',
+    'bootstrap-datetimepicker-widget',
+    'datepicker-days',
+    'datepicker-months',
+    'datepicker-years',
+    'datepicker-decades',
+    'table-condensed',
+    'decade',
+    'disabled',
   ],
   theme: {
     screens: {

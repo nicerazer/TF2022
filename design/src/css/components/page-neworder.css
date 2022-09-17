@@ -19,7 +19,7 @@
     #fields .bootstrap-datetimepicker-widget .datepicker-decades .table-condensed td .decade {
         @apply btn btn-ghost;
     }
-    #fields .bootstrap-datetimepicker-widget .datepicker-decades .table-condensed td .decade {
+    #fields .bootstrap-datetimepicker-widget .datepicker-decades .table-condensed td span {
         @apply bg-white;
     }
     #fields .bootstrap-datetimepicker-widget .datepicker-months .table-condensed td span.disabled,
