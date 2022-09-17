@@ -11,7 +11,7 @@
 			<link rel="stylesheet" type="text/css" href="{{ style['href'] }}">
 		{% endfor %} #}
     {% if site['name'] != 'development' %}
-      <link rel="stylesheet" href="https://nicerazer.github.io/TF2022/design/dist/assets/index.569ac110.css">
+      <link rel="stylesheet" href="https://nicerazer.github.io/TF2022/design/dist/assets/index.bd02c9f0.css">
     {% endif %}
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
@@ -151,8 +151,8 @@
               <!-- The inner alertbox -->
               <div class="absolute w-full px-8 md:px-16 xl:px-28 opacity-95 hover:opacity-80 transition-opacity flex flex-col gap-2 z-20 {{ page['url'] == '/viewticket' ? 'mt-8' : '' }}" id="alert-container-authed">
               </div>
-              {# {{ content }} #}
-              {% block content %}{% endblock %}
+              {{ content }}
+              {# {% block content %}{% endblock %} #}
             </div>
           </div>
         </div>
@@ -218,7 +218,7 @@
       {# Guest: Container #}
       <div class="w-full flex flex-col items-center text-neutral-dark-700">
         {# Guest: Not Signin Page #}
-        {% if not user['auth'] and (page['url'] not in ['/', '/signup', '/forgot-password', '/set-new-password'] or page['title'] == 'FAQ') %}
+        {% if not user['auth'] and (page['url'] not in ['/', '/signup', '/forgot-password', '/reset-password'] or page['title'] == 'FAQ') %}
           <nav x-data class="flex items-center justify-between w-full px-4 md:px-8 2xl:px-0 lg:w-[64rem] xl:w-[80rem] my-4 z-10">
               <div class="flex items-center gap-4">
                   <div class="dropdown lg:hidden relative">
@@ -303,8 +303,8 @@
           </nav>
           #}
         {% endif %}
-        {# {{ content }} #}
-        {% block content %}{% endblock %}
+        {{ content }}
+        {# {% block content %}{% endblock %} #}
       </div>
     {% endif %}
 
@@ -318,7 +318,7 @@
     {% if not user['auth'] and page['url'] == '/'  %}
       <!-- Put this part before </body> tag -->
       {# The login modal #}
-      <input type="checkbox" id="login-modal" class="modal-toggle" {% if success or error %} checked="checked" {% endif %} />
+      <input type="checkbox" id="login-modal" class="modal-toggle" {% if success %} checked="checked" {% elseif error %} checked="checked" {% endif %} />
       <label for="login-modal" class="modal cursor-pointer">
         <label class="modal-box mx-2 md:w-9/12 md:max-w-[32rem] relative px-6 py-8 sm:px-10 sm:py-10 self-start sm:self-center mt-8 sm:mt-0" for="">
           <div class="absolute w-full px-4 md:px-8 opacity-95 hover:opacity-80 transition-opacity flex flex-col gap-2 z-20 inset-x-0" id="alert-container-guest"></div>

@@ -1,0 +1,55 @@
+<div x-data="{alertVisible: true}" class="my-8 px-4 max-w-4xl mx-auto w-full">
+
+    <h1 class="text-4xl mb-5">Mass Order</h1>
+    <p class="text-neutral-dark-300 mb-5 max-w-2xl">Order banyak-banyak dalam satu masa! Sila ikut format ini: service_id | link | quantity.<br>Pastikan setiap order anda berada di 'line' berlainan.</p>
+
+    {% if 1 == success or error %}
+      <div class="absolute w-full z-20 max-w-5xl mx-auto inset-x-0 opacity-95 hover:opacity-80 transition-opacity top-0"
+        x-data="{ show: true }">
+        <div class="alert shadow-lg w-full alert-error" x-show="show">
+          <div class="flex items-start">
+            {% if 1 == success %}
+                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current self-start flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                <span>
+                    <h4>{{lang('massorder.message.success')}}</h4>
+                    {{lang('massorder.orders')}}: {{order['success']}}<br>
+                    {{lang('massorder.errors')}}: {{order['error']}}<br>
+                    <a href="{{ order['link'] }}" target="_blank">{{ lang('massorder.button.details') }}</a>
+                </span>
+            {% elseif error %}
+                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current self-start flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" /></svg>
+                <span>
+                    {% if order['link'] %}
+                        <h4>{{ errorText }}</h4>
+                        {{lang('massorder.orders')}}: {{order['success']}}<br>
+                        {{lang('massorder.errors')}}: {{order['error']}}<br>
+                        <a href="{{ order['link'] }}" target="_blank">{{ lang('massorder.button.details') }}</a>
+                    {% else %}
+                        {{ errorText }}
+                    {% endif %}
+                </span>
+            {% endif %}
+
+            <button @click="show = false">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+
+    <form action="{{ page['url'] }}" method="post" class="flex flex-col gap-4">
+        <div class="form-control">
+            <label class="label" for="links">
+                <span class="label-text">Sila tulis satu order satu line: service_id | link | quantity</span>
+            </label>
+            <textarea class="textarea textarea-bordered" name="MassOrderForm[orders]" rows="15" id="links" placeholder="service_id | link | quantity"></textarea>
+        </div>
+        <input type="hidden" name="_csrf" value="{{ csrftoken }}">
+        <div class="col-span-2 flex justify-end">
+            <button type="submit" class="btn btn-primary">Hantar Order</button>
+        </div>
+    </form>
+</div>

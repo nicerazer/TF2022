@@ -103,7 +103,7 @@
                 {% for order in orderList %}
                 <tr>
                     <th class="align-baseline text-start px-4 pb-2 font-medium text-neutral-dark-300">{{ order['id'] }}</th>
-                    <th class="align-baseline text-start pr-4 pb-2">
+                    <th class="align-baseline text-start pr-4 pb-2 text-neutral-dark-300">
                         <div class="break-all w-44">{{ order['link'] }}</div>
                     </th>
                     <th class="align-baseline text-start pr-4 pb-2">{% if order['quantity_min'] == order['quantity_max'] %}{{ order['quantity_max']}}{% else %}{{ order['quantity_min'] }}-{{ order['quantity_max'] }}{% endif %}</th>

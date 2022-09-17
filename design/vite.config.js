@@ -8,7 +8,7 @@ export default defineConfig({
     twig({
       globals: {
         "site": {
-          "name": "notdevelopment",
+          "name": "development",
           "menu": [
             {"name": "subscriptions", "link": "/subscriptions"},
             {"name": "refill", "link": "/refill"},
