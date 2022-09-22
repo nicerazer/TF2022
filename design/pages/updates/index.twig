@@ -1,0 +1,231 @@
+<div x-data="{alertVisible: true}" class="my-8 px-4 max-w-6xl mx-auto w-full">
+
+    <h1 class="text-4xl mb-5">Update Servis</h1>
+    <p class="text-neutral-dark-300 mb-5 max-w-2xl">Dapati info tentang update servis kami dari semasa ke semasa!</p>
+
+    {# <div class="flex items-center gap-4 mb-4">
+        {% if types %}
+        <div class="dropdown">
+            <label tabindex="0" class="btn btn-primary m-1">{{ type.label }}</label>
+            <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                {% for typeItem in types %}
+                    <li class="{% if typeItem.key == type.key %} active{% endif %}">
+                    <a href="{{ page['url'] }}{% if typeItem.key != 'all' %}{{ '/' ~ typeItem.key }}{% endif %}">
+                        {{ typeItem.label }}
+                    </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+        <form class="form-control" action="{{ page['url'] }}" method="get" id="history-search">
+            <div class="input-group">
+                <input type="text" value="{{ search }}" placeholder="Isi carian" class="input input-bordered" />
+                <button class="btn btn-secondary btn-square">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                </button>
+            </div>
+        </form>
+    </div> #}
+
+    <div class="shadow-md mt-4 w-full">
+        <div class="h-20 bg-neutral-light-200 flex items-center justify-between px-4 rounded-t-box">
+            <div class="flex items-center gap-4">
+                {% if types %}
+                    <div class="dropdown">
+                        <label tabindex="0" class="btn btn-primary m-1">{{ type.label }}</label>
+                        <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                            {% for typeItem in types %}
+                                <li class="{% if typeItem.key == type.key %} active{% endif %}">
+                                <a href="{{ page['url'] }}{% if typeItem.key != 'all' %}{{ '/' ~ typeItem.key }}{% endif %}">
+                                    {{ typeItem.label }}
+                                </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+
+                <label class="relative block xl:w-[44rem]">
+                    <span class="sr-only">Search</span>
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-4 ">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 fill-slate-300" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                        </svg>
+                    </span>
+
+                    <form class="form-control" action="{{ page['url'] }}" method="get" id="history-search">
+                        <div class="input-group">
+                            <input type="text" name="search" value="{{ search }}" placeholder="Isi carian" class="input w-full bg-white pl-12 placeholder:text-slate-400" {% if updatesList is empty %}disabled{% endif %} />
+                            <button class="btn btn-secondary btn-square {% if updatesList is empty %}btn-disabled{% endif %}">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                            </button>
+                        </div>
+                    </form>
+                </label>
+            </div>
+
+            <div class="hidden lg:block">
+                {% if pagination['count'] > 100 %}
+                    {% if searchList %}
+                        {% set params = {} %}
+                        {% for search in searchList %}
+                            {% set params = params | merge([search['name'] ~ '=' ~ search['value']]) %}
+                        {% endfor %}
+                        {% set params = '?' ~ params|join('&') %}
+                    {% endif %}
+                    <div class="btn-group">
+
+                        {% if pagination['current'] != 1 %}
+                            <a class="btn btn-secondary" href="{{ page['url'] }}/{{ status }}/{{ pagination['last'] }}{{ params }}" aria-label="Previous">«</a>
+                        {% endif %}
+
+                        {% set r, l = 3, 3 %}
+                        {# in sets of 3? #}
+
+                        {% if pagination['current'] == 1 %}
+                            {% set r = 6 %}
+                        {% endif %}
+                        {# First page leads to right to be 6? #}
+
+                        {% if pagination['current'] == 2 %}
+                            {% set r = 5 %}
+                        {% endif %}
+                        {# Second page leads to right to be 5? #}
+
+                        {% if pagination['current'] >= pagination['pages'] %}
+                            {% set l = 5 %}
+                        {% endif %}
+                        {# Makes sure its the end of paging #}
+
+                        {# Goes until the end of total page #}
+                        {% for i in 1..ceil(pagination['pages']) %}
+                            {% if i >= (pagination['current']-l) and i <= (pagination['current']+r) %}
+                                <a
+                                    class="btn {% if i == pagination['current'] %}btn-primary{% else %}btn-secondary{% endif %}"
+                                    href="{{ page['url'] }}/{{ status }}/{{i}}{{ params }}">
+                                    {{i}}
+                                </a>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if pagination['current'] < pagination['pages'] %}
+                            <a class="btn btn-secondary" href="{{ page['url'] }}/{{ status }}/{{ pagination['next'] }}{{ params }}" aria-label="Next">»</a>
+                        {% endif %}
+                    </div>
+                {% endif %}
+
+                {# <button class="btn btn-primary px-8" {% if true or orderList is empty %}disabled{% endif %}>
+                    Tetapan Jadual
+                    <svg xmlns="http://www.w3.org/2000/svg" class="ml-3 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                </button> #}
+            </div>
+        </div>
+
+        {% if updatesList is not empty %}
+        <div class="overflow-x-auto relative">
+            <table class="bg-white w-full">
+                <thead>
+                    <tr>
+                        <th class="text-start px-4 py-2">Tarikh</th>
+                        <th class="text-start px-4 py-2">Servis<span class="inline md:hidden"> / Butiran</span></th>
+                        <th class="text-start px-4 py-2 hidden md:table-cell">Butiran</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for update in updatesList %}
+                    <tr>
+                        <th class="align-baseline text-start px-4 pb-2">
+                            <div class="leading-none">
+                                <span>{{ update['date']|date('F d, Y') }}</span><br>
+                                <span class="text-xs text-neutral-dark-300">{{ update['date']|date('h:i A') }}</span>
+                            </div>
+                        </th>
+                        <td class="align-baseline text-start px-4 pb-2">
+                            <div>
+                                <p>{{ update['service_id'] }} - {{ update['service'] }}</p>
+                                <div class="flex md:hidden divider divider-vertical"></div>
+                                <p class="block md:hidden">{{ update['update'] }}</p>
+                            </div>
+                        </td>
+                        <td class="align-baseline text-start px-4 pb-2 hidden md:table-cell">
+                            <div>{{ update['update'] }}</div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {# <div class="w-full h-full bg-red-300 opacity-70 absolute top-0"></div> #}
+        </div>
+        {% else %}
+        <div class="bg-white h-[40rem] w-full flex flex-col items-center justify-center">
+            <img src="https://cdn.mypanel.link/af5a5a/i3mj5klcbdmfkymo.png" alt="Empty table state artwork" class="mb-5 w-[16.5rem]">
+            <p class="font-light mb-3">Tiada update...</p>
+            <a href="/neworder" class="link link-primary link-hover text-sm font-medium flex items-center">
+                <span>Pergi ke halaman order</span>
+                <span
+                    class="text-primary animate-bounce-side ml-3"
+                >
+                    <svg
+                        :class="titles[activeIndex].translateClass.name"
+                        xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 will-change-transform transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                </span>
+            </a>
+        </div>
+        {% endif %}
+        <div class="h-20 bg-neutral-light-200 flex items-center justify-between px-4 rounded-b-box">
+            {% if pagination['count'] > 100 %}
+                {% if searchList %}
+                    {% set params = {} %}
+                    {% for search in searchList %}
+                        {% set params = params | merge([search['name'] ~ '=' ~ search['value']]) %}
+                    {% endfor %}
+                    {% set params = '?' ~ params|join('&') %}
+                {% endif %}
+                <div class="btn-group">
+
+                    {% if pagination['current'] != 1 %}
+                        <a class="btn btn-secondary" href="{{ page['url'] }}/{{ status }}/{{ pagination['last'] }}{{ params }}" aria-label="Previous">«</a>
+                    {% endif %}
+
+                    {% set r, l = 3, 3 %}
+                    {# in sets of 3? #}
+
+                    {% if pagination['current'] == 1 %}
+                        {% set r = 6 %}
+                    {% endif %}
+                    {# First page leads to right to be 6? #}
+
+                    {% if pagination['current'] == 2 %}
+                        {% set r = 5 %}
+                    {% endif %}
+                    {# Second page leads to right to be 5? #}
+
+                    {% if pagination['current'] >= pagination['pages'] %}
+                        {% set l = 5 %}
+                    {% endif %}
+                    {# Makes sure its the end of paging #}
+
+                    {# Goes until the end of total page #}
+                    {% for i in 1..ceil(pagination['pages']) %}
+                        {% if i >= (pagination['current']-l) and i <= (pagination['current']+r) %}
+                            <a
+                                class="btn {% if i == pagination['current'] %}btn-primary{% else %}btn-secondary{% endif %}"
+                                href="{{ page['url'] }}/{{ status }}/{{i}}{{ params }}">
+                                {{i}}
+                            </a>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if pagination['current'] < pagination['pages'] %}
+                        <a class="btn btn-secondary" href="{{ page['url'] }}/{{ status }}/{{ pagination['next'] }}{{ params }}" aria-label="Next">»</a>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+</div>
